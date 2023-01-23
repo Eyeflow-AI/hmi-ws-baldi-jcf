@@ -1,0 +1,74 @@
+{
+  "name": "edge-ws-framework",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npm run prod",
+    "build": "npm-run-all clean transpile",
+    "server": "node ./dist-server/bin/www",
+    "dev": "NODE_ENV=development npm-run-all build server",
+    "prod": "NODE_ENV=production npm-run-all build server",
+    "transpile": "babel ./server --out-dir dist-server",
+    "clean": "rimraf dist-server",
+    "watch:dev": "nodemon"
+  },
+  "license": "(MIT OR Apache-2.0)",
+  "description": "Web Server Framework for Eyeflow Edge Applications",
+  "author": {
+    "name": "Alex Sobral",
+    "email": "alex.sobral@eyeflow.ai",
+    "url": ""
+  },
+  "contributors": [
+    {
+      "name": "Felipe Alves",
+      "email": "felipe.alves@eyeflow.ai",
+      "url": ""
+    },
+    {
+      "name": "Gabriel Melo",
+      "email": "gabriel.melo@eyeflow.ai",
+      "url": ""
+    }
+  ],
+  "dependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "app-root-path": "^3.1.0",
+    "axios": "^1.2.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "csv-parse": "^5.3.3",
+    "express": "^4.18.2",
+    "fs-extra": "^11.1.0",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^4.13.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "npm-run-all": "^4.1.5",
+    "pdfkit-table": "^0.1.99",
+    "rimraf": "^4.1.1",
+    "simple-oauth2": "^5.0.0",
+    "uuid": "^9.0.0"
+  },
+  "nodemonConfig": {
+    "exec": "npm run dev",
+    "watch": [
+      "server/*"
+    ],
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
