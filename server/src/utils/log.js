@@ -103,6 +103,11 @@ class Log {
         this.message_handler('INFO', message, function_name);
     };
 
+    audit(message, function_name) {
+
+        this.message_handler('AUDIT', message, function_name);
+    };
+
     warning(message, function_name) {
 
         this.message_handler('WARNING', message, function_name);
