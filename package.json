@@ -1,6 +1,6 @@
 {
-  "name": "edge-ws-framework",
-  "version": "1.0.0",
+  "name": "hmi-ws",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "start": "npm run prod",
@@ -50,6 +50,7 @@
     "npm-run-all": "^4.1.5",
     "pdfkit-table": "^0.1.99",
     "rimraf": "^4.1.1",
+    "rotating-file-stream": "^3.0.4",
     "simple-oauth2": "^5.0.0",
     "uuid": "^9.0.0"
   },

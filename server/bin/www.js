@@ -3,7 +3,7 @@
  */
 
 import app from '../app';
-// import packageJson from '../package.json';
+// import packageJson from '../../package.json';
 // var debug = require('debug')(`${packageJson.name}:server`);
 import http from 'http';
 
@@ -85,5 +85,5 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  // debug('Listening on ' + bind);
+  console.log(`Listening on ${bind}`);
 }
