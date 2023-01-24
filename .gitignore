@@ -6,6 +6,7 @@ package-lock.json
 
 
 dist-server
+run.sh
 
 # Coveralls
 .nyc_output
