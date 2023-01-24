@@ -1,6 +1,7 @@
 {
   "name": "edge-ws-framework",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "start": "npm run prod",
     "build": "npm-run-all clean transpile",
