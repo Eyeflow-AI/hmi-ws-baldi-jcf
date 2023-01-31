@@ -23,5 +23,5 @@ router.get('/access-control-data', isAuthenticated, GetAccessControlData);
 // router.put('/user/password', isAuthenticated, isAuthorized(['userManagement']), Auth.changePassword);
 // router.put('/user/reset-password', isAuthenticated, isAuthorized(['userManagement']), Auth.resetPassword);
 
-
+export {isAuthenticated, isAuthorized};
 export default router;
