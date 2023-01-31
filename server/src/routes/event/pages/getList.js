@@ -8,13 +8,14 @@ async function getList(req, res, next) {
         let event_time = new Date();
         event_time.setHours(event_time.getHours() - index);
         index = 20 - index;
+        let statusList =  ["ok", "nok", "repaired", "unidentified"];
         return {
           index,
           _id: `foo-bar-${index}`,
           id: `foo-bar-${index}`,
           event_time,
-          conformity: index % 2 == 0,
-          thumbURL: "todo"
+          status: statusList[index % 4],
+          thumbURL: "/assets/ItemButtonImage.svg"
       }})
     });
   }
