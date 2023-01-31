@@ -4,7 +4,7 @@ import verifyToken from "../utils/verifyToken";
 async function logout(req, res, next) {
 
   try {
-    let { token } = req.body.auth;
+    let { token } = req.app.auth;
     if (token) {
       let verifiedToken = verifyToken(token);
       if (verifiedToken) {

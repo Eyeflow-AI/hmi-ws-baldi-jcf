@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 router.post('/login', Login);
-router.post('/logout', Logout);
+router.post('/logout', isAuthenticated, Logout);
 router.get('/verify-token', isAuthenticated, GetTokenData);
 router.get('/access-control-data', isAuthenticated, GetAccessControlData);
 
