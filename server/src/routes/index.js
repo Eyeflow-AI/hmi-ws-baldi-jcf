@@ -1,11 +1,12 @@
 import express from 'express';
-import AUTH from './auth';
+import AUTH, {isAuthenticated, isAuthorized} from './auth';
+import EVENT from './event';
 
 const router = express.Router();
 
 router.use('/auth', AUTH);
+router.use('/event', isAuthenticated, EVENT);
 
-/* GET home page. */
 router.get('/', (req, res, next) => res.json({ ok: true }));
 
 
