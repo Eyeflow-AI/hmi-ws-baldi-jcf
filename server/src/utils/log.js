@@ -28,7 +28,8 @@ function getFile(log_dir = logsPath) {
         size: "10MB", // rotate every 10 MegaBytes written
         interval: "1d", // rotate daily
         compress: "gzip", // compress rotated files
-        path: "logs"
+        path: "logs",
+        maxFiles: 5,
     });
 };
 
