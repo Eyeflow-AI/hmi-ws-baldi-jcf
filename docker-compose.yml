@@ -1,0 +1,21 @@
+version: "3"
+services:
+  hmi-ws:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: siliconlife/hmi-ws
+    hostname: hmi-ws
+    network_mode: host
+    restart: always
+    container_name: hmi-ws
+    environment:
+      PORT: 6030
+      MONGO_URL: ""
+      MONGO_DB: "eyeflow"
+    volumes:
+      - /opt/eyeflow/data/event_image:/event_image
+      - /opt/eyeflow/data/images_to_upload:/images_to_upload
+      - /mnt:/edges
+      - /opt/eyeflow/data/user_manual:/user_manual
+      - /opt/eyeflow/log/:/usr/src/app/logs
