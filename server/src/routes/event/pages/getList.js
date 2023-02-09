@@ -1,3 +1,8 @@
+// /**
+// * @param {string} [body.username] - name of the user.
+// */
+
+
 async function getList(req, res, next) {
 
   try {
@@ -8,7 +13,7 @@ async function getList(req, res, next) {
         let event_time = new Date();
         event_time.setHours(event_time.getHours() - index);
         index = 20 - index;
-        let statusList =  ["ok", "nok", "repaired", "unidentified"];
+        let statusList = ["ok", "nok", "repaired", "unidentified"];
         return {
           index,
           _id: `foo-bar-${index}`,
@@ -16,7 +21,8 @@ async function getList(req, res, next) {
           event_time,
           status: statusList[index % 4],
           thumbURL: "/assets/ItemButtonImage.svg"
-      }})
+        }
+      })
     });
   }
   catch (err) {

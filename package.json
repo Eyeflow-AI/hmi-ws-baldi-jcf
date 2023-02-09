@@ -68,12 +68,14 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      ["minify",
-      {     
-        "builtIns": false,
-        "evaluate": false,
-        "mangle": false
-      }]
+      [
+        "minify",
+        {     
+          "builtIns": false,
+          "evaluate": false,
+          "mangle": false
+        }
+    ]
     ]
   },
   "devDependencies": {

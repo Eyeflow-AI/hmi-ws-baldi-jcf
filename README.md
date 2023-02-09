@@ -1,10 +1,10 @@
-# eyeflow-ws-framework
+# ws-hmi
 
 <!-- TODO
 
-  Audit
-  Log
-  Mongo Connection
-  Auth
+  Audit - ok
+  Log - ok
+  Mongo Connection - ok
+  Auth - ok
 
  -->
