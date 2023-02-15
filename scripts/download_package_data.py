@@ -1,8 +1,9 @@
 import os
 import requests
-from eyeflow_sdk.log_obj import CONFIG, log
+from eyeflow_sdk.log_obj import log
 import jwt
 import json
+import glob
 
 def get_license(filename="edge.license", filepath="/opt/eyeflow/src"):
     # read app_token
@@ -52,6 +53,11 @@ def save_package_data(package_data, package_id, file_path='/opt/eyeflow/data/pac
   
   if not isExist:
     os.makedirs(file_path)
+
+  if isExist:
+    files = glob.glob(f'{file_path}/*')
+    for f in files:
+        os.remove(f)
   
   json_object = json.dumps(package_data, indent=4)
   with open(os.path.join(file_path, f'{package_id}.json'), "w") as outfile:

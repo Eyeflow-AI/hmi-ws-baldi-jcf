@@ -16,6 +16,7 @@ services:
     volumes:
       - /opt/eyeflow/data/event_image:/event_image
       - /opt/eyeflow/data/images_to_upload:/images_to_upload
-      - /mnt:/edges
       - /opt/eyeflow/data/user_manual:/user_manual
+      - /opt/eyeflow/data/package_data:/package_data
       - /opt/eyeflow/log/:/usr/src/app/logs
+      - /mnt:/edges
