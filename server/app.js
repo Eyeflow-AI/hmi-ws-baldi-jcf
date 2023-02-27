@@ -37,15 +37,12 @@ prepareComponents({
 var app = express();
 
 app.use(cors({ origin: '*' }));
-app.use(express.json({ limit: 200000000 }));
+app.use(express.urlencoded({ limit: '2000mb', extended: true }));
+app.use(express.json({ limit: '200mb' }));
 app.use(logger('dev'));
-app.use(express.json());
 app.use(appMiddleware());
 app.use(auditMiddleware());
 app.use(log.middleware());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.urlencoded({ limit: '20000mb', extended: true }));
-app.use(express.json({ limit: '20000mb' }));
 app.use(cookieParser());
 
 app.use('/', routes);

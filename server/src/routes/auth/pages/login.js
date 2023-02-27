@@ -19,38 +19,33 @@ async function login(req, res, next) {
     if (!(username && password)) {
       let err = new Error(`Body keys username and password cannot be empty`);
       err.status = 400;
-      next(err);
-    }
-    else {
-      let userDocument = await Mongo.db.collection('user').findOne({ 'auth.username': username });
-      if (userDocument) {
-        let userPassword = userDocument.auth?.password ?? defaultPassword;
-        if (userPassword === stringToSHA256(password)) {
-          let [err, token] = getUserToken(userDocument);
-          if (err) {
-            next(err);
-          }
-          else {
-            let [err, tokenPayload] = verifyToken(token);
-            console.log(err)
-            res.status(201).json({ ok: true, token, tokenPayload });
-          }
-        }
-        else {
-          let err = new Error(`Wrong username/password`);
-          err.status = 400;
-          next(err);
-        };
-      }
-      else {
-        let err = new Error(`Wrong username/password`);
-        err.status = 400;
-        next(err);
-      };
-    }
+      return next(err);
+    };
+
+    let userDocument = await Mongo.db.collection('user').findOne({ 'auth.username': username });
+    let userPassword = userDocument.auth?.password ?? defaultPassword;
+
+    if (!userDocument || (userPassword !== stringToSHA256(password))) {
+      let err = new Error(`Wrong username/password`);
+      err.status = 400;
+      return next(err);
+    };
+
+    let err, token, tokenPayload;
+    [err, token] = getUserToken(userDocument);
+    if (err) {
+      return next(err);
+    };
+
+    [err, tokenPayload] = verifyToken(token);
+    if (err) {
+      return next(err);
+    };
+
+    return res.status(201).json({ ok: true, token, tokenPayload });
   }
   catch (err) {
-    next(err);
+    return next(err);
   };
 };
 
