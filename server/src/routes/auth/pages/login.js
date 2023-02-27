@@ -19,7 +19,7 @@ async function login(req, res, next) {
     if (!(username && password)) {
       let err = new Error(`Body keys username and password cannot be empty`);
       err.status = 400;
-      return next(err);
+      throw err;
     };
 
     let userDocument = await Mongo.db.collection('user').findOne({ 'auth.username': username });
@@ -28,18 +28,18 @@ async function login(req, res, next) {
     if (!userDocument || (userPassword !== stringToSHA256(password))) {
       let err = new Error(`Wrong username/password`);
       err.status = 400;
-      return next(err);
+      throw err;
     };
 
     let err, token, tokenPayload;
     [err, token] = getUserToken(userDocument);
     if (err) {
-      return next(err);
+      throw err;
     };
 
     [err, tokenPayload] = verifyToken(token);
     if (err) {
-      return next(err);
+      throw err;
     };
 
     return res.status(201).json({ ok: true, token, tokenPayload });

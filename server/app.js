@@ -2,18 +2,16 @@
 
 import createError from 'http-errors';
 import express from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
 import cors from 'cors';
+
+
 import routes from './src/routes';
-
-
 import prepareComponents from './src/components/prepareComponents';
 import log from './src/utils/log';
 import appMiddleware from './src/utils/appMiddleware';
-import getRequestId from './src/utils/getRequestId';
 import auditMiddleware from './src/utils/auditMiddleware';
+import errorHandler from './src/errorHandler';
+
 
 const requiredEnvVariables = [
   'MONGO_DB',
@@ -37,31 +35,17 @@ prepareComponents({
 var app = express();
 
 app.use(cors({ origin: '*' }));
-app.use(express.urlencoded({ limit: '2000mb', extended: true }));
-app.use(express.json({ limit: '200mb' }));
-app.use(logger('dev'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '20mb' }));
 app.use(appMiddleware());
 app.use(auditMiddleware());
 app.use(log.middleware());
-app.use(cookieParser());
 
 app.use('/', routes);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
+app.use((req, res, next) => next(createError(404)));
 
-// error handler
-app.use(function (err, req, res, next) {
-  let requestId = getRequestId(req);
-  try {
-    log.error(`Request ${requestId}. Error: ${JSON.stringify(err.message)}. Stack: ${JSON.stringify(err, Object.getOwnPropertyNames(err))}`);
-  }
-  catch (err) {
-    log.error(`Request ${requestId}. Error: ${JSON.stringify(err.message)}. Failed to get error stack.`);
-  };
-  res.status(err.status || 500).json({ requestId, err: err.message, data: err.extraData });
-});
+app.use(errorHandler);
 
 export default app;
