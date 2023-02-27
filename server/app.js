@@ -36,7 +36,7 @@ var app = express();
 
 app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ limit: '20mb' }));
+app.use(express.json({ limit: '10mb' }));
 app.use(appMiddleware());
 app.use(auditMiddleware());
 app.use(log.middleware());
