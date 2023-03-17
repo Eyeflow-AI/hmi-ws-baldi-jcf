@@ -31,6 +31,10 @@ function getMatch(reqQuery) {
   return match;
 };
 
+/**
+* @param {string} [query.min_event_time] - min event time - Iso String Date.
+* @param {string} [query.max_event_time] - max event time - Iso String Date.
+*/
 async function getList(req, res, next) {
 
   try {
@@ -50,9 +54,9 @@ async function getList(req, res, next) {
     };
     let collection = "inspection_events";                      //TODO: Get from config file
     let limit = 10000;                                         //TODO: Get from config file
-
+    let sort = {event_time: -1};                               //TODO: Get from config file
     let dateString;
-    let eventList = await Mongo.db.collection(collection).find(match, {projection}).limit(limit).toArray();
+    let eventList = await Mongo.db.collection(collection).find(match, {projection}).sort(sort).limit(limit).toArray();
     let eventListLength = eventList.length;
     eventList.forEach((el, index) => {
       dateString += el.event_time.toISOString();
