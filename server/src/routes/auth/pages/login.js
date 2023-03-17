@@ -23,7 +23,7 @@ async function login(req, res, next) {
     };
 
     let userDocument = await Mongo.db.collection('user').findOne({ 'auth.username': username });
-    let userPassword = userDocument.auth?.password ?? defaultPassword;
+    let userPassword = userDocument?.auth?.password ?? defaultPassword;
 
     if (!userDocument || (userPassword !== stringToSHA256(password))) {
       let err = new Error(`Wrong username/password`);
