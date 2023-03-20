@@ -2,8 +2,7 @@ import log from './utils/log';
 import getRequestId from './utils/getRequestId';
 
 
-export default function errorHandler (err, req, res, next) {
-  console.log("OXE")
+export default function errorHandler(err, req, res, next) {
   let requestId = getRequestId(req);
   try {
     log.error(`Request ${requestId}. Error: ${JSON.stringify(err.message)}. Stack: ${JSON.stringify(err, Object.getOwnPropertyNames(err))}`);
