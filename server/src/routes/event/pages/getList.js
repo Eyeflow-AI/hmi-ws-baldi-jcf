@@ -67,7 +67,7 @@ async function getList(req, res, next) {
       ok: true,
       eventListLength,
       eventList,
-      hash: hashCode(dateString)
+      hash: dateString ? hashCode(dateString) : null
     };
     if (process.env.NODE_ENV === "development") {
       output.queryOptions = {match, projection, collection, limit};
