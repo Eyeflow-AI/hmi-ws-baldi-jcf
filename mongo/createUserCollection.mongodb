@@ -1,0 +1,65 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('hmi_ws');
+
+// Search for documents in the current collection.
+
+// db.getCollection('user')
+//   .insertMany([
+//    {
+//     "_id": ObjectId("6383bc162a0642cec7af998d"),
+//     "auth": {
+//       "username": "gabrielmelo",
+//       "password": null,
+//       "accessControl": {
+//         "userManagement": false,
+//         "confirmRepair": false,
+//         "repair": true,
+//         "seeHMIOffline": false,
+//         "seeHMIOnline": true,
+//         "seeHMI": true,
+//         "seeDashboard": false,
+//         "seeHistory": false,
+//         "seeSummary": false,
+//         "seeSurface": true,
+//         "seeFlushGap": true,
+//         "seeVariants": true
+//       }
+//     },
+//     "profile": {
+//       "name": "",
+//       "initials": "GM"
+//     },
+//     "creationDate": new Date("2022-11-27T19:35:50.299Z")
+//   },
+//   {
+//     "_id": ObjectId("6383bc162a0642cec7af998e"),
+//     "auth": {
+//       "username": "felipealves",
+//       "password": "5a12a187229af0e71cc2ecdc6c57a1382c3995a18455aaec7b6676e38b8ee86f",
+//       "accessControl": {
+//         "userManagement": true,
+//         "confirmRepair": false,
+//         "repair": false,
+//         "seeHMIOffline": true,
+//         "seeHMIOnline": true,
+//         "seeHMI": true,
+//         "seeDashboard": true,
+//         "seeHistory": true,
+//         "seeSummary": true,
+//         "seeSurface": true,
+//         "seeFlushGap": true,
+//         "seeVariants": true
+//       }
+//     },
+//     "profile": {
+//       "name": "",
+//       "initials": "FA"
+//     },
+//     "creationDate": new Date("2022-11-27T19:35:50.299Z")
+//   }
+// ]);
+
+db.getCollection('batch').createIndex({"auth.username": 1});
