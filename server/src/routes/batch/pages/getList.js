@@ -26,6 +26,9 @@ function getMatch(reqQuery) {
       };
     };
 
+    if (reqQuery.hasOwnProperty("station")) {
+      match.station = reqQuery["station"];
+    };
   };
 
   return match;
@@ -45,30 +48,26 @@ async function getList(req, res, next) {
       label: true,
       startTime: true,
       endTime: true,
-    //   status: {
-    //     "$cond": [
-    //       "$event_data.inspection_result.conformity",
-    //       "ok", 
-    //       "nok"
-    //     ]
-    //   },                                                       //TODO implement repaired and unidentified logic
-      thumbURL: "/assets/ItemButtonImage.svg"                  //TODO: Get from config file
+      status: "ok",                                            //TODO implement repaired and unidentified logic
     };
-    let collection = "batch";                      //TODO: Get from config file
+
+    let collection = "batch";
     let limit = 10000;                                         //TODO: Get from config file
-    let sort = {startTime: -1};                               //TODO: Get from config file
+    let sort = {startTime: -1};                                //TODO: Get from config file
     let dateString;
-    let eventList = await Mongo.db.collection(collection).find(match, {projection}).sort(sort).limit(limit).toArray();
-    let eventListLength = eventList.length;
-    eventList.forEach((el, index) => {
+    let batchList = await Mongo.db.collection(collection).find(match, {projection}).sort(sort).limit(limit).toArray();
+    let batchListLength = batchList.length;
+    batchList.forEach((el, index) => {
       dateString += el.startTime.toISOString();
-      el.index = eventListLength - index;
+      el.index = batchListLength - index;
+      el.thumbURL = "/assets/PerfumeIcon.svg";                 //TODO: Get from config file,
+      el.thumbStyle = {height: 70};                            //TODO: Get from config file,
     });
 
     let output = {
       ok: true,
-      eventListLength,
-      eventList,
+      batchListLength,
+      batchList,
       hash: dateString ? hashCode(dateString) : null
     };
     if (process.env.NODE_ENV === "development") {
