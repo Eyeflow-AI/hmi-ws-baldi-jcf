@@ -1,0 +1,42 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('hmi_ws');
+
+// Search for documents in the current collection.
+
+// db.getCollection('batch')
+//   .insertMany([
+//     {
+//       _id: ObjectId("6419e5a93111dc9162ede1cb"),
+//       id: "peca-1-id",
+//       label: "Peça 1",
+//       station: "station-1",
+//       startTime: new Date("2023-03-21T14:00:00.000Z"),
+//       endTime: new Date("2023-03-21T14:30:00.000Z"),
+//       internalData: {
+//       }
+//     },
+//     {
+//       _id: ObjectId("6419e5aa3111dc9162ede1cc"),
+//       id: "peca-2-id",
+//       label: "Peça 2",
+//       station: "station-1",
+//       startTime: new Date("2023-03-21T15:00:00.000Z"),
+//       endTime: new Date("2023-03-21T15:15:00.000Z"),
+//       internalData: {
+//       } 
+//     }
+//   ]);
+
+db.getCollection('batch')
+  .createIndex(
+    {
+        startTime: 1,
+        endTime: 1,
+        id: 1,
+    },
+    {
+    }
+  );
