@@ -1,0 +1,19 @@
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('hmi_ws');
+
+// Search for documents in the current collection.
+
+db.getCollection('station')
+  .insertMany([
+    {
+      _id: ObjectId("641b3a94f742dd9ea6d0416b"),
+      label: "Station 1",
+    },
+    {
+      _id: ObjectId("641b3a9af742dd9ea6d0416c"),
+      label: "Station 2",
+    }
+  ]);
