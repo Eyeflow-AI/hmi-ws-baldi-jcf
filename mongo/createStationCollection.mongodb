@@ -11,9 +11,19 @@ db.getCollection('station')
     {
       _id: ObjectId("641b3a94f742dd9ea6d0416b"),
       label: "Station 1",
+      slug_label: "station-1",
+      parms: {
+        ws_url: "http://localhost:6030"
+      }
     },
     {
       _id: ObjectId("641b3a9af742dd9ea6d0416c"),
       label: "Station 2",
+      slug_label: "station-2",
+      parms: {
+        ws_url: "http://localhost:6030"
+      }
     }
   ]);
+
+db.getCollection('station').createIndex( { slug_label: 1 }, { unique: true } )
