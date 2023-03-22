@@ -17,17 +17,18 @@ function getMatch(reqQuery) {
     if (reqQuery.hasOwnProperty("min_event_time") || reqQuery.hasOwnProperty("max_event_time")) {
       match.startTime = {};
       if (reqQuery.hasOwnProperty("min_event_time")) {
-        if (!isIsoDate(reqQuery["min_event_time"])) {raiseError("Invalid min_event_time . Valid iso date is required.")};
+        if (!isIsoDate(reqQuery["min_event_time"])) {raiseError("Invalid min_event_time. Valid iso date is required.")};
         match.startTime["$gte"] = new Date(reqQuery.min_event_time);
       }
       if (reqQuery.hasOwnProperty("max_event_time")) {
-        if (!isIsoDate(reqQuery["max_event_time"])) {raiseError("Invalid max_event_time . Valid iso date is required.")};
+        if (!isIsoDate(reqQuery["max_event_time"])) {raiseError("Invalid max_event_time. Valid iso date is required.")};
         match.startTime["$lte"] = new Date(reqQuery.max_event_time);
       };
     };
 
     if (reqQuery.hasOwnProperty("station")) {
-      match.station = reqQuery["station"];
+      if (!Mongo.ObjectId.isValid(reqQuery["station"])) {raiseError("Invalid station. Valid ObjectId is required.")}
+      match.station = Mongo.ObjectId(reqQuery["station"]);
     };
   };
 
@@ -37,6 +38,7 @@ function getMatch(reqQuery) {
 /**
 * @param {string} [query.min_event_time] - min event time - Iso String Date.
 * @param {string} [query.max_event_time] - max event time - Iso String Date.
+* @param {string} [query.station] - station - String ObjectId.
 */
 async function getList(req, res, next) {
 
@@ -48,6 +50,7 @@ async function getList(req, res, next) {
       label: true,
       startTime: true,
       endTime: true,
+      station: true,
       status: "ok",                                            //TODO implement repaired and unidentified logic
     };
 

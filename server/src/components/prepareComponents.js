@@ -5,7 +5,7 @@ function prepareComponents({ mongoURL, mongoDB }) {
     Mongo.connect({ mongoURL, mongoDB }),
   ];
 
-  Promise.all(promises);
+  return Promise.all(promises);
 };
 
 export default prepareComponents;
