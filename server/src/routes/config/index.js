@@ -1,11 +1,11 @@
 import express from 'express';
 import {
-  GetPackageData
+  GetConfigForFE
 } from './pages';
 
 const router = express.Router();
 
+router.get('/config-for-fe', GetConfigForFE);
 
-router.get('/package-data', GetPackageData);
 
 export default router;
