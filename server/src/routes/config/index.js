@@ -5,7 +5,7 @@ import {
 
 const router = express.Router();
 
-router.get('/config-for-fe', GetConfigForFE);
+router.get('/fe', GetConfigForFE);
 
 
 export default router;
