@@ -6,12 +6,12 @@ async function getConfigForFE(req, res, next) {
   try {
     let output = {};
     let documents = await Mongo.db.collection('params').find({'name': {"$in": requiredConfig}}).toArray();
-    let max_event_time = new Date(1900, 0, 1);
+    let maxDatetime = new Date(1900, 0, 1);
     for (let document of documents) {
       output[document.name] = document;
-      max_event_time = Math.max(max_event_time, document.event_time);
+      maxDatetime = Math.max(maxDatetime, document.datetime);
     };
-    output.event_time = new Date(max_event_time);
+    output.datetime = new Date(maxDatetime);
     res.status(200).json(output);
   }
   catch (err) {
