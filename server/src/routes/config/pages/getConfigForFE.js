@@ -1,18 +1,18 @@
 import Mongo from "../../../components/mongo";
-import isIsoDate from "../../../utils/isIsoDate";
 
 async function getConfigForFE(req, res, next) {
 
+  const requiredConfig = ["feConfig", "locale"];
   try {
-    let feConfig = await Mongo.db.collection('params').findOne({
-      'name': 'feConfig'
-    })
-
-    // if (process.env.NODE_ENV === "development") {
-    //   output.queryOptions = { match, projection, collection, limit };
-    // };
-
-    res.status(200).json(feConfig);
+    let output = {};
+    let documents = await Mongo.db.collection('params').find({'name': {"$in": requiredConfig}}).toArray();
+    let max_event_time = new Date(1900, 0, 1);
+    for (let document of documents) {
+      output[document.name] = document;
+      max_event_time = Math.max(max_event_time, document.event_time);
+    };
+    output.event_time = new Date(max_event_time);
+    res.status(200).json(output);
   }
   catch (err) {
     next(err);
