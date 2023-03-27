@@ -8,7 +8,7 @@ function raiseError(message) {
   throw err;
 };
 
-function getMatch(reqQuery) {
+function getMatch(reqParams, reqQuery) {
 
   let match = {};
 
@@ -26,10 +26,9 @@ function getMatch(reqQuery) {
       };
     };
 
-    if (reqQuery.hasOwnProperty("station")) {
-      if (!Mongo.ObjectId.isValid(reqQuery["station"])) {raiseError("Invalid station. Valid ObjectId is required.")}
-      match.station = Mongo.ObjectId(reqQuery["station"]);
-    };
+    if (!Mongo.ObjectId.isValid(reqParams["station"])) {raiseError("Invalid station. Valid ObjectId is required.")}
+
+    match.station = Mongo.ObjectId(reqParams["station"]);
   };
 
   return match;
@@ -43,7 +42,7 @@ function getMatch(reqQuery) {
 async function getList(req, res, next) {
 
   try {
-    let match = getMatch(req.query);
+    let match = getMatch(req.params, req.query);
     let projection = {
       _id: true,
       id: true,
