@@ -34,7 +34,6 @@ prepareComponents({
 
 var app = express();
 
-console.log({__dirname})
 app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10mb' }));
