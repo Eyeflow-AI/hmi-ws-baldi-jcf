@@ -17,9 +17,9 @@ db.getCollection('batch')
       end_time: new Date("2023-03-21T14:30:00.000Z"),
       status: "closed",
       pack_list: {},
-      pack_qtt: 10,
-      parts_per_pack: 100,
       info: {
+        pack_qtt: 10,
+        parts_per_pack: 100,
       }
     },
     {
@@ -31,9 +31,9 @@ db.getCollection('batch')
       end_time: new Date("2023-03-21T15:15:00.000Z"),
       status: "paused",
       pack_list: {},
-      pack_qtt: 10,
-      parts_per_pack: 100,
       info: {
+        pack_qtt: 10,
+        parts_per_pack: 100,
       }
     },
     {
@@ -44,9 +44,9 @@ db.getCollection('batch')
       start_time: new Date("2023-03-22T14:00:00.000Z"),
       status: "running",
       pack_list: {},
-      pack_qtt: 10,
-      parts_per_pack: 100,
       info: {
+        pack_qtt: 10,
+        parts_per_pack: 100,
       }
     }
   ]);

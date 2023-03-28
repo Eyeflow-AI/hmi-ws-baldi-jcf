@@ -14,10 +14,10 @@ db["batch"].insert_one({
       "start_time": datetime.datetime.now(),
       "status": "running",
       "pack_list": {},
-      "pack_qtt": 10,
-      "parts_per_pack": 100,
       "info": {
-    }
+          "pack_qtt": 10,
+          "parts_per_pack": 100,
+      }
 })
 
 db["station"].insert_one({
