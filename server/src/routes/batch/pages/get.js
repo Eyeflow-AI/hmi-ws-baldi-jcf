@@ -3,6 +3,7 @@ import Mongo from "../../../components/mongo";
 async function get(req, res, next) {
 
   try {
+    // let stationId = req.params.stationId;
     let batchId = req.params.batchId;
     let result = await Mongo.db.collection("batch").findOne({_id: Mongo.ObjectId(batchId)});
     if (result) {
