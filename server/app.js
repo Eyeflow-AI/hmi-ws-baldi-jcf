@@ -37,6 +37,7 @@ var app = express();
 app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10mb' }));
+app.use('/assets/fontawesome/svgs/solid', express.static(__dirname + '/assets/fontawesome/svgs/solid'));
 app.use(appMiddleware());
 app.use(auditMiddleware());
 app.use(log.middleware());

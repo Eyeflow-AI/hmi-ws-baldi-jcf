@@ -8,28 +8,27 @@ function raiseError(message) {
   throw err;
 };
 
-function getMatch(reqQuery) {
+function getMatch(reqParams, reqQuery) {
 
   let match = {};
 
   if (Boolean(reqQuery) && Object.keys(reqQuery).length > 0) {
 
     if (reqQuery.hasOwnProperty("min_event_time") || reqQuery.hasOwnProperty("max_event_time")) {
-      match.startTime = {};
+      match.start_time = {};
       if (reqQuery.hasOwnProperty("min_event_time")) {
         if (!isIsoDate(reqQuery["min_event_time"])) {raiseError("Invalid min_event_time. Valid iso date is required.")};
-        match.startTime["$gte"] = new Date(reqQuery.min_event_time);
+        match.start_time["$gte"] = new Date(reqQuery.min_event_time);
       }
       if (reqQuery.hasOwnProperty("max_event_time")) {
         if (!isIsoDate(reqQuery["max_event_time"])) {raiseError("Invalid max_event_time. Valid iso date is required.")};
-        match.startTime["$lte"] = new Date(reqQuery.max_event_time);
+        match.start_time["$lte"] = new Date(reqQuery.max_event_time);
       };
     };
 
-    if (reqQuery.hasOwnProperty("station")) {
-      if (!Mongo.ObjectId.isValid(reqQuery["station"])) {raiseError("Invalid station. Valid ObjectId is required.")}
-      match.station = Mongo.ObjectId(reqQuery["station"]);
-    };
+    if (!Mongo.ObjectId.isValid(reqParams["stationId"])) {raiseError(`Invalid station ${reqParams["stationId"]}. Valid ObjectId is required.`)}
+
+    match.station = Mongo.ObjectId(reqParams["stationId"]);
   };
 
   return match;
@@ -43,25 +42,25 @@ function getMatch(reqQuery) {
 async function getList(req, res, next) {
 
   try {
-    let match = getMatch(req.query);
+    let match = getMatch(req.params, req.query);
     let projection = {
       _id: true,
       id: true,
       label: true,
-      startTime: true,
-      endTime: true,
+      start_time: true,
+      end_time: true,
       station: true,
-      status: "ok",                                            //TODO implement repaired and unidentified logic
+      status: true,
     };
 
     let collection = "batch";
     let limit = 10000;                                         //TODO: Get from config file
-    let sort = {startTime: -1};                                //TODO: Get from config file
+    let sort = {start_time: -1};                                //TODO: Get from config file
     let dateString;
     let batchList = await Mongo.db.collection(collection).find(match, {projection}).sort(sort).limit(limit).toArray();
     let batchListLength = batchList.length;
     batchList.forEach((el, index) => {
-      dateString += el.startTime.toISOString();
+      dateString += el.start_time.toISOString();
       el.index = batchListLength - index;
       el.thumbURL = "/assets/PerfumeIcon.svg";                 //TODO: Get from config file,
       el.thumbStyle = {height: 70};                            //TODO: Get from config file,

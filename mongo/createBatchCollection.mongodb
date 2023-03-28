@@ -10,32 +10,40 @@ db.getCollection('batch')
   .insertMany([
     {
       _id: ObjectId("6419e5a93111dc9162ede1cb"),
-      id: "peca-1-st1",
       label: "Peça 1 St1",
       station: ObjectId("641b3a94f742dd9ea6d0416b"),
-      startTime: new Date("2023-03-21T14:00:00.000Z"),
-      endTime: new Date("2023-03-21T14:30:00.000Z"),
-      internalData: {
+      start_time: new Date("2023-03-21T14:00:00.000Z"),
+      end_time: new Date("2023-03-21T14:30:00.000Z"),
+      status: "closed",
+      pack_list: {},
+      info: {
+        pack_qtt: 10,
+        parts_per_pack: 100,
       }
     },
     {
       _id: ObjectId("6419e5aa3111dc9162ede1cc"),
-      id: "peca-2-st1",
       label: "Peça 2 St1",
       station: ObjectId("641b3a94f742dd9ea6d0416b"),
-      startTime: new Date("2023-03-21T15:00:00.000Z"),
-      endTime: new Date("2023-03-21T15:15:00.000Z"),
-      internalData: {
+      start_time: new Date("2023-03-21T15:00:00.000Z"),
+      end_time: new Date("2023-03-21T15:15:00.000Z"),
+      status: "paused",
+      pack_list: {},
+      info: {
+        pack_qtt: 10,
+        parts_per_pack: 100,
       }
     },
     {
       _id: ObjectId("641b3edf6167cbfdef5380e2"),
-      id: "peca-1-st2",
       label: "Peça 1 St2",
       station: ObjectId("641b3a9af742dd9ea6d0416c"),
-      startTime: new Date("2023-03-22T14:00:00.000Z"),
-      endTime: new Date("2023-03-22T14:30:00.000Z"),
-      internalData: {
+      start_time: new Date("2023-03-22T14:00:00.000Z"),
+      status: "running",
+      pack_list: {},
+      info: {
+        pack_qtt: 10,
+        parts_per_pack: 100,
       }
     }
   ]);
