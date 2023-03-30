@@ -50,6 +50,7 @@ async function getConfigForFE(req, res, next) {
       output[document.name] = document;
       if (document.name === "feConfig") {
         updateConfig(document["pages"], {hosts: document["hosts"]});
+        updateConfig(document["components"], {hosts: document["hosts"]});
       }
       maxDatetime = Math.max(maxDatetime, document.datetime);
     };
