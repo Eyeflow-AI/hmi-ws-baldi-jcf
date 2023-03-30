@@ -52,9 +52,9 @@ db.getCollection('batch')
 // db.getCollection('batch')
 //   .createIndex(
 //     {
-//         startTime: 1,
-//         endTime: 1,
-//         id: 1,
+//         start_time: 1,
+//         end_time: 1,
+//         status: 1,
 //     },
 //     {
 //     }

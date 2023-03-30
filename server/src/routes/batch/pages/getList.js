@@ -54,8 +54,8 @@ async function getList(req, res, next) {
     };
 
     let collection = "batch";
-    let limit = 10000;                                         //TODO: Get from config file
-    let sort = {start_time: -1};                                //TODO: Get from config file
+    let limit = 10000;                                          //TODO: Get from config file
+    let sort = {start_time: -1};
     let dateString;
     let batchList = await Mongo.db.collection(collection).find(match, {projection}).sort(sort).limit(limit).toArray();
     let batchListLength = batchList.length;
