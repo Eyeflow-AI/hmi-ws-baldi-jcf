@@ -19,6 +19,10 @@ async function getRunning(req, res, next) {
       throw err;
     };
     let result = await Mongo.db.collection("batch").findOne({station: Mongo.ObjectId(stationId), status: "running"}, {projection});
+    if (result) {
+      result.thumbURL = "/assets/PerfumeIcon.svg";                 //TODO: Get from config file,
+      result.thumbStyle = {height: 70};                            //TODO: Get from config file,
+    };
     res.status(200).json({ok: true, batch: result ?? null});
   }
   catch (err) {
