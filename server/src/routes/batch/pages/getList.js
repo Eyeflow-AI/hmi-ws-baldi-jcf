@@ -1,6 +1,7 @@
 import Mongo from "../../../components/mongo";
 import isIsoDate from "../../../utils/isIsoDate";
 import hashCode from "../../../utils/hashCode";
+import e from "express";
 
 function raiseError(message) {
   let err = new Error(message);
@@ -56,11 +57,12 @@ async function getList(req, res, next) {
     let collection = "batch";
     let limit = 10000;                                          //TODO: Get from config file
     let sort = {start_time: -1};
-    let dateString;
+    let hashString;
     let batchList = await Mongo.db.collection(collection).find(match, {projection}).sort(sort).limit(limit).toArray();
     let batchListLength = batchList.length;
     batchList.forEach((el, index) => {
-      dateString += el.start_time.toISOString();
+      hashString += el.start_time.toISOString();
+      hashString += el.status;
       el.index = batchListLength - index;
       el.thumbURL = "/assets/PerfumeIcon.svg";                 //TODO: Get from config file,
       el.thumbStyle = {height: 70};                            //TODO: Get from config file,
@@ -70,7 +72,7 @@ async function getList(req, res, next) {
       ok: true,
       batchListLength,
       batchList,
-      hash: dateString ? hashCode(dateString) : null
+      hash: hashString ? hashCode(hashString) : null
     };
     if (process.env.NODE_ENV === "development") {
       output.queryOptions = {match, projection, collection, limit};
