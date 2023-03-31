@@ -16,7 +16,8 @@ const auditMiddleware = () => (req, res, next) => {
       req.headers['x-real-ip'] ||
       req.headers['x-forwarded-for'] ||
       req.connection.remoteAddress || ''
-    ).split(',')[0].trim();;
+    ).split(',')[0].trim();
+    const wsIp = req.get('host');
 
     if (body.password) {
       body.password = "******";
@@ -31,7 +32,8 @@ const auditMiddleware = () => (req, res, next) => {
         success: res.statusCode < 400,
         method,
         url,
-        ip: reqIp,
+        req_ip: reqIp,
+        ws_ip: wsIp,
         route_path: req.route.path,
         query,
         params,
