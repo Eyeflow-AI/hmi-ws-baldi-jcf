@@ -1,6 +1,5 @@
 import verifyToken from "../utils/verifyToken";
 
-
 async function logout(req, res, next) {
 
   try {
