@@ -39,6 +39,7 @@ const auditMiddleware = () => (req, res, next) => {
         params,
         body,
         token_data: tokenData,
+        version: 1
       }
 
       Mongo.db.collection("audit").insertOne(auditData)
