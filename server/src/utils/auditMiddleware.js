@@ -8,6 +8,8 @@ const auditMiddleware = () => (req, res, next) => {
     const url = req?.url;
     const requestId = req?.app?.requestId;
     const body = { ...req?.body } ?? {};
+    const query = { ...req?.query } ?? {};
+    const params = { ...req?.params } ?? {};
     const tokenData = { ...req?.app?.auth } ?? {};
 
     if (body.password) {
@@ -18,16 +20,21 @@ const auditMiddleware = () => (req, res, next) => {
     };
 
     if (['post', 'put', 'patch', 'delete'].includes(method)) {
-      Mongo.db.collection("audit").insertOne({
+      let auditData = {
         request_id: requestId,
-        status: res.statusCode < 400 ? "OK" : "NG",
+        success: res.statusCode < 400,
         method,
         url,
+        route_path: req.route.path,
+        query,
+        params,
         body,
         token_data: tokenData,
-      })
+      }
+
+      Mongo.db.collection("audit").insertOne(auditData)
         .then(()=>null)
-        .catch(() => log.audit(`Failed to insert audit. ${method.toUpperCase()} - RequestId: ${requestId}. Status: ${res.statusCode < 400 ? "OK" : "NG"}. URL: ${url}. Body: ${JSON.stringify(body)} . Auth Info: ${JSON.stringify(token)}`))
+        .catch(() => log.audit(`Failed to insert audit data: ${JSON.stringify(auditData)}`));
     }; //TODO: Send to Sergio?
  });
   next();
