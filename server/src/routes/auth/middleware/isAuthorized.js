@@ -1,6 +1,5 @@
 const bypassAC = process.env.BYPASS_ACCESS_CONTROL ?? false;
 
-
 const isAuthorized = (roles) => (req, res, next) => {
 
     if (bypassAC) {

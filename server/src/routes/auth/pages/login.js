@@ -5,8 +5,6 @@ import verifyToken from "../utils/verifyToken";
 
 const defaultPassword = stringToSHA256(process.env.USER_DEFAULT_PASSWORD);
 
-
-
 /**
 * @param {string} [body.username] - name of the user.
 * @param {string} [body.password] - password of the user.

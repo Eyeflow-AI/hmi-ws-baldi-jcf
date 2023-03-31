@@ -66,6 +66,6 @@ def save_package_data(package_data, package_id, file_path='/opt/eyeflow/data/pac
 # -------------------------
 
 app_info, app_token = get_license()
-package_id = '625e3c52157a3e001df54b19'
+package_id = '5faebb5986528f0723e9514f'
 package = get_package_data(app_token, package_id)
 save_package_data(package, package_id)

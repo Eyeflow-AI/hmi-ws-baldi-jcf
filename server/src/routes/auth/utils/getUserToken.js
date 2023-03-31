@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import Mongo from '../../../components/mongo';
 
-
 const privateKey = fs.readFileSync(process.env.JWT_PRIVATE_KEY_FILE);
 
 function getUsertToken(userDocument) {
