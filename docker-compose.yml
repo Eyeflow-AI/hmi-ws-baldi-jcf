@@ -13,6 +13,8 @@ services:
       PORT: 6030
       MONGO_URL: ""
       MONGO_DB: "eyeflow"
+      PACKAGE_ID: ""
+      DATA_PATH: "/data"
     volumes:
       - /opt/eyeflow/data/:/data
       - /opt/eyeflow/log/:/usr/src/app/logs
