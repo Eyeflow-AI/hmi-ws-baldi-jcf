@@ -1,22 +1,14 @@
 // /**
-// * @param {string} [body.username] - name of the user.
+// * 
 // */
 
-
-import fs from 'fs';
-const DATA_PATH = `/package_data`;
-
+const DATA_PATH = `${process.env.DATA_PATH}/package_data`;
+const PACKAGE_ID = process.env.PACKAGE_ID;
 
 function getPackageData(req, res, next) {
   try {
-    let file = {};
-    fs.readdirSync(DATA_PATH).forEach(f => {
-      if (f.endsWith('.json')) {
-        file = f;
-      }
-    });
     res.setHeader('Content-Type', 'application/json');
-    res.sendFile(`${DATA_PATH}/${file}`);
+    res.sendFile(`${DATA_PATH}/${PACKAGE_ID}.json`);
   }
   catch (err) {
     console.log({ err })
