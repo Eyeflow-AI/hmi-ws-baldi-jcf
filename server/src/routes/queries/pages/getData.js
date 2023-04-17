@@ -6,6 +6,7 @@ async function getData(req, res, next) {
   try {
     let { stationId } = req.params;
     let { startTime, endTime, queryName } = req.query;
+    console.log({ stationId, startTime, endTime, queryName })
     let queriesDocument = await Mongo.db.collection("params").findOne({ name: 'queries' });
     let queryOBJ = {};
     if (stationId && queryName && startTime && endTime && queriesDocument) {

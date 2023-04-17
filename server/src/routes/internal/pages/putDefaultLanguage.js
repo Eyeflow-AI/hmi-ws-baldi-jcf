@@ -10,7 +10,7 @@ async function putDefaultLanguage(req, res, next) {
     let languageId = req?.body?.languageId ?? '';
     if (languageId) {
 
-      await Mongo.db.collection('params').updateOne({
+      let usedLanguages = await Mongo.db.collection('params').findOneAndUpdate({
         name: 'feConfig',
       },
         {
@@ -18,9 +18,10 @@ async function putDefaultLanguage(req, res, next) {
             datetime: new Date(),
             'locale.default': languageId
           }
-        });
-      let usedLanguages = await Mongo.db.collection('params').findOne({ name: 'feConfig' }, { projection: { locale: 1, _id: 0 } });
-      usedLanguages = usedLanguages?.locale ?? {};
+        },
+        { returnDocument: 'after' }
+      );
+      usedLanguages = usedLanguages?.value?.locale ?? {};
       res.status(200).json({ usedLanguages });
     }
     else {

@@ -11,7 +11,7 @@ async function putActiveLanguage(req, res, next) {
     let status = req?.body?.status ?? false;
     if (languageId) {
 
-      await Mongo.db.collection('params').updateOne({
+      let usedLanguages = await Mongo.db.collection('params').findOneAndUpdate({
         name: 'feConfig',
         'locale.languageList.id': languageId
       },
@@ -20,14 +20,12 @@ async function putActiveLanguage(req, res, next) {
             datetime: new Date(),
             'locale.languageList.$.active': status
           }
-        });
-      let usedLanguages = await Mongo.db.collection('params').findOne({ name: 'feConfig' }, { projection: { locale: 1, _id: 0 } });
-      usedLanguages = usedLanguages?.locale ?? {};
+        }, { returnDocument: 'after' });
+      usedLanguages = usedLanguages?.value?.locale ?? {};
       res.status(200).json({ usedLanguages });
     }
     else {
       res.status(204).json('No languageId informed');
-
     }
   }
   catch (err) {
