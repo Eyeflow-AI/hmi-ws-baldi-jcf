@@ -10,19 +10,14 @@ async function putActiveDataset(req, res, next) {
     let datasetId = req?.body?.datasetId ?? '';
     let status = req?.body?.status ?? false;
     if (datasetId) {
-      if (status) {
-        await Mongo.db.collection('params').updateOne({
-          name: 'fromTo'
-        },
-          { $addToSet: { activeDatasets: datasetId } }, { upsert: true });
-      }
-      else {
-        await Mongo.db.collection('params').updateOne({
-          name: 'fromTo'
-        },
-          { $pull: { activeDatasets: datasetId } }, { upsert: true });
-      }
-      let fromToDocument = await Mongo.db.collection('params').findOne({ name: 'fromTo' });
+      let fromToDocument = await Mongo.db.collection('params').findOneAndUpdate({
+        name: 'fromTo'
+      }, {
+        [status ? '$addToSet' : '$pull']: {
+          activeDatasets: datasetId
+        }
+      }, { upsert: true, returnDocument: 'after' });
+      fromToDocument = fromToDocument?.value ?? {};
       res.status(200).json(fromToDocument);
     }
     else {
