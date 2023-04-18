@@ -2,6 +2,7 @@ import express from 'express';
 import {
   GetList,
   Get,
+  GetData,
   GetRunning,
   PutPause,
   PutResume
@@ -13,6 +14,7 @@ const router = express.Router();
 router.get('/:stationId/list', GetList);
 router.get('/:stationId/running', GetRunning);
 router.get('/:stationId/:batchId', Get);
+router.get('/:stationId/:batchId/data', GetData);
 
 router.put('/:stationId/:batchId/pause', PutPause);
 router.put('/:stationId/:batchId/resume', PutResume);
