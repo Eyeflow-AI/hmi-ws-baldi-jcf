@@ -20,7 +20,7 @@ async function getRunning(req, res, next) {
     };
     let result = await Mongo.db.collection("batch").findOne({ station: Mongo.ObjectId(stationId), status: "running" }, { projection });
     if (result) {
-      let lastEvent = await Mongo.db.collection("events").findOne({ "event_data.batch_id": batchId }, { sort: { event_time: -1 } });
+      let lastEvent = await Mongo.db.collection("events").findOne({ "event_data.batch_id": result._id }, { sort: { event_time: -1 } });
       if (lastEvent) {
         result.last_event_time = lastEvent.event_time;
       };
