@@ -10,14 +10,18 @@ async function getData(req, res, next) {
       if (result.status === "running") {
         let lastEvent = await Mongo.db.collection("events").findOne({ "event_data.batch_id": batchId }, { sort: { event_time: -1 } });
         if (lastEvent) {
-          let partsOk =  0;
-          let partsNg =  0;
+          let partsOk = 0;
+          let partsNg = 0;
           let defectsCount = {};
 
           result.batch_data = lastEvent.event_data;
-          for (let [key, value] of Object.entries(lastEvent.event_data.ok)) {
-            partsOk += value?.count ?? 0; 
+
+          for (let [key, valueList] of Object.entries(lastEvent.event_data.ok)) {
+            for (let value of valueList) {
+              partsOk += value?.count ?? 0;
+            };
           };
+
           for (let [key, valueList] of Object.entries(lastEvent.event_data.ng)) {
             for (let value of valueList) {
               partsNg += value?.count ?? 0;
