@@ -11,10 +11,13 @@ services:
     container_name: hmi-ws
     environment:
       PORT: 6030
-      MONGO_URL: ""
+      MONGO_URL: "mongodb://eyeflow:eyeflow@192.168.1.132:27017/?authSource=admin&readPreference=primary&ssl=false"
       MONGO_DB: "eyeflow"
-      PACKAGE_ID: ""
-      DATA_PATH: "/data"
+      PACKAGE_ID: "5faebb5986528f0723e9514f"
+      DATA_PATH: "/opt/eyeflow/data"
+      JWT_PRIVATE_KEY_FILE: "/usr/src/app/keys/jwtRS256.key"
+      JWT_PUBLIC_KEY_FILE: "/usr/src/app/keys/jwtRS256.key.pub"
+      USER_DEFAULT_PASSWORD: "123456"
     volumes:
       - /opt/eyeflow/data/:/data
       - /opt/eyeflow/log/:/usr/src/app/logs

@@ -11,6 +11,13 @@ const auditMiddleware = () => (req, res, next) => {
     const query = { ...req?.query } ?? {};
     const params = { ...req?.params } ?? {};
     const tokenData = { ...req?.app?.auth } ?? {};
+    const reqIp = (
+      req.headers['cf-connecting-ip'] ||
+      req.headers['x-real-ip'] ||
+      req.headers['x-forwarded-for'] ||
+      req.connection.remoteAddress || ''
+    ).split(',')[0].trim();
+    const wsIp = req.get('host');
 
     if (body.password) {
       body.password = "******";
@@ -25,11 +32,14 @@ const auditMiddleware = () => (req, res, next) => {
         success: res.statusCode < 400,
         method,
         url,
+        req_ip: reqIp,
+        ws_ip: wsIp,
         route_path: req.route.path,
         query,
         params,
         body,
         token_data: tokenData,
+        version: 1
       }
 
       Mongo.db.collection("audit").insertOne(auditData)
