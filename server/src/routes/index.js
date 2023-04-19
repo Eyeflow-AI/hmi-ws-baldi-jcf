@@ -6,6 +6,7 @@ import INTERNAL from './internal';
 import STATION from './station';
 import CONFIG from './config';
 import QUERIES from './queries';
+import SERIAL from './serial';
 
 const router = express.Router();
 
@@ -15,7 +16,8 @@ router.use('/batch', isAuthenticated, BATCH);
 router.use('/internal', isAuthenticated, INTERNAL);
 router.use('/station', STATION);
 router.use('/config', CONFIG);
-router.use('/queries', QUERIES);
+router.use('/queries', isAuthenticated, QUERIES);
+router.use('/serial', isAuthenticated, SERIAL);
 
 router.get('/', (req, res, next) => res.json({ ok: true }));
 
