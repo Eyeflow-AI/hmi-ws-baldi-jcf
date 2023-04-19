@@ -47,7 +47,7 @@ async function getList(req, res, next) {
     let projection = {
       _id: true,
       id: true,
-      label: true,
+      label: "$info.production_order",
       start_time: true,
       end_time: true,
       station: true,
