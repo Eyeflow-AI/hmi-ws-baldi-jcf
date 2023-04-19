@@ -12,6 +12,7 @@ async function getData(req, res, next) {
         if (lastEvent) {
           let partsOk = 0;
           let partsNg = 0;
+          let conveyourSpeed = lastEvent.conveyor_speed ?? lastEvent.event_data.conveyor_speed ?? 0;
           let defectsCount = {};
 
           result.batch_data = lastEvent.event_data;
@@ -33,6 +34,7 @@ async function getData(req, res, next) {
               };
             };
           };
+          result.batch_data.conveyor_speed = conveyourSpeed;
           result.batch_data.parts_ng = partsNg;
           result.batch_data.parts_ok = partsOk;
           result.batch_data.defects_count = defectsCount;
