@@ -4,6 +4,7 @@ import {
   Login
   , GetTokenData
   , GetAccessControlData
+  , GetUsersList
   , Logout
 } from './pages';
 // import GetTokenData from './getTokenData';
@@ -14,6 +15,7 @@ router.post('/login', Login);
 router.post('/logout', isAuthenticated, Logout);
 router.get('/verify-token', isAuthenticated, GetTokenData);
 router.get('/access-control-data', isAuthenticated, GetAccessControlData);
+router.get('/users-list', isAuthenticated, GetUsersList);
 
 // router.get('/user', isAuthenticated, Auth.listUser);
 // router.post('/user', isAuthenticated, isAuthorized(['userManagement']), Auth.createUser);
