@@ -34,7 +34,7 @@ const auditMiddleware = () => (req, res, next) => {
         url,
         req_ip: reqIp,
         ws_ip: wsIp,
-        route_path: req.route.path,
+        route_path: req?.route?.path ?? "",
         query,
         params,
         body,

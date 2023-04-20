@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  Post,
   GetList,
   Get,
   GetData,
@@ -11,6 +12,7 @@ import {
 const router = express.Router();
 
 
+router.post('/:stationId', Post);
 router.get('/:stationId/list', GetList);
 router.get('/:stationId/running', GetRunning);
 router.get('/:stationId/:batchId', Get);
