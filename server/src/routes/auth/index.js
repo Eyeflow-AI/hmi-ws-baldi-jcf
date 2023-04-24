@@ -6,6 +6,10 @@ import {
   , GetAccessControlData
   , GetUsersList
   , Logout
+  , CreateUser
+  , DeleteUser
+  , PutUserRole
+  , ResetPassword
 } from './pages';
 // import GetTokenData from './getTokenData';
 
@@ -16,7 +20,10 @@ router.post('/logout', isAuthenticated, Logout);
 router.get('/verify-token', isAuthenticated, GetTokenData);
 router.get('/access-control-data', isAuthenticated, GetAccessControlData);
 router.get('/users-list', isAuthenticated, GetUsersList);
-
+router.post('/user', isAuthenticated, CreateUser);
+router.delete('/user', isAuthenticated, DeleteUser);
+router.put('/user/role', isAuthenticated, PutUserRole);
+router.put('/user/reset-password', isAuthenticated, ResetPassword);
 // router.get('/user', isAuthenticated, Auth.listUser);
 // router.post('/user', isAuthenticated, isAuthorized(['userManagement']), Auth.createUser);
 // router.delete('/user', isAuthenticated, isAuthorized(['userManagement']), Auth.deleteUser);
