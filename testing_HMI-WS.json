@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "HMI-WS",
-    "dateExported": "2023-04-17T12:22:10.051Z",
+    "dateExported": "2023-04-24T21:18:15.144Z",
     "version": "1.1",
     "folders": [
         {
@@ -177,6 +177,39 @@
             }
         },
         {
+            "_id": "06127593-7f9a-48bf-ab38-3177511046bd",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
+            "name": "create-user",
+            "url": "{{LH_6030}}/auth/user",
+            "method": "POST",
+            "sortNum": 35000,
+            "created": "2023-04-24T21:00:01.837Z",
+            "modified": "2023-04-24T21:01:12.080Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"outro5\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-var-empty",
+                        "triggerValue": "{{token}}"
+                    }
+                ]
+            }
+        },
+        {
             "_id": "d3d36c96-1937-4b41-9f34-e1800a282011",
             "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
             "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
@@ -212,6 +245,88 @@
             }
         },
         {
+            "_id": "6cf3edeb-0228-4d35-8102-9f6447a0a90a",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
+            "name": "users-list",
+            "url": "{{LH_6030}}/auth/users-list",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-04-24T21:01:59.857Z",
+            "modified": "2023-04-24T21:02:47.779Z",
+            "headers": [],
+            "params": [],
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-var-empty",
+                        "triggerValue": "{{token}}"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "806a29cd-9ccc-4258-9e36-18011e73f9b3",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
+            "name": "delete-user",
+            "url": "{{LH_6030}}/auth/user",
+            "method": "DELETE",
+            "sortNum": 60000,
+            "created": "2023-04-24T21:03:01.521Z",
+            "modified": "2023-04-24T21:03:43.446Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"outro5\"\n}",
+                "form": []
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-var-empty",
+                        "triggerValue": "{{token}}"
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "7c18bfc6-dc3f-4419-b7db-a20f3352e281",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
+            "name": "user-role",
+            "url": "{{LH_6030}}/auth/user/role",
+            "method": "PUT",
+            "sortNum": 70000,
+            "created": "2023-04-24T21:03:56.816Z",
+            "modified": "2023-04-24T21:13:35.734Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"outro5\",\n  \"newRole\": \"qcOnline\"\n}",
+                "form": []
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-var-empty",
+                        "triggerValue": "{{token}}"
+                    }
+                ]
+            }
+        },
+        {
             "_id": "7140b7fc-00f1-47c8-bc20-b61d0c0dd5ce",
             "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
             "containerId": "",
@@ -224,6 +339,35 @@
             "headers": [],
             "params": [],
             "tests": []
+        },
+        {
+            "_id": "c10a8e35-c9e6-4a88-b65f-f0420864bdf6",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
+            "name": "reset-password",
+            "url": "{{LH_6030}}/auth/user/reset-password",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2023-04-24T21:16:40.574Z",
+            "modified": "2023-04-24T21:17:22.001Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"outro5\",\n  \"newPassword\": \"qcOnline\"\n}",
+                "form": []
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-var-empty",
+                        "triggerValue": "{{token}}"
+                    }
+                ]
+            }
         },
         {
             "_id": "d0f5da2e-60b1-4167-9a8e-fbf9dfa2480b",
