@@ -5,7 +5,7 @@ import getAccessControlDocument from '../utils/getAccessControlDocument';
 
 const requiredKeys = [
     'username',
-    'accessControl',
+    // 'accessControl',
     'newRole',
 ];
 
