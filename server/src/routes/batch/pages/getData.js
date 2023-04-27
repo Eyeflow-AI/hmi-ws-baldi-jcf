@@ -14,12 +14,17 @@ async function getData(req, res, next) {
           let partsNg = 0;
           let conveyourSpeed = lastEvent.conveyor_speed ?? lastEvent.event_data.conveyor_speed ?? 0;
           let defectsCount = {};
-
+          let totalOutputParts = lastEvent.total_output_parts ?? lastEvent.event_data.total_output_parts ?? 0;
           result.batch_data = lastEvent.event_data;
 
-          for (let [key, valueList] of Object.entries(lastEvent.event_data.ok)) {
-            for (let value of valueList) {
-              partsOk += value?.count ?? 0;
+          if (totalOutputParts) {
+            partsOk = totalOutputParts;
+          }
+          else {
+            for (let [key, valueList] of Object.entries(lastEvent.event_data.ok)) {
+              for (let value of valueList) {
+                partsOk += value?.count ?? 0;
+              };
             };
           };
 
