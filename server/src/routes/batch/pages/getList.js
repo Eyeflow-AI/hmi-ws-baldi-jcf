@@ -1,7 +1,6 @@
 import Mongo from "../../../components/mongo";
 import isIsoDate from "../../../utils/isIsoDate";
 import hashCode from "../../../utils/hashCode";
-import e from "express";
 
 function raiseError(message) {
   let err = new Error(message);
