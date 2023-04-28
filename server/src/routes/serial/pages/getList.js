@@ -1,7 +1,6 @@
 import Mongo from "../../../components/mongo";
 import isIsoDate from "../../../utils/isIsoDate";
 import hashCode from "../../../utils/hashCode";
-import e from "express";
 
 function raiseError(message) {
   let err = new Error(message);
@@ -16,18 +15,22 @@ function getMatch(reqParams, reqQuery) {
   if (Boolean(reqQuery) && Object.keys(reqQuery).length > 0) {
 
     if (reqQuery.hasOwnProperty("min_event_time") || reqQuery.hasOwnProperty("max_event_time")) {
-      match.start_time = {};
+      match = {
+        "event_data.info.window_ini_time": {}
+      };
       if (reqQuery.hasOwnProperty("min_event_time")) {
-        if (!isIsoDate(reqQuery["min_event_time"])) {raiseError("Invalid min_event_time. Valid iso date is required.")};
-        match.start_time["$gte"] = new Date(reqQuery.min_event_time);
+        if (!isIsoDate(reqQuery["min_event_time"])) { raiseError("Invalid min_event_time. Valid iso date is required.") };
+        // match.start_time["$gte"] = new Date(reqQuery.min_event_time);
+        match['event_data.info.window_ini_time']['$gte'] = new Date(reqQuery.min_event_time);
       }
       if (reqQuery.hasOwnProperty("max_event_time")) {
-        if (!isIsoDate(reqQuery["max_event_time"])) {raiseError("Invalid max_event_time. Valid iso date is required.")};
-        match.start_time["$lte"] = new Date(reqQuery.max_event_time);
+        if (!isIsoDate(reqQuery["max_event_time"])) { raiseError("Invalid max_event_time. Valid iso date is required.") };
+        // match.start_time["$lte"] = new Date(reqQuery.max_event_time);
+        match['event_data.info.window_ini_time']['$lte'] = new Date(reqQuery.max_event_time);
       };
     };
 
-    if (!Mongo.ObjectId.isValid(reqParams["stationId"])) {raiseError(`Invalid station ${reqParams["stationId"]}. Valid ObjectId is required.`)}
+    if (!Mongo.ObjectId.isValid(reqParams["stationId"])) { raiseError(`Invalid station ${reqParams["stationId"]}. Valid ObjectId is required.`) }
 
     match.station = Mongo.ObjectId(reqParams["stationId"]);
   };
@@ -44,38 +47,67 @@ async function getList(req, res, next) {
 
   try {
     let match = getMatch(req.params, req.query);
+    console.log({ match })
     let projection = {
-      _id: true,
-      id: true,
-      label: true,
-      start_time: true,
-      end_time: true,
-      station: true,
-      status: true,
+      _id: 0,
+      inspection_id: '$_id.inspection_id',
+      result: '$_id.result',
+      date: '$date',
+      count: '$count',
     };
 
-    let collection = "batch";
+    let collection = "inspection_events";
     let limit = 10000;                                          //TODO: Get from config file
-    let sort = {start_time: -1};
+    let sort = { 'event_data.info.window_end_time': -1 };
     let hashString;
-    let batchList = await Mongo.db.collection(collection).find(match, {projection}).sort(sort).limit(limit).toArray();
-    let batchListLength = batchList.length;
-    batchList.forEach((el, index) => {
-      hashString += el.start_time.toISOString();
+    let serialList = await Mongo.db.collection(collection).aggregate([
+      { $match: match },
+      {
+        $group: {
+          _id: {
+            inspection_id: "$event_data.info.inspection_id",
+            result: "$event_data.inspection_result.ok",
+            // date: { $dateToString: { format: "%Y-%m-%d", date: "$event_data.info.window_ini_time" } }
+          },
+          date: { $first: "$event_data.info.window_ini_time" },
+          count: { $sum: 1 },
+        }
+      },
+      { $project: projection },
+      { $sort: { 'result': 1 } },
+      // { $sort: sort },
+      { $limit: limit },
+    ]).toArray();
+    let resultsNotOk = [];
+
+    serialList = serialList.map((el, index) => {
+      if (!el.result) {
+        resultsNotOk.push(el.inspection_id);
+      };
+      if (el.result && resultsNotOk.includes(el.inspection_id)) {
+        el.toDelete = true;
+      }
+      return el;
+    })
+    serialList = serialList.filter(el => !el.toDelete);
+
+    let serialListLength = serialList.length;
+    serialList.forEach((el, index) => {
+      hashString += el.date.toISOString();
       hashString += el.status;
-      el.index = batchListLength - index;
-      el.thumbURL = "/assets/PerfumeIcon.svg";                 //TODO: Get from config file,
-      el.thumbStyle = {height: 70};                            //TODO: Get from config file,
+      el.index = serialListLength - index;
+      el.thumbURL = "/assets/GearIcon.svg";                 //TODO: Get from config file,
+      el.thumbStyle = { height: 90 };                            //TODO: Get from config file,
     });
 
     let output = {
       ok: true,
-      batchListLength,
-      batchList,
+      serialListLength,
+      serialList,
       hash: hashString ? hashCode(hashString) : null
     };
     if (process.env.NODE_ENV === "development") {
-      output.queryOptions = {match, projection, collection, limit};
+      output.queryOptions = { match, projection, collection, limit };
     };
 
     res.status(200).json(output);
