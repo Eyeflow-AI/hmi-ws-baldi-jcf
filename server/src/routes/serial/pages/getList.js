@@ -94,10 +94,12 @@ async function getList(req, res, next) {
     let serialListLength = serialList.length;
     serialList.forEach((el, index) => {
       hashString += el.date.toISOString();
-      hashString += el.status;
       el.index = serialListLength - index;
       el.thumbURL = "/assets/GearIcon.svg";                 //TODO: Get from config file,
       el.thumbStyle = { height: 90 };                            //TODO: Get from config file,
+      el._id = el.inspection_id;
+      el.status = el.result ? "ok" : "ng";
+      hashString += el.status;
     });
 
     let output = {
