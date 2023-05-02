@@ -32,26 +32,31 @@ function createAllDetections() {
   let required = {
     "63ee6fee7df27e1bcc412e92": {
       "label": "Furo",
+      "class": "63ee6fee7df27e1bcc412e92",
       "color": "#4caf50",
       "qtt": Math.floor(Math.random() * 100)
     },
     "63ee6ffb1d41c5e397e7be3a": {
       "label": "Selo",
+      "class": "63ee6ffb1d41c5e397e7be3a",
       "color": "#03a9f4",
       "qtt": Math.floor(Math.random() * 100)
     },
     "63ee7000d7d5e39da4c34677": {
       "label": "Bujão",
+      "class": "63ee7000d7d5e39da4c34677",
       "color": "#ff9800",
       "qtt": Math.floor(Math.random() * 100)
     },
     "63ff589609373d6f83dd652f": {
       "label": "Pino",
+      "class": "63ff589609373d6f83dd652f",
       "color": "#df4fc3",
       "qtt": Math.floor(Math.random() * 100)
     },
     "63ffa8176856a4a737d88e6b": {
       "label": "Alívio",
+      "class": "63ffa8176856a4a737d88e6b",
       "color": "#ffeb3b",
       "qtt": Math.floor(Math.random() * 100)
     }
@@ -97,7 +102,7 @@ let surfaces = [
 ]
 
 for (let i = 0; i < surfaces.length; i++) {
-  let { all_detections, ok, required } = createAllDetections()
+  let { all_detections, ok, required } = createAllDetections();
   db.getCollection('inspection_events')
     .insertOne({
       "event_time": new Date(),
@@ -124,7 +129,7 @@ for (let i = 0; i < surfaces.length; i++) {
         "part_data": {
           part_id,
           required,
-          surfaces_qtt: surfaces.length
+          // surfaces_qtt: surfaces.length
         }
       }
     })
