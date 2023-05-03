@@ -58,7 +58,8 @@ async function getList(req, res, next) {
 
     let collection = "inspection_events";
     let limit = 10000;                                          //TODO: Get from config file
-    let sort = { 'event_data.info.window_end_time': -1 };
+    // let sort = { 'event_data.info.window_end_time': -1 };
+    let sort = { 'date': -1 };
     let hashString;
     let serialList = await Mongo.db.collection(collection).aggregate([
       { $match: match },
@@ -75,8 +76,8 @@ async function getList(req, res, next) {
         }
       },
       { $project: projection },
-      { $sort: { 'result': 1 } },
-      // { $sort: sort },
+      // { $sort: { 'result': 1 } },
+      { $sort: sort },
       { $limit: limit },
     ]).toArray();
     let resultsNotOk = [];
