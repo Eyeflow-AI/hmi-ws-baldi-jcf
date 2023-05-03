@@ -6,8 +6,6 @@ async function get(req, res, next) {
     let serialId = req.params.serialId;
     let result = await Mongo.db.collection("inspection_events").find({ 'event_data.info.inspection_id': serialId }).toArray();
     if (result) {
-      console.log('oxe')
-      console.log({ x: result[0].event_data.part_data.part_id })
       res.status(200).json({
         ok: true, serial: {
           _id: serialId,

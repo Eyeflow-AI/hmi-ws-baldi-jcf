@@ -47,7 +47,6 @@ async function getList(req, res, next) {
 
   try {
     let match = getMatch(req.params, req.query);
-    console.log({ match })
     let projection = {
       _id: 0,
       inspection_id: '$_id.inspection_id',
