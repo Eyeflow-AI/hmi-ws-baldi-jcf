@@ -126,11 +126,13 @@ async function post(req, res, next) {
     };
 
     let postRequestBody = {
-      _id: newBatchDocument._id,
-      status: "new_batch",
-      total_packs: body.total_packs,
-      parts_per_pack: body.parts_per_pack,
-      profile_parms: partData.color_profile
+      batch: {
+        _id: newBatchDocument._id,
+        status: "new_batch",
+        total_packs: body.total_packs,
+        parts_per_pack: body.parts_per_pack,
+        profile_parms: partData.color_profile
+      },
     };
 
     let response = await axios.post(postBatchURL, postRequestBody, {timeout: 1000});
