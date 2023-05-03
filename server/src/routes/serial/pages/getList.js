@@ -51,6 +51,7 @@ async function getList(req, res, next) {
       _id: 0,
       inspection_id: '$_id.inspection_id',
       result: '$_id.result',
+      part_id: '$part_id',
       date: '$date',
       count: '$count',
     };
@@ -69,6 +70,7 @@ async function getList(req, res, next) {
             // date: { $dateToString: { format: "%Y-%m-%d", date: "$event_data.info.window_ini_time" } }
           },
           date: { $first: "$event_data.info.window_ini_time" },
+          part_id: { $first: "$event_data.part_data.part_id" },
           count: { $sum: 1 },
         }
       },
@@ -96,8 +98,10 @@ async function getList(req, res, next) {
       el.index = serialListLength - index;
       el.thumbURL = "/assets/GearIcon.svg";                 //TODO: Get from config file,
       el.thumbStyle = { height: 90 };                            //TODO: Get from config file,
-      el._id = el.inspection_id;
       el.status = el.result ? "ok" : "ng";
+      el.label = el?.part_id?.slice(-5) ?? 'N/A';
+      el._id = el.inspection_id;
+      el.event_time = el.date;
       hashString += el.status;
     });
 
