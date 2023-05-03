@@ -36,7 +36,7 @@
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
     "app-root-path": "^3.1.0",
-    "axios": "^1.2.3",
+    "axios": "^1.4.0",
     "bson": "^5.2.0",
     "cors": "^2.8.5",
     "csv-parse": "^5.3.3",
