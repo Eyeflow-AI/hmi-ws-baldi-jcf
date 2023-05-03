@@ -10,5 +10,5 @@ export default function errorHandler(err, req, res, next) {
   catch (err) {
     log.error(`Request ${requestId}. Error: ${JSON.stringify(err.message)}. Failed to get error stack.`);
   };
-  res.status(err.status || 500).json({ requestId, err: err.message, data: err.extraData });
+  res.status(err.status || 500).json({ requestId, err: err.message, code: err.code, data: err.extraData });
 };
