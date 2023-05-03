@@ -159,7 +159,7 @@ async function post(req, res, next) {
       let port = err.port;
       err = new Error(`Edge station is not reachable`);
       err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
-      err.status = 400;
+      err.status = 500;
       if (address && port) {
         err.extraData = {address, port};
       }
