@@ -1,15 +1,11 @@
-import Mongo from "../../../components/mongo";
+import getPartsDocument from "../../../utils/getPartsDocument";
 import hashObj from "../../../utils/hashObj";
 
 async function getList(req, res, next) {
 
   try {
 
-    let collection = "params";
-    let result = await Mongo.db.collection(collection).findOne({"name": "parts_register"});
-    if (!result) {
-      throw new Error("Did not find parts_register document in params collection");
-    };
+    let result = await getPartsDocument();
 
     let partsListLength = result.parts_list.length;
 
