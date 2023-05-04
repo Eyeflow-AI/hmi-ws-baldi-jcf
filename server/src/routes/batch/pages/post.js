@@ -143,7 +143,7 @@ async function post(req, res, next) {
     };
 
     newBatchDocument["debug"] = {
-      data_sent_to_edge_station: postRequestBody
+      data_sent_to_edge_station: [postRequestBody]
     };
 
     let result = await Mongo.db.collection("batch").insertOne(newBatchDocument);
