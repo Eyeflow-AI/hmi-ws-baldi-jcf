@@ -10,8 +10,7 @@ function getUserRole(accessControlData, accessControl) {
   });
 
   for (let [role, roleData] of rolesEntries) {
-    // console.log({ roleData })
-    if (role !== 'view' && authorization.every(el => roleData.includes(el)) && roleData.every(el => authorization.includes(el))) {
+    if (role !== 'view' && authorization.every(el => roleData.types.includes(el)) && roleData.types.every(el => authorization.includes(el))) {
       // console.log({ role, roleData })
       return role;
     };

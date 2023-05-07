@@ -58,7 +58,6 @@ async function getList(req, res, next) {
 
     let collection = "inspection_events";
     let limit = 10000;                                          //TODO: Get from config file
-    // let sort = { 'event_data.info.window_end_time': -1 };
     let sort = { 'date': -1 };
     let hashString;
     let serialList = await Mongo.db.collection(collection).aggregate([
@@ -68,7 +67,6 @@ async function getList(req, res, next) {
           _id: {
             inspection_id: "$event_data.info.inspection_id",
             result: "$event_data.inspection_result.ok",
-            // date: { $dateToString: { format: "%Y-%m-%d", date: "$event_data.info.window_ini_time" } }
           },
           date: { $first: "$event_data.info.window_ini_time" },
           part_id: { $first: "$event_data.part_data.part_id" },
@@ -76,7 +74,6 @@ async function getList(req, res, next) {
         }
       },
       { $project: projection },
-      // { $sort: { 'result': 1 } },
       { $sort: sort },
       { $limit: limit },
     ]).toArray();
@@ -104,6 +101,7 @@ async function getList(req, res, next) {
       el._id = el.inspection_id;
       el.event_time = el.date;
       hashString += el.status;
+      hashString += String(el.count);
     });
 
     let output = {

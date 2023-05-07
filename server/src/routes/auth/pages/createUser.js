@@ -9,7 +9,7 @@ const requiredKeys = [
     'username',
 ];
 
-const defaultRole = "view";
+const defaultRole = "operator";
 
 async function createUser(req, res, next) {
 
@@ -20,8 +20,8 @@ async function createUser(req, res, next) {
         if (missingKeys.length === 0) {
             let [validUsernameList, invalidUsernameList, userThatAlreadyExistList] = await checkUsernameList(body.username);
             let accessControlDocument = await getAccessControlDocument();
-            let acTypes = accessControlDocument.types;
-            let acRole = accessControlDocument.roles[defaultRole] ?? [];
+            let acTypes = Object.keys(accessControlDocument?.types ?? {});
+            let acRole = accessControlDocument?.roles?.[defaultRole]?.types ?? [];
             let creationDate = new Date();
             if (validUsernameList.length > 0) {
                 let data = validUsernameList.map((username) => {

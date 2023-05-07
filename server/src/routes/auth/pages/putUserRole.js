@@ -20,8 +20,8 @@ async function putUserRole(req, res, next) {
             if (body.username !== userUsername) {
                 let userDocument = await Mongo.db.collection('user').findOne({ 'auth.username': body.username });
                 let accessControlDocument = await getAccessControlDocument();
-                let acTypes = accessControlDocument.types;
-                let role = accessControlDocument.roles[body.newRole];
+                let acTypes = Object.keys(accessControlDocument?.types ?? {});
+                let role = accessControlDocument?.roles?.[body?.newRole]?.types ?? [];
 
                 if (userDocument) {
                     let oldAccessControl = userDocument.auth.accessControl ?? {};

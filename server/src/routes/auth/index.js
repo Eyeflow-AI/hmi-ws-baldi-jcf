@@ -10,6 +10,7 @@ import {
   , DeleteUser
   , PutUserRole
   , ResetPassword
+  , CreateRole
 } from './pages';
 // import GetTokenData from './getTokenData';
 
@@ -24,6 +25,9 @@ router.get('/users-list', isAuthenticated, GetUsersList);
 router.delete('/user', isAuthenticated, DeleteUser);
 router.put('/user/role', isAuthenticated, PutUserRole);
 router.put('/user/reset-password', isAuthenticated, ResetPassword);
+
+
+router.post('/role', isAuthenticated, isAuthorized(['master', 'userManagement']), CreateRole);
 // router.get('/user', isAuthenticated, Auth.listUser);
 // router.post('/user', isAuthenticated, isAuthorized(['userManagement']), Auth.createUser);
 // router.delete('/user', isAuthenticated, isAuthorized(['userManagement']), Auth.deleteUser);

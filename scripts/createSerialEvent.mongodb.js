@@ -21,8 +21,11 @@ function create_UUID() {
   return uuid;
 }
 
-const part_id = String(create_UUID());
-const inspection_id = String(new ObjectId());
+// const part_id = String(create_UUID());
+const part_id = 'aaaaaaaaaaaaaaaaaaa';
+// const inspection_id = String(new ObjectId());
+// const inspection_id = 'bbbbbbbbbbbbbbbbbbbbb';
+const inspection_id = 'c';
 const hostname = "edge-server-test";
 const station = ObjectId('641b3a94f742dd9ea6d0416b');
 
@@ -93,11 +96,11 @@ function createAllDetections() {
 
 
 let surfaces = [
-  "Face Direita",
-  "Face Esquerda",
-  "Face Carter",
-  "Face Fogo",
-  "Face Frontal",
+  // "Face Direita",
+  // "Face Esquerda",
+  // "Face Carter",
+  // "Face Fogo",
+  // "Face Frontal",
   "Face Traseira"
 ]
 
