@@ -6,56 +6,45 @@ async function getData(req, res, next) {
     let batchId = Mongo.ObjectId(req.params.batchId);
 
     let result = await Mongo.db.collection("batch").findOne({ _id: batchId });
-    if (result) {
-      if (result.status === "running") {
-        let lastEvent = await Mongo.db.collection("events").findOne({ "event_data.batch_id": batchId }, { sort: { event_time: -1 } });
-        if (lastEvent) {
-          let partsOk = 0;
-          let partsNg = 0;
-          let conveyourSpeed = lastEvent.conveyor_speed ?? lastEvent.event_data.conveyor_speed ?? 0;
-          let defectsCount = {};
-          let totalOutputParts = lastEvent.total_output_parts ?? lastEvent.event_data.total_output_parts ?? 0;
-          result.batch_data = lastEvent.event_data;
-
-          if (totalOutputParts) {
-            partsOk = totalOutputParts;
-          }
-          else {
-            for (let [key, valueList] of Object.entries(lastEvent.event_data.ok)) {
-              for (let value of valueList) {
-                partsOk += value?.count ?? 0;
-              };
-            };
-          };
-
-          for (let [key, valueList] of Object.entries(lastEvent.event_data.ng)) {
-            for (let value of valueList) {
-              partsNg += value?.count ?? 0;
-              if (defectsCount.hasOwnProperty(value.label)) {
-                defectsCount[value.label] += value?.count ?? 0;
-              }
-              else {
-                defectsCount[value.label] = value?.count ?? 0;
-              };
-            };
-          };
-          result.batch_data.conveyor_speed = conveyourSpeed;
-          result.batch_data.parts_ng = partsNg;
-          result.batch_data.parts_ok = partsOk;
-          result.batch_data.defects_count = defectsCount;
-        }
-      }
-      else {
-        // TODO
-      };
-
-      res.status(200).json({ ok: true, batch: result });
-    }
-    else {
+    if (!result) {
       let err = new Error(`Batch with _id ${batchId} does not exist`);
       err.status = 400;
       throw err;
+    };
+
+    if (!result.batch_data) {
+      result.batch_data = {};
+    };
+
+    result.batch_data.parts_ok = result.batch_data?.total_output_parts ?? 0;
+    result.batch_data.parts_ng = 0;
+    result.batch_data.conveyor_speed = 0;
+    result.batch_data.ng = result.batch_data.ng ?? {};
+    result.batch_data.defects_count = {};
+
+    if (result.status === "running") {
+      let lastEvent = await Mongo.db.collection("events").findOne({ "event_data.batch_id": batchId }, { sort: { event_time: -1 } });
+      if (lastEvent && lastEvent.event_data) {
+        let {total_output_parts, ...event_data} = lastEvent.event_data;
+        Object.assign(result.batch_data, event_data);
+        result.batch_data.conveyor_speed = lastEvent.conveyor_speed;
+        result.batch_data.parts_ok = total_output_parts ?? 0;
+      }
     }
+
+    for (let [key, valueList] of Object.entries(result.batch_data.ng)) {
+      for (let value of valueList) {
+        result.batch_data.parts_ng += value?.count ?? 0;
+        if (result.batch_data.defects_count.hasOwnProperty(value.label)) {
+          result.batch_data.defects_count[value.label] += value?.count ?? 0;
+        }
+        else {
+          result.batch_data.defects_count[value.label] = value?.count ?? 0;
+        };
+      };
+    };
+
+    res.status(200).json({ ok: true, batch: result });
   }
   catch (err) {
     next(err);
