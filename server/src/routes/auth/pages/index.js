@@ -7,3 +7,4 @@ export { default as CreateUser } from './createUser';
 export { default as DeleteUser } from './deleteUser';
 export { default as PutUserRole } from './putUserRole';
 export { default as ResetPassword } from './resetPassword';
+export { default as CreateRole } from './createRole';
