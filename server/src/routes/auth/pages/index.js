@@ -8,3 +8,5 @@ export { default as DeleteUser } from './deleteUser';
 export { default as PutUserRole } from './putUserRole';
 export { default as ResetPassword } from './resetPassword';
 export { default as CreateRole } from './createRole';
+export { default as EditRole } from './editRole';
+export { default as DeleteRole } from './deleteRole';
