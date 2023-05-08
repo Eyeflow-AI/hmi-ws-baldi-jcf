@@ -3,13 +3,11 @@ import getAccessControlDocument from '../utils/getAccessControlDocument';
 import getMissingKeysFromObject from "../../../utils/getMissingKeysFromObject";
 
 const requiredKeys = [
-    'roleName',
-    'description',
-    'types',
+    'roleName'
 ];
 
 
-async function createRole(req, res, next) {
+async function deleteRole(req, res, next) {
 
     try {
         let body = req.body;
@@ -17,32 +15,29 @@ async function createRole(req, res, next) {
 
         if (missingKeys.length === 0) {
             let accessControlDocument = await getAccessControlDocument();
-            let validTypes = Object.keys(accessControlDocument?.types ?? {}) ?? [];
-            let typesValidated = body?.types.every((el) => validTypes.includes(el));
-            let roleAlreadyExist = Object.keys(accessControlDocument?.roles ?? {}).includes(body.roleName);
+            let roleExists = Object.keys(accessControlDocument?.roles ?? {}).includes(body.roleName);
+            let roleCanBeDeleted = accessControlDocument?.roles[body.roleName]?.editable ?? false;
 
-            if (typesValidated && !roleAlreadyExist) {
-                let newRole = {
-                    description: body.description,
-                    types: body.types,
-                    deletable: true,
-                    editable: true,
-                };
+            if (roleExists && roleCanBeDeleted) {
+                let query = {
+                    '$unset': {
+                        [`roles.${body.roleName.replaceAll(/\./g, '')}`]: '',
+                    }
+                }
                 let updated = await Mongo.db.collection('params').updateOne(
                     { name: 'accessControl' },
-                    { $set: { [`roles.${body.roleName.replaceAll(/\./g, '')}`]: newRole } }
+                    query
                 );
                 if (updated.modifiedCount === 0) {
-                    res.status(400).json({ ok: false, msg: 'The role was not created' });
+                    res.status(400).json({ ok: false, msg: 'The role was not deleted' });
                 }
                 else {
                     let accessControlDocument = await getAccessControlDocument();
-                    res.status(201).json({ ok: true, msg: `The role ${body.roleName} was created`, accessControlDocument });
-
+                    res.status(201).json({ ok: true, msg: `The role ${body.roleName} was deleted`, accessControlDocument });
                 }
             }
             else {
-                let err = new Error(`The role ${body.roleName} already exists`);
+                let err = new Error(`The role ${body.roleName} does not exist or cannot be deleted. It cannot be deleted`);
                 err.status = 400;
                 next(err);
             }
@@ -59,4 +54,4 @@ async function createRole(req, res, next) {
     };
 };
 
-export default createRole;
+export default deleteRole;
