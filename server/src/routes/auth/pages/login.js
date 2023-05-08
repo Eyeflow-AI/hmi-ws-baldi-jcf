@@ -2,6 +2,9 @@ import Mongo from "../../../components/mongo";
 import stringToSHA256 from "../../../utils/stringToSHA256";
 import getUserToken from "../utils/getUserToken";
 import verifyToken from "../utils/verifyToken";
+import getUserControlData from '../utils/getUserControlData';
+import getAccessControlDocument from '../utils/getAccessControlDocument';
+
 
 const defaultPassword = stringToSHA256(process.env.USER_DEFAULT_PASSWORD);
 
@@ -30,6 +33,8 @@ async function login(req, res, next) {
     };
 
     let err, token, tokenPayload;
+    let accessControlData = await getAccessControlDocument();
+    userDocument.auth.accessControl = getUserControlData(accessControlData, userDocument.auth.role);
     [err, token] = getUserToken(userDocument);
     if (err) {
       throw err;

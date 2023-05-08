@@ -1,6 +1,4 @@
 import Mongo from "../../../components/mongo";
-import getAccessControlDocument from '../utils/getAccessControlDocument';
-// import getUserRole from '../utils/getUserRole';
 import stringToSHA256 from "../../../utils/stringToSHA256";
 import checkUsernameList from "../utils/checkUsernameList";
 import getMissingKeysFromObject from "../../../utils/getMissingKeysFromObject";
@@ -19,20 +17,16 @@ async function createUser(req, res, next) {
 
         if (missingKeys.length === 0) {
             let [validUsernameList, invalidUsernameList, userThatAlreadyExistList] = await checkUsernameList(body.username);
-            let accessControlDocument = await getAccessControlDocument();
-            let acTypes = Object.keys(accessControlDocument?.types ?? {});
-            let acRole = accessControlDocument?.roles?.[defaultRole]?.types ?? [];
+            console.log(validUsernameList, invalidUsernameList, userThatAlreadyExistList);
             let creationDate = new Date();
             if (validUsernameList.length > 0) {
                 let data = validUsernameList.map((username) => {
-                    let accessControl = {};
                     let password = (body.password && body.username === username) ? stringToSHA256(body.password) : null;
-                    acTypes.forEach((type) => accessControl[type] = acRole.includes(type));
                     return {
                         auth: {
                             username,
                             password,
-                            accessControl
+                            role: defaultRole
                         },
                         profile: { name: '', initials: username.slice(0, 2).toUpperCase() },
                         creationDate,

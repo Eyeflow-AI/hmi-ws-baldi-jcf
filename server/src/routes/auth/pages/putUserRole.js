@@ -20,26 +20,20 @@ async function putUserRole(req, res, next) {
             if (body.username !== userUsername) {
                 let userDocument = await Mongo.db.collection('user').findOne({ 'auth.username': body.username });
                 let accessControlDocument = await getAccessControlDocument();
-                let acTypes = Object.keys(accessControlDocument?.types ?? {});
-                let role = accessControlDocument?.roles?.[body?.newRole]?.types ?? [];
+                let roleExists = Object.keys(accessControlDocument?.roles ?? {}).includes(body.newRole);
 
-                if (userDocument) {
-                    let oldAccessControl = userDocument.auth.accessControl ?? {};
-                    let accessControl = {};
-                    acTypes.forEach((type) => {
-                        accessControl[type] = role.includes(type) ? true : false;
-                        // console.log({ oldType, newType })
-                    });
+                if (userDocument && roleExists) {
+                    let oldRole = userDocument.auth.role ?? '';
                     let result = await Mongo.db.collection('user').updateOne(
                         { _id: userDocument._id },
-                        { $set: { 'auth.accessControl': accessControl } }
+                        { $set: { 'auth.role': body.newRole } }
                     );
 
                     if (result.modifiedCount === 1) {
                         res.status(200).json({
                             ok: true,
-                            oldUserAccessControl: oldAccessControl,
-                            newUserAccessControl: accessControl
+                            oldUserRole: oldRole,
+                            newUserRole: body.newRole,
                         });
                     }
                     else {
@@ -49,7 +43,7 @@ async function putUserRole(req, res, next) {
                     };
                 }
                 else {
-                    let err = new Error(`User ${body.username} does not exist`);
+                    let err = new Error(`User ${body.username} does not exist or role ${body.newRole} does not exist`);
                     err.status = 400;
                     next(err);
                 }
