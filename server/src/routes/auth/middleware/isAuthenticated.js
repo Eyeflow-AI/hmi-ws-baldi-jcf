@@ -24,7 +24,7 @@ function isAuthenticated(req, res, next) {
         };
     }
     else {
-        let err = new Error(`Bearer Token or query.token required`);
+        let err = new Error(`Bearer Token or query token required`);
         err.status = 400;
         next(err);
     };

@@ -2,7 +2,7 @@ import Mongo from "../../../components/mongo";
 async function post(req, res, next) {
   try {
     let code = req?.body?.alert_code ?? null;
-    let station_id = req?.body?.station_id ?? null;
+    let station_id = req?.params?.stationId ?? null;
     let alerts = await Mongo.db.collection('params').findOne({ name: 'alerts' });
 
     if (Number.isInteger(code) && alerts?.alerts?.[code] && station_id) {

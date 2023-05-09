@@ -1,15 +1,36 @@
 {
     "client": "Thunder Client",
     "collectionName": "HMI-WS",
-    "dateExported": "2023-05-03T16:48:40.753Z",
+    "dateExported": "2023-05-09T18:29:54.487Z",
     "version": "1.1",
     "folders": [
+        {
+            "_id": "d0ff0a30-01a5-4152-93c5-83cb40f43048",
+            "name": "alerts",
+            "containerId": "",
+            "created": "2023-05-09T17:02:15.324Z",
+            "sortNum": 5000
+        },
         {
             "_id": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
             "name": "auth",
             "containerId": "",
             "created": "2023-04-03T20:05:29.949Z",
             "sortNum": 10000
+        },
+        {
+            "_id": "cb6fd755-10cb-4309-af67-b7d69eaf56ec",
+            "name": "batch",
+            "containerId": "",
+            "created": "2023-04-17T11:28:53.363Z",
+            "sortNum": 15000
+        },
+        {
+            "_id": "38be7e85-79f0-435e-895d-aa50af11f94c",
+            "name": "config",
+            "containerId": "",
+            "created": "2023-04-17T11:29:10.863Z",
+            "sortNum": 17500
         },
         {
             "_id": "23270613-eee5-4476-9dad-c8c9390cad55",
@@ -26,18 +47,11 @@
             "sortNum": 30000
         },
         {
-            "_id": "cb6fd755-10cb-4309-af67-b7d69eaf56ec",
-            "name": "batch",
+            "_id": "3fcca79c-121d-4907-8c6e-47fa6bcf0f3f",
+            "name": "parts",
             "containerId": "",
-            "created": "2023-04-17T11:28:53.363Z",
-            "sortNum": 40000
-        },
-        {
-            "_id": "38be7e85-79f0-435e-895d-aa50af11f94c",
-            "name": "config",
-            "containerId": "",
-            "created": "2023-04-17T11:29:10.863Z",
-            "sortNum": 50000
+            "created": "2023-05-09T18:12:32.152Z",
+            "sortNum": 45000
         },
         {
             "_id": "31006ef2-763a-4ba5-b260-0abc504ede7c",
@@ -47,18 +61,18 @@
             "sortNum": 60000
         },
         {
+            "_id": "65e429a4-c19e-4133-ba78-edd4d5e82480",
+            "name": "serial",
+            "containerId": "",
+            "created": "2023-05-03T16:37:31.420Z",
+            "sortNum": 65000
+        },
+        {
             "_id": "34182465-28b6-444d-b84b-19c796bf6d5b",
             "name": "station",
             "containerId": "",
             "created": "2023-04-17T11:29:30.143Z",
             "sortNum": 70000
-        },
-        {
-            "_id": "65e429a4-c19e-4133-ba78-edd4d5e82480",
-            "name": "serial",
-            "containerId": "",
-            "created": "2023-05-03T16:37:31.420Z",
-            "sortNum": 80000
         }
     ],
     "requests": [
@@ -71,7 +85,7 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-04-03T20:05:29.949Z",
-            "modified": "2023-04-03T20:05:29.949Z",
+            "modified": "2023-05-08T17:05:05.323Z",
             "headers": [],
             "params": [],
             "body": {
@@ -319,6 +333,34 @@
             }
         },
         {
+            "_id": "dd756ad8-0eae-487e-b3bf-80bb4d5aa9f7",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "ba8df996-c163-45f2-9499-e0da793917bc",
+            "name": "from-to",
+            "url": "{{LH_6030}}/internal/languages-data",
+            "method": "GET",
+            "sortNum": 45000,
+            "created": "2023-04-17T11:41:03.912Z",
+            "modified": "2023-05-09T18:09:43.192Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
             "_id": "6cf3edeb-0228-4d35-8102-9f6447a0a90a",
             "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
             "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
@@ -330,6 +372,39 @@
             "modified": "2023-05-03T16:39:45.247Z",
             "headers": [],
             "params": [],
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "dfd835d8-e8ae-4106-a2b0-bf812868e7c8",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "cb6fd755-10cb-4309-af67-b7d69eaf56ec",
+            "name": "create",
+            "url": "{{LH_6030}}/batch/{{stationId}}",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-05-09T17:37:57.450Z",
+            "modified": "2023-05-09T18:01:52.703Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"part_id\": \"CA-165-037:OU43\",\n  \"description\": \"CAPA ATUADOR 37 - OURO CLARO M1 3/5 ACETINADO FS\",\n  \"production_order\": \"123\",\n  \"total_packs\": 1,\n  \"parts_per_pack\": 7500\n}\n",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
             "tests": [],
             "preReq": {
                 "runRequests": [
@@ -380,12 +455,12 @@
             "method": "PUT",
             "sortNum": 70000,
             "created": "2023-04-24T21:03:56.816Z",
-            "modified": "2023-05-03T16:39:54.159Z",
+            "modified": "2023-05-09T17:30:12.984Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"username\": \"outro5\",\n  \"newRole\": \"qcOnline\"\n}",
+                "raw": "{\n  \"username\": \"teste\",\n  \"newRole\": \"operator\"\n}",
                 "form": []
             },
             "tests": [],
@@ -399,6 +474,24 @@
                     }
                 ]
             }
+        },
+        {
+            "_id": "9fb57de3-bdaf-49ac-b714-088ba0e60924",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "cb6fd755-10cb-4309-af67-b7d69eaf56ec",
+            "name": "list",
+            "url": "{{LH_6030}}/batch/{{stationId}}/list",
+            "method": "GET",
+            "sortNum": 75000,
+            "created": "2023-04-17T11:29:56.723Z",
+            "modified": "2023-05-09T18:06:00.054Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
         },
         {
             "_id": "7140b7fc-00f1-47c8-bc20-b61d0c0dd5ce",
@@ -444,15 +537,33 @@
             }
         },
         {
+            "_id": "db628dd8-abe3-41b8-8889-9adfbab86ca4",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "cb6fd755-10cb-4309-af67-b7d69eaf56ec",
+            "name": "running",
+            "url": "{{LH_6030}}/batch/{{stationId}}/running",
+            "method": "GET",
+            "sortNum": 87500,
+            "created": "2023-04-17T11:30:03.916Z",
+            "modified": "2023-05-09T18:06:04.515Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
+        },
+        {
             "_id": "d0f5da2e-60b1-4167-9a8e-fbf9dfa2480b",
             "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
             "containerId": "ba8df996-c163-45f2-9499-e0da793917bc",
             "name": "package-data",
-            "url": "{{LH_6030}}/internal/package-data?",
+            "url": "{{LH_6030}}/internal/package-data",
             "method": "GET",
             "sortNum": 90000,
             "created": "2023-04-03T20:05:54.825Z",
-            "modified": "2023-05-03T16:40:15.810Z",
+            "modified": "2023-05-09T18:11:55.728Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -500,52 +611,6 @@
             }
         },
         {
-            "_id": "dd756ad8-0eae-487e-b3bf-80bb4d5aa9f7",
-            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
-            "containerId": "ba8df996-c163-45f2-9499-e0da793917bc",
-            "name": "from-to",
-            "url": "{{LH_6030}}/internal/languages-data",
-            "method": "GET",
-            "sortNum": 100000,
-            "created": "2023-04-17T11:41:03.912Z",
-            "modified": "2023-05-03T16:40:20.259Z",
-            "headers": [],
-            "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "Bearer {{token}}"
-            },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
-                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
-        },
-        {
-            "_id": "9fb57de3-bdaf-49ac-b714-088ba0e60924",
-            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
-            "containerId": "cb6fd755-10cb-4309-af67-b7d69eaf56ec",
-            "name": "list",
-            "url": "{{LH_6030}}/batch/{{stationId}}/list",
-            "method": "GET",
-            "sortNum": 110000,
-            "created": "2023-04-17T11:29:56.723Z",
-            "modified": "2023-04-17T11:35:22.142Z",
-            "headers": [],
-            "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "Bearer {{token}}"
-            },
-            "tests": []
-        },
-        {
             "_id": "7dd3d236-63c2-4a10-8b75-204ee187a8bf",
             "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
             "containerId": "ba8df996-c163-45f2-9499-e0da793917bc",
@@ -574,22 +639,32 @@
             }
         },
         {
-            "_id": "db628dd8-abe3-41b8-8889-9adfbab86ca4",
+            "_id": "e4e59222-252e-4116-a52b-f0d59ad68e84",
             "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
             "containerId": "cb6fd755-10cb-4309-af67-b7d69eaf56ec",
-            "name": "running",
-            "url": "{{LH_6030}}/batch/{{stationId}}/running",
+            "name": "data",
+            "url": "{{LH_6030}}/batch/{{stationId}}/{{batchId}}/data",
             "method": "GET",
-            "sortNum": 120000,
-            "created": "2023-04-17T11:30:03.916Z",
-            "modified": "2023-04-17T11:35:57.235Z",
+            "sortNum": 115000,
+            "created": "2023-05-09T18:06:28.526Z",
+            "modified": "2023-05-09T18:06:43.443Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": []
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
         },
         {
             "_id": "7dfd8703-1b46-42fa-b19a-755450b4c354",
@@ -851,6 +926,157 @@
                 "bearer": "Bearer {{token}}"
             },
             "tests": []
+        },
+        {
+            "_id": "1006e2d2-fd2e-4f5e-b56e-7565f6a08f48",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "d0ff0a30-01a5-4152-93c5-83cb40f43048",
+            "name": "delete",
+            "url": "{{LH_6030}}/alerts/{{stationId}}",
+            "method": "DELETE",
+            "sortNum": 200000,
+            "created": "2023-05-09T17:02:39.599Z",
+            "modified": "2023-05-09T17:07:36.980Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9f38963b-e88b-4744-b211-c0a722978d4d",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "d0ff0a30-01a5-4152-93c5-83cb40f43048",
+            "name": "get",
+            "url": "{{LH_6030}}/alerts/{{stationId}}",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2023-05-09T17:07:52.440Z",
+            "modified": "2023-05-09T17:28:45.410Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "631c36ad-1e3f-486a-9961-a3e96669b73e",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
+            "name": "role",
+            "url": "{{LH_6030}}/auth/role",
+            "method": "POST",
+            "sortNum": 210000,
+            "created": "2023-05-09T17:31:07.094Z",
+            "modified": "2023-05-09T17:32:10.364Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"roleName\": \"outro teste\",\n  \"description\": \"um teste\",\n  \"types\": [\"master\"]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "bd97f461-1834-4f23-9c44-7aa3b43c5716",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "d0ff0a30-01a5-4152-93c5-83cb40f43048",
+            "name": "post",
+            "url": "{{LH_6030}}/alerts/{{stationId}}",
+            "method": "POST",
+            "sortNum": 220000,
+            "created": "2023-05-09T17:09:20.444Z",
+            "modified": "2023-05-09T17:09:41.836Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"alert_code\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ad1c7e9b-25ac-4f99-b068-3cc4c6b97cd1",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
+            "name": "role",
+            "url": "{{LH_6030}}/auth/role",
+            "method": "PUT",
+            "sortNum": 220000,
+            "created": "2023-05-09T17:32:27.544Z",
+            "modified": "2023-05-09T17:33:13.543Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"roleName\": \"outro teste2\",\n  \"oldRoleName\": \"outro teste\",\n  \"description\": \"um teste\",\n  \"types\": [\"master\"]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "063b8809-c6c6-462d-badb-b98d309998de",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "d0ff0a30-01a5-4152-93c5-83cb40f43048",
+            "name": "put",
+            "url": "{{LH_6030}}/alerts/{{stationId}}",
+            "method": "PUT",
+            "sortNum": 230000,
+            "created": "2023-05-09T17:28:12.158Z",
+            "modified": "2023-05-09T17:28:34.340Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"alert_code\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0f5f60bd-b14b-4c40-8e82-a83226a2e0a9",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "5fdbfdbc-a456-48d0-8d7b-99db085652ba",
+            "name": "role",
+            "url": "{{LH_6030}}/auth/role",
+            "method": "DELETE",
+            "sortNum": 230000,
+            "created": "2023-05-09T17:33:25.180Z",
+            "modified": "2023-05-09T17:33:57.441Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"roleName\": \"operator2\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "a2f02ae0-e232-4c95-8e81-031a50bdaf32",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "3fcca79c-121d-4907-8c6e-47fa6bcf0f3f",
+            "name": "list",
+            "url": "{{LH_6030}}/parts/list",
+            "method": "GET",
+            "sortNum": 240000,
+            "created": "2023-05-09T18:12:45.728Z",
+            "modified": "2023-05-09T18:15:38.185Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
         }
     ],
     "settings": {
