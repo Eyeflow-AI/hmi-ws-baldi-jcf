@@ -14,9 +14,9 @@ const axios = require('axios');
 //   "parts_per_pack": 7500
 // }
 
-function getUpdateRequestBody (body) {
+function getUpdateRequestBody(body) {
 
-  let {part_id, description, production_order, total_packs, parts_per_pack, ...data} = body;
+  let { part_id, description, production_order, total_packs, parts_per_pack, ...data } = body;
   if (!part_id) {
     let err = new Error(`Non empty part_id is required`);
     err.status = 400;
@@ -92,7 +92,7 @@ async function post(req, res, next) {
     let stationId = Mongo.ObjectId(req.params.stationId);
     let body = getUpdateRequestBody(req.body);
 
-    let stationDocument = await Mongo.db.collection("station").findOne({_id: stationId});
+    let stationDocument = await Mongo.db.collection("station").findOne({ _id: stationId });
     if (!stationDocument) {
       let err = new Error(`Station with _id ${stationId} not found`);
       err.status = 400;
@@ -106,7 +106,7 @@ async function post(req, res, next) {
       throw err;
     };
 
-    let runningBatch = await Mongo.db.collection("batch").findOne({station: stationId, status: "running"});
+    let runningBatch = await Mongo.db.collection("batch").findOne({ station: stationId, status: "running" });
     if (runningBatch) {
       let err = new Error(`Batch with _id ${runningBatch._id} is already running in station ${stationId}`);
       err.status = 400;
@@ -121,7 +121,7 @@ async function post(req, res, next) {
       start_time: new Date(),
       status: "running",
       info: {
-          ...body
+        ...body
       },
     };
 
@@ -135,7 +135,7 @@ async function post(req, res, next) {
       },
     };
 
-    let response = await axios.post(postBatchURL, postRequestBody, {timeout: 1000});
+    let response = await axios.post(postBatchURL, postRequestBody, { timeout: 1000 });
     if (response.status !== 201) {
       let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
       err.status = 400;
@@ -148,7 +148,7 @@ async function post(req, res, next) {
 
     let result = await Mongo.db.collection("batch").insertOne(newBatchDocument);
     if (result.insertedId) {
-      res.status(201).json({ok: true, batchId: result.insertedId});
+      res.status(201).json({ ok: true, batchId: result.insertedId });
     }
     else {
       let err = new Error(`Failed to create batch`);
@@ -163,7 +163,7 @@ async function post(req, res, next) {
       err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
       err.status = 500;
       if (address && port) {
-        err.extraData = {address, port};
+        err.extraData = { address, port };
       }
     }
     next(err);

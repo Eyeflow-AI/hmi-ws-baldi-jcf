@@ -3,7 +3,7 @@ async function put(req, res, next) {
   try {
     let code = req?.body?.alert_code ?? null;
     let alerts = await Mongo.db.collection('params').findOne({ name: 'alerts' });
-    let station_id = req?.body?.station_id ?? null;
+    let station_id = req?.params?.stationId ?? null;
 
     if (Number.isInteger(code) && alerts?.alerts?.[code] && station_id) {
       let alert = alerts.alerts[code];

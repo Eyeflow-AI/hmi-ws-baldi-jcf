@@ -10,7 +10,7 @@ import { isAuthenticated } from '../auth';
 const router = express.Router();
 
 router.get('/:stationId', Get);
-router.put('/', isAuthenticated, Put);
-router.delete('/', Delete);
-router.post('/', Post);
+router.put('/:stationId', isAuthenticated, Put);
+router.delete('/:stationId', Delete);
+router.post('/:stationId', Post);
 export default router;
