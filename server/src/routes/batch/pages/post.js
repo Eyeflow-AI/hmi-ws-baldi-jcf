@@ -1,8 +1,9 @@
+import axios from "axios";
+
 import Mongo from "../../../components/mongo";
 import getPartData from "../../../utils/getPartData";
 import errors from "../../../utils/errors"
-
-const axios = require('axios');
+import parseIntThrowError from "../../../utils/parseIntThrowError";
 
 
 // req.body example
@@ -129,8 +130,8 @@ async function post(req, res, next) {
       batch: {
         _id: newBatchDocument._id,
         status: "new_batch",
-        total_packs: body.total_packs,
-        parts_per_pack: body.parts_per_pack,
+        total_packs: parseIntThrowError(body.total_packs, `Failed to parse body.total_packs ${body.total_packs} as integer`),
+        parts_per_pack: parseIntThrowError(body.parts_per_pack, `Failed to parse body.parts_per_pack ${body.parts_per_pack} as integer`),
         profile_parms: partData.color_profile
       },
     };
