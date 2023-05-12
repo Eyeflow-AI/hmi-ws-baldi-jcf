@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     image: siliconlife/hmi-ws
     hostname: hmi-ws
-    # network_mode: host
-    restart: always
+    network_mode: host
+    restart: unless-stopped
     container_name: hmi-ws
     environment:
       PORT: 6030

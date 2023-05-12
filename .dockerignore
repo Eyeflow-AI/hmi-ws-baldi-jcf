@@ -1,2 +1,12 @@
+dist-server
 node_modules
-npm-debug.log
+logs
+mongo
+scripts
+Dockerfile
+docker-compose.yml
+run.sh
+testing_HMI-WS.json
+.git
+.gitignore
+.dockerignore
