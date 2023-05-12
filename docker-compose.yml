@@ -11,7 +11,7 @@ services:
     container_name: hmi-ws
     environment:
       PORT: 6030
-      MONGO_URL: "mongodb://eyeflow:eyeflow@192.168.1.132:27017/?authSource=admin&readPreference=primary&ssl=false"
+      MONGO_URL: "mongodb://studies:62e05dd021ccc531bd645b2e@143.244.167.128:27017/?authSource=admin&readPreference=primary&ssl=false"
       MONGO_DB: "eyeflow"
       PACKAGE_ID: "5faebb5986528f0723e9514f"
       DATA_PATH: "/opt/eyeflow/data"
@@ -21,4 +21,3 @@ services:
     volumes:
       - /opt/eyeflow/data/:/data
       - /opt/eyeflow/log/:/usr/src/app/logs
-      - /mnt:/edges
