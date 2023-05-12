@@ -7,7 +7,7 @@ services:
     image: siliconlife/hmi-ws
     hostname: hmi-ws
     network_mode: host
-    restart: always
+    restart: unless-stopped
     container_name: hmi-ws
     environment:
       PORT: 6030
