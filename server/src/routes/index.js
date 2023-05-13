@@ -9,6 +9,7 @@ import CONFIG from './config';
 import QUERIES from './queries';
 import SERIAL from './serial';
 import ALERTS from './alerts';
+import TEST from './test';
 
 const router = express.Router();
 
@@ -22,6 +23,7 @@ router.use('/config', CONFIG);
 router.use('/queries', isAuthenticated, QUERIES);
 router.use('/serial', isAuthenticated, SERIAL);
 router.use('/alerts', ALERTS);
+router.use('/test', TEST);
 
 router.get('/', (req, res, next) => res.json({ ok: true }));
 
