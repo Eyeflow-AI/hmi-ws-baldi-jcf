@@ -1,14 +1,14 @@
 import express from 'express';
 import {
-  GetList
+  GetCameras
   , GetImage
 } from './pages';
 
 const router = express.Router();
 
 
-router.get('/:name', GetImage);
-router.get('/', GetList);
+router.get('/cameras', GetCameras);
+router.get('/cameras/:name', GetImage);
 
 
 export default router;

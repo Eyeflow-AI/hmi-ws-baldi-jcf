@@ -1,4 +1,4 @@
-async function getList(req, res, next) {
+async function getCameras(req, res, next) {
 
   res.status(200).json({
     ok: true, cameras_list: [
@@ -33,4 +33,4 @@ async function getList(req, res, next) {
   });
 };
 
-export default getList;
+export default getCameras;
