@@ -27,11 +27,6 @@ async function runQuery(req, res, next) {
         let options = query?.options ?? {};
         result = await Mongo.db.collection(collectionName).countDocuments(filter, options);
       }
-      else if (searchMethod === 'estimatedDocumentCount') {
-        let filter = req?.body?.filter ?? '';
-        let options = query?.options ?? {};
-        result = await Mongo.db.collection(collectionName).estimatedDocumentCount(filter, options);
-      }
       else if (searchMethod === 'findOne') {
         let filter = query?.filter ?? {};
         let projection = query?.projection ?? {};
@@ -54,3 +49,5 @@ async function runQuery(req, res, next) {
 };
 
 export default runQuery;
+
+
