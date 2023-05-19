@@ -15,6 +15,7 @@ async function runQuery(req, res, next) {
         let projection = query?.projection ?? {};
         let sort = query?.sort ?? {};
         let limit = query?.limit ?? 0;
+        limit = limit > 500 ? 500 : limit;
         let skip = query?.skip ?? 0;
         result = await Mongo.db.collection(collectionName).find(filter).project(projection).sort(sort).limit(limit).skip(skip).toArray();
       }
@@ -26,6 +27,7 @@ async function runQuery(req, res, next) {
         let filter = query?.filter ?? {};
         let options = query?.options ?? {};
         result = await Mongo.db.collection(collectionName).countDocuments(filter, options);
+        result = { count: result };
       }
       else if (searchMethod === 'findOne') {
         let filter = query?.filter ?? {};
@@ -35,7 +37,7 @@ async function runQuery(req, res, next) {
         result = await Mongo.db.collection(collectionName).findOne(filter, { projection, ...options, sort });
       };
 
-      res.status(200).json({ ok: true, result: { data: result } });
+      res.status(200).json({ ok: true, result });
 
     }
     else {
