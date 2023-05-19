@@ -17,7 +17,8 @@ async function addQuery(req, res, next) {
             restrictionsSet: { ...query },
           }
         }
-      }
+      },
+        { upsert: true }
       )
       res.status(200).json({ ok: true });
 

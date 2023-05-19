@@ -5,14 +5,14 @@ async function get(req, res, next) {
   try {
     let queriesDocument = await Mongo.db.collection("params").findOne({ name: 'queries' });
     if (queriesDocument) {
-      let queries = queriesDocument?.queries;
+      let queries = queriesDocument?.queries ?? {};
       Object.keys(queries).forEach((key) => {
         queries[key].feConfig = {
           editable: false,
           deletable: false,
         }
       });
-      Object.keys(queriesDocument?.custom_queries).forEach((key) => {
+      Object.keys(queriesDocument?.custom_queries ?? {}).forEach((key) => {
         queries[key] = queriesDocument?.custom_queries?.[key];
         queries[key].feConfig = {
           editable: true,
