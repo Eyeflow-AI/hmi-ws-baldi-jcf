@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "HMI-WS",
-    "dateExported": "2023-05-09T18:29:54.487Z",
+    "dateExported": "2023-05-22T13:57:05.966Z",
     "version": "1.1",
     "folders": [
         {
@@ -870,7 +870,7 @@
             "method": "GET",
             "sortNum": 170000,
             "created": "2023-04-17T12:17:24.117Z",
-            "modified": "2023-04-17T12:20:24.926Z",
+            "modified": "2023-05-22T13:49:12.202Z",
             "headers": [],
             "params": [
                 {
@@ -893,7 +893,149 @@
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": []
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "e6d53079-2837-4a02-af11-c9368587c48f",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "31006ef2-763a-4ba5-b260-0abc504ede7c",
+            "name": "add",
+            "url": "{{LH_6030}}/queries/add-query",
+            "method": "POST",
+            "sortNum": 175000,
+            "created": "2023-05-22T13:45:46.646Z",
+            "modified": "2023-05-22T13:49:29.680Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"collectionName\": \"events\",\n  \"searchMethod\": \"find\",\n  \"queryName\": \"thunder\",\n  \"query\": \"{\\\"filter\\\": {}, \\\"projection\\\": {}, \\\"sort\\\": {}, \\\"skip\\\": 0, \\\"limit\\\":500}\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "063b8809-c6c6-462d-badb-b98d309998de",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "bf99b66b-60df-41bd-bcc6-5a686e9fc3bb",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "31006ef2-763a-4ba5-b260-0abc504ede7c",
+            "name": "run",
+            "url": "{{LH_6030}}/queries/run-query",
+            "method": "POST",
+            "sortNum": 175625,
+            "created": "2023-05-22T13:53:46.022Z",
+            "modified": "2023-05-22T13:54:22.451Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"collectionName\": \"events\",\n  \"searchMethod\": \"find\",\n  \"query\": \"{\\\"filter\\\": {}, \\\"projection\\\": {}, \\\"sort\\\": {\\\"_id\\\": -1 }, \\\"skip\\\": 0, \\\"limit\\\":500}\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "063b8809-c6c6-462d-badb-b98d309998de",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "6f4293bb-561a-4489-a227-c0fc8ce3da09",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "31006ef2-763a-4ba5-b260-0abc504ede7c",
+            "name": "save",
+            "url": "{{LH_6030}}/queries/save-query",
+            "method": "PUT",
+            "sortNum": 176250,
+            "created": "2023-05-22T13:51:41.350Z",
+            "modified": "2023-05-22T13:53:13.400Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"collectionName\": \"events\",\n  \"searchMethod\": \"find\",\n  \"queryName\": \"thunder\",\n  \"query\": \"{\\\"filter\\\": {}, \\\"projection\\\": {}, \\\"sort\\\": {\\\"_id\\\": -1 }, \\\"skip\\\": 0, \\\"limit\\\":500}\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "063b8809-c6c6-462d-badb-b98d309998de",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "f3d36b3f-9453-4d8b-9d73-460160aefee5",
+            "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+            "containerId": "31006ef2-763a-4ba5-b260-0abc504ede7c",
+            "name": "remove",
+            "url": "{{LH_6030}}/queries/remove-query",
+            "method": "DELETE",
+            "sortNum": 177500,
+            "created": "2023-05-22T13:50:43.149Z",
+            "modified": "2023-05-22T13:51:20.335Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"queryName\": \"thunder\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "063b8809-c6c6-462d-badb-b98d309998de",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
         },
         {
             "_id": "d9f4fc97-4b4c-4f5f-aed5-d3f1eda934c8",
@@ -918,14 +1060,24 @@
             "method": "GET",
             "sortNum": 180000,
             "created": "2023-04-25T16:56:32.017Z",
-            "modified": "2023-04-25T16:57:05.252Z",
+            "modified": "2023-05-22T13:49:23.539Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": []
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "e35231a6-fee2-4fef-9b68-d9ca3d1645fe",
+                        "colId": "e8c29e13-e7dc-43dd-bcf9-3328684ed678",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
         },
         {
             "_id": "1006e2d2-fd2e-4f5e-b56e-7565f6a08f48",

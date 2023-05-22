@@ -7,7 +7,6 @@ async function saveQuery(req, res, next) {
     let searchMethod = req?.body?.searchMethod ?? '';
     let queryName = req?.body?.queryName ?? '';
     let query = req?.body?.query ?? '';
-    console.log({ body: req.body })
     query = JSON.parse(query);
     if (collectionName && searchMethod && queryName && query) {
       await Mongo.db.collection("params").updateOne({ name: 'queries' }, {
