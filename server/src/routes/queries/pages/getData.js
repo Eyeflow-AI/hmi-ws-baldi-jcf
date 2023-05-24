@@ -9,7 +9,8 @@ async function getData(req, res, next) {
     let queriesDocument = await Mongo.db.collection("params").findOne({ name: 'queries' });
     let queryOBJ = {};
     if (stationId && queryName && startTime && endTime && queriesDocument) {
-      queryOBJ = queryBuilder({ query: queriesDocument?.queries?.[queryName], variables: { stationId, startTime, endTime } });
+      let queryConstants = queriesDocument?.queries?.[queryName]?.constants ?? {};
+      queryOBJ = queryBuilder({ query: queriesDocument?.queries?.[queryName], variables: { stationId, startTime, endTime, ...queryConstants } });
       let collectioName = queriesDocument?.queries?.[queryName]?.collection_name;
       let searchMethod = queriesDocument?.queries?.[queryName]?.search_method;
       let result = null;
@@ -19,6 +20,7 @@ async function getData(req, res, next) {
       else {
         result = await Mongo.db.collection(collectioName)[searchMethod](queryOBJ);
       }
+      console.log({ result })
       res.status(200).json({ ok: true, result, chartInfo: queriesDocument?.queries?.[queryName].chart });
     }
 
