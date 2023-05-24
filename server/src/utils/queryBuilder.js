@@ -23,6 +23,7 @@ function variablesReplacer({ obj, variables, variablesInfo }) {
     }
     else {
       for (let [key, value] of Object.entries(obj)) {
+        // console.log({ value })
         if (value !== null && typeof value === 'object') {
           variablesReplacer({ obj: value, variables, variablesInfo });
         }
@@ -30,10 +31,11 @@ function variablesReplacer({ obj, variables, variablesInfo }) {
           if (value.includes("{{")) {
             let regexp = /{{\w+}}/g;
             let replaceStr = regexp.exec(value)?.input ?? '';
+
             if (replaceStr) {
-              let variableName = replaceStr.split('{{')[1].replace('}}}', '');
-              let _key = replaceStr.split(' ')[0].replace('{', '').replace(':', '');
+              let variableName = replaceStr.split('{{')[1].split('}}')[0].replace('}}}', '');
               let resultCalculation = variables?.[variableName] ?? '';
+              // console.log({ replaceStr, resultCalculation, variables, variableName, variablesInfo })
               if (variablesInfo?.[variableName]?.function) {
                 resultCalculation = functionEvaluator({
                   value: variables?.[variableName],
@@ -41,8 +43,17 @@ function variablesReplacer({ obj, variables, variablesInfo }) {
                   variableName,
                 })
               }
-              let _value = replaceStr.split(' ')[1].replace(`{{${variableName}}`, resultCalculation).replace('}}', '');
-              obj[key] = EJSON.parse(JSON.stringify({ [_key]: _value }));
+
+              if (replaceStr.includes(':')) {
+                let _value = replaceStr.split(' ')[1].replace(`{{${variableName}}`, resultCalculation).replace('}}', '');
+                let _key = replaceStr.split(' ')[0].replace('{', '').replace(':', '');
+                obj[key] = EJSON.parse(JSON.stringify({ [_key]: _value }));
+              }
+              else {
+                let _value = replaceStr.replace(`{{${variableName}`, resultCalculation).replace('}}', '');
+                obj[key] = _value;
+                // console.log({ obj })
+              }
             }
           }
         }
