@@ -3,6 +3,7 @@ import axios from "axios";
 import Mongo from "../../../components/mongo";
 import getPartData from "../../../utils/getPartData";
 import parseIntThrowError from "../../../utils/parseIntThrowError";
+import errors from "../../../utils/errors"
 
 async function putResume(req, res, next) {
 
@@ -55,11 +56,20 @@ async function putResume(req, res, next) {
     let postRequestBody = {
       batch: {
         _id: batchDocument._id,
-        status: "new_batch", //TODO: should be "resume_batch"
+        status: "resume_batch",
         total_packs: parseIntThrowError(batchDocument.info.total_packs, `Failed to parse batchDocument.info.total_packs ${batchDocument.info.total_packs} as integer`),
         parts_per_pack: parseIntThrowError(batchDocument.info.total_packs, `Failed to parse batchDocument.info.parts_per_pack ${batchDocument.info.parts_per_pack} as integer`),
-        profile_parms: partData.color_profile
+        profile_parms: partData.color_profile,
+        current_pack: batchDocument?.batch_data?.pack_num ?? 1,
+        current_total_output_parts: batchDocument?.batch_data?.total_output_parts ?? 0,
       },
+    };
+
+    if (batchDocument?.batch_data?.hasOwnProperty("ok")) {
+      postRequestBody.batch.ok = batchDocument.batch_data.ok;
+    };
+    if (batchDocument?.batch_data?.hasOwnProperty("ng")) {
+      postRequestBody.batch.ng = batchDocument.batch_data.ng;
     };
 
     let response = await axios.post(postBatchURL, postRequestBody, { timeout: 1000 });
@@ -83,6 +93,16 @@ async function putResume(req, res, next) {
     }
   }
   catch (err) {
+    if (err?.code === "ECONNREFUSED") {
+      let address = err.address;
+      let port = err.port;
+      err = new Error(`Edge station is not reachable`);
+      err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
+      err.status = 500;
+      if (address && port) {
+        err.extraData = { address, port };
+      }
+    }
     next(err);
   };
 };
