@@ -35,6 +35,12 @@ async function runQuery(req, res, next) {
         let options = query?.options ?? {};
         let sort = query?.sort ?? {};
         result = await Mongo.db.collection(collectionName).findOne(filter, { projection, ...options, sort });
+      }
+      else if (searchMethod === 'distinct') {
+        let key = query?.key ?? '';
+        let filter = query?.filter ?? {};
+        let options = query?.options ?? {};
+        result = await Mongo.db.collection(collectionName).distinct(key, filter, options);
       };
 
       res.status(200).json({ ok: true, result });
