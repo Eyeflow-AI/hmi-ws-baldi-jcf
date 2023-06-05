@@ -8,13 +8,8 @@ async function getParameters(req, res, next) {
         _id: 0,
         name: 1
       }
-    }).toArray();
-    if (documents) {
-      res.status(200).json({ ok: true, documents });
-    }
-    else {
-      res.status(200).json({ ok: true, documents });
-    }
+    }).toArray() ?? [];
+    res.status(200).json({ ok: true, documents });
 
   }
   catch (err) {

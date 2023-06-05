@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import AUTH, { isAuthenticated, isAuthorized } from './auth';
 import EVENT from './event';
 import BATCH from './batch';
@@ -10,14 +10,14 @@ import QUERIES from './queries';
 import SERIAL from './serial';
 import ALERTS from './alerts';
 import TEST from './test';
-import APP from './app';
+import CHECKLIST from './checklist';
 
 const router = express.Router();
 
 router.use('/auth', AUTH);
 router.use('/event', isAuthenticated, EVENT);
 router.use('/batch', isAuthenticated, BATCH);
-router.use('/internal', isAuthenticated, INTERNAL);
+router.use('/internal', INTERNAL);
 router.use('/parts', isAuthenticated, PARTS);
 router.use('/station', STATION);
 router.use('/config', CONFIG);
@@ -25,7 +25,7 @@ router.use('/queries', isAuthenticated, QUERIES);
 router.use('/serial', isAuthenticated, SERIAL);
 router.use('/alerts', ALERTS);
 router.use('/test', TEST);
-router.use('/app', isAuthenticated, APP);
+router.use('/checklist', CHECKLIST);
 
 router.get('/', (req, res, next) => res.json({ ok: true }));
 
