@@ -5,6 +5,7 @@ import {
   , GetChecklistRegions
   , GetChecklistSchemas
   , PutChecklistReference
+  , PutReferenceToSchema
 } from './pages';
 import { isAuthorized, isAuthenticated } from '../auth';
 
@@ -15,5 +16,6 @@ router.get('/regions/:id', isAuthenticated, isAuthorized(['master', 'builder']),
 router.get('/recipe', GetChecklistRecipe);
 router.get('/schemas', isAuthenticated, isAuthorized(['master', 'builder']), GetChecklistSchemas);
 router.put('/reference', isAuthenticated, isAuthorized(['master', 'builder']), PutChecklistReference);
+router.put('/reference-to-schema', isAuthenticated, isAuthorized(['master', 'builder']), PutReferenceToSchema);
 
 export default router;
