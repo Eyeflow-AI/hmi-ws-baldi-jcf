@@ -19,7 +19,10 @@ function buildReference(data) {
           _ref.push({ [newSubKey]: { $exists: false } });
         }
         else {
-          _ref.push({ [newSubKey]: data[key][subKey] });
+          let values = data[key][subKey].split(';');
+          values = values.map(value => new RegExp('[;]*' + value.trim() + '[;]*'));
+          console.log({ Values: values })
+          _ref.push({ [newSubKey]: { $in: values } });
         }
       });
     }
@@ -35,14 +38,11 @@ function buildFilters({ schemas, reference }) {
     let filter = { ...schemas?.default_schema };
     Object.entries(data).forEach(([key, value]) => {
       Object.entries(value).forEach(([subKey, subValue]) => {
-        if (!Object.keys(filter).includes(key)) {
-          filter[key] = {};
-        }
-        let ref = reference?.[key]?.[subKey] ?? 'EMPTY_FIELD';
+        let ref = subValue && reference?.[key]?.[subKey] ? reference?.[key]?.[subKey] : 'EMPTY_FIELD';
         filter[key][subKey] = ref;
       });
     });
-    _filters.push(filter)
+    _filters.push(JSON.parse(JSON.stringify(filter)))
   });
 
 
@@ -56,9 +56,9 @@ async function getChecklistRecipe(req, res, next) {
     reference = JSON.parse(reference);
     let schemas = await Mongo.db.collection("params").findOne({ name: 'checklist_schemas' });
     let filters = buildFilters({ schemas, reference });
+    console.dir({ filters }, { depth: null })
 
     filters = filters.map(filter => { return { '$and': buildReference(filter) } });
-
     let recipes = [];
     if (filters.length > 0) {
       recipes = await Mongo.db.collection("checklist").find({ $or: filters }).toArray() ?? [];
