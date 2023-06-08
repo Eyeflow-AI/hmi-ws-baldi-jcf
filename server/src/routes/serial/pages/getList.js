@@ -16,17 +16,17 @@ function getMatch(reqParams, reqQuery) {
 
     if (reqQuery.hasOwnProperty("min_event_time") || reqQuery.hasOwnProperty("max_event_time")) {
       match = {
-        "event_data.info.window_ini_time": {}
+        "event_data.window_ini_time": {}
       };
       if (reqQuery.hasOwnProperty("min_event_time")) {
         if (!isIsoDate(reqQuery["min_event_time"])) { raiseError("Invalid min_event_time. Valid iso date is required.") };
         // match.start_time["$gte"] = new Date(reqQuery.min_event_time);
-        match['event_data.info.window_ini_time']['$gte'] = new Date(reqQuery.min_event_time);
+        match['event_data.window_ini_time']['$gte'] = new Date(reqQuery.min_event_time);
       }
       if (reqQuery.hasOwnProperty("max_event_time")) {
         if (!isIsoDate(reqQuery["max_event_time"])) { raiseError("Invalid max_event_time. Valid iso date is required.") };
         // match.start_time["$lte"] = new Date(reqQuery.max_event_time);
-        match['event_data.info.window_ini_time']['$lte'] = new Date(reqQuery.max_event_time);
+        match['event_data.window_ini_time']['$lte'] = new Date(reqQuery.max_event_time);
       };
     };
 
@@ -46,7 +46,15 @@ function getMatch(reqParams, reqQuery) {
 async function getList(req, res, next) {
 
   try {
-    let match = getMatch(req.params, req.query);
+    let dateMatch = getMatch(req.params, req.query);
+
+    let collection = "inspection_events";
+
+    const inspectionIdsList = (await Mongo.db.collection(collection)
+      .find(dateMatch)
+      .project({ _id: 0, 'event_data.inspection_id': 1 }).toArray() ?? []).map(el => el.event_data.inspection_id);
+
+
     let projection = {
       _id: 0,
       inspection_id: '$_id.inspection_id',
@@ -55,28 +63,31 @@ async function getList(req, res, next) {
       date: '$date',
       count: '$count',
     };
-
-    let collection = "inspection_events";
-    let limit = 10000;                                          //TODO: Get from config file
     let sort = { 'date': -1 };
-    let hashString;
+    let limit = 10000;                                          //TODO: Get from config file
+    let hashString = '';
+
     let serialList = await Mongo.db.collection(collection).aggregate([
-      { $match: match },
+      {
+        $match: {
+          'event_data.inspection_id': { $in: inspectionIdsList },
+        }
+      },
       {
         $group: {
           _id: {
-            inspection_id: "$event_data.info.inspection_id",
+            inspection_id: "$event_data.inspection_id",
             result: "$event_data.inspection_result.ok",
           },
-          date: { $first: "$event_data.info.window_ini_time" },
-          part_id: { $first: "$event_data.part_data.part_id" },
+          date: { $first: "$event_data.window_ini_time" },
+          part_id: { $first: "$event_data.part_data.id" },
           count: { $sum: 1 },
         }
       },
       { $project: projection },
       { $sort: sort },
       { $limit: limit },
-    ]).toArray();
+    ], { allowDiskUse: true }).toArray();
     let resultsNotOk = [];
 
     serialList = serialList.map((el, index) => {
@@ -111,7 +122,7 @@ async function getList(req, res, next) {
       hash: hashString ? hashCode(hashString) : null
     };
     if (process.env.NODE_ENV === "development") {
-      output.queryOptions = { match, projection, collection, limit };
+      output.queryOptions = { dateMatch, projection, collection, limit };
     };
 
     res.status(200).json(output);
