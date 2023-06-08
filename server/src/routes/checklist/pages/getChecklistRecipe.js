@@ -21,7 +21,6 @@ function buildReference(data) {
         else {
           let values = data[key][subKey].split(';');
           values = values.map(value => new RegExp('[;]*' + value.trim() + '[;]*'));
-          console.log({ Values: values })
           _ref.push({ [newSubKey]: { $in: values } });
         }
       });
@@ -47,7 +46,9 @@ function buildFilters({ schemas, reference }) {
 
 
   return _filters;
-}
+};
+
+
 
 async function getChecklistRecipe(req, res, next) {
 
@@ -56,13 +57,18 @@ async function getChecklistRecipe(req, res, next) {
     reference = JSON.parse(reference);
     let schemas = await Mongo.db.collection("params").findOne({ name: 'checklist_schemas' });
     let filters = buildFilters({ schemas, reference });
-    console.dir({ filters }, { depth: null })
 
     filters = filters.map(filter => { return { '$and': buildReference(filter) } });
+
     let recipes = [];
     if (filters.length > 0) {
       recipes = await Mongo.db.collection("checklist").find({ $or: filters }).toArray() ?? [];
     }
+    recipes = recipes.map(recipe => {
+      recipe.reference = reference;
+      return recipe
+    })
+
 
     res.status(200).json({ ok: true, recipes });
   }
