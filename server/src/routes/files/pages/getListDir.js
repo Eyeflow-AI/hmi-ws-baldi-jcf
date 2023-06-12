@@ -43,7 +43,7 @@ async function getListDir(req, res, next) {
         size: stat.size,
       };
       if (fileURL) {
-        fileData.fileURL = `${hosts['hmi-files-ws'].url}/${filePath}`.replace('/opt/eyeflow', '')
+        fileData.fileURL = `${hosts['hmi-files-ws'].url}/${filePath}`.replace('/opt/eyeflow/data', '/eyeflow_data')
       };
       return fileData;
     });
