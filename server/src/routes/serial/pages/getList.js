@@ -52,8 +52,10 @@ async function getList(req, res, next) {
 
     const inspectionIdsList = (await Mongo.db.collection(collection)
       .find(dateMatch)
+      // .find()
       .project({ _id: 0, 'event_data.inspection_id': 1 }).toArray() ?? []).map(el => el.event_data.inspection_id);
 
+    // console.dir({ inspectionIdsList }, { depth: null })
 
     let projection = {
       _id: 0,
@@ -103,9 +105,10 @@ async function getList(req, res, next) {
 
     let serialListLength = serialList.length;
     serialList.forEach((el, index) => {
+      // console.log({ date: el.date })
       hashString += el.date.toISOString();
       el.index = serialListLength - index;
-      el.thumbURL = "/assets/GearIcon.svg";                 //TODO: Get from config file,
+      el.thumbURL = "others/GearIcon.svg";                 //TODO: Get from config file,
       el.thumbStyle = { height: 90 };                            //TODO: Get from config file,
       el.status = el.result ? "ok" : "ng";
       el.label = el?.part_id?.slice(-5) ?? 'N/A';
@@ -114,6 +117,9 @@ async function getList(req, res, next) {
       hashString += el.status;
       hashString += String(el.count);
     });
+
+    // console.dir({ serialList }, { depth: null })
+
 
     let output = {
       ok: true,
