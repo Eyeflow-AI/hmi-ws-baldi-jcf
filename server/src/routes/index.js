@@ -11,6 +11,7 @@ import SERIAL from './serial';
 import ALERTS from './alerts';
 import TEST from './test';
 import CHECKLIST from './checklist';
+import FILES from './files';
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.use('/station', STATION);
 router.use('/config', CONFIG);
 router.use('/queries', isAuthenticated, QUERIES);
 router.use('/serial', isAuthenticated, SERIAL);
+router.use('/files', isAuthenticated, FILES);
 router.use('/alerts', ALERTS);
 router.use('/test', TEST);
 router.use('/checklist', CHECKLIST);
