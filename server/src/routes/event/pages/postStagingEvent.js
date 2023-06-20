@@ -9,7 +9,7 @@ async function postInspectionEvent(req, res, next) {
     event = JSON.stringify(event);
     event = EJSON.parse(event);
 
-    await Mongo.db.collection('inspection_events').insertOne(event);
+    await Mongo.db.collection('staging_events').insertOne(event);
     res.status(201).json({
       ok: true
     });
