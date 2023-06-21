@@ -4,7 +4,7 @@ async function get(req, res, next) {
 
   try {
     let batchId = req.params.batchId;
-    let result = await Mongo.db.collection("batch").findOne({ _id: Mongo.ObjectId(batchId) });
+    let result = await Mongo.db.collection("batch").findOne({ _id: new Mongo.ObjectId(batchId) });
     if (result) {
       res.status(200).json({ ok: true, batch: result });
     }

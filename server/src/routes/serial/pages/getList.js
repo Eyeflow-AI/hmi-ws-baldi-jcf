@@ -32,7 +32,7 @@ function getMatch(reqParams, reqQuery) {
 
     if (!Mongo.ObjectId.isValid(reqParams["stationId"])) { raiseError(`Invalid station ${reqParams["stationId"]}. Valid ObjectId is required.`) }
 
-    match.station = Mongo.ObjectId(reqParams["stationId"]);
+    match.station = new Mongo.ObjectId(reqParams["stationId"]);
   };
 
   return match;

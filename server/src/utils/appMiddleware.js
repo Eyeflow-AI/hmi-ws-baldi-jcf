@@ -2,7 +2,7 @@ import Mongo from '../components/mongo.js';
 
 const appMiddleware = () => (req, res, next) => {
   req.app = {
-    requestId: Mongo.ObjectId(),
+    requestId: new Mongo.ObjectId(),
     auth: {}
   };
   next();

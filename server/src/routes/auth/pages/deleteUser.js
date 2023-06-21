@@ -12,7 +12,7 @@ function getDeleteManyQuery(query, exceptUserId, exceptUserName) {
         userIdList = Array.isArray(query.userId) ? [...new Set(query.userId)] : [query.userId];
         for (let userId of userIdList) {
             if (Mongo.ObjectId.isValid(userId) && userId !== exceptUserId) {
-                userIdQuery._id.$in.push(Mongo.ObjectId(userId));
+                userIdQuery._id.$in.push(new Mongo.ObjectId(userId));
             }
         };
         if (userIdQuery._id.$in.length > 0) {

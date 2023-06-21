@@ -8,10 +8,10 @@ const axios = require('axios');
 async function putPause(req, res, next) {
 
   try {
-    let stationId = Mongo.ObjectId(req.params.stationId);
-    let batchId = Mongo.ObjectId(req.params.batchId);
+    let stationId = new Mongo.ObjectId(req.params.stationId);
+    let batchId = new Mongo.ObjectId(req.params.batchId);
 
-    let stationDocument = await Mongo.db.collection("station").findOne({_id: stationId});
+    let stationDocument = await Mongo.db.collection("station").findOne({ _id: stationId });
     if (!stationDocument) {
       let err = new Error(`Station with _id ${stationId} not found`);
       err.status = 400;
@@ -25,7 +25,7 @@ async function putPause(req, res, next) {
       throw err;
     };
 
-    let isRunning = Boolean(await Mongo.db.collection("batch").findOne(  {_id: batchId, status: "running"}));
+    let isRunning = Boolean(await Mongo.db.collection("batch").findOne({ _id: batchId, status: "running" }));
     if (!isRunning) {
       let err = new Error(`Batch with _id ${batchId} is not running`);
       err.status = 400;
@@ -40,7 +40,7 @@ async function putPause(req, res, next) {
 
     try {
       // TODO: Try again on fail. Maybe use a queue?
-      let response = await axios.post(postBatchURL, postRequestBody, {timeout: 1000});
+      let response = await axios.post(postBatchURL, postRequestBody, { timeout: 1000 });
       if (response.status !== 201) {
         log.info(`Successfully paused batch ${batchId} in station ${stationId}`);
       }
@@ -55,7 +55,7 @@ async function putPause(req, res, next) {
     let result = await consolidateBatch(batchId, "paused");
 
     if (result) {
-      res.status(200).json({ok: true});
+      res.status(200).json({ ok: true });
     }
     else {
       let err = new Error(`Could not update batch ${batchId}`);

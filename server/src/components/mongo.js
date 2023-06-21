@@ -1,4 +1,5 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient } from 'mongodb';
+import { ObjectId } from 'bson';
 import log from '../utils/log';
 
 const Mongo = {

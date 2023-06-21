@@ -6,7 +6,7 @@ async function putResume(req, res, next) {
     // let stationId = req.params.stationId;
     let serialId = req.params.serialId;
     let result = await Mongo.db.collection("batch").updateOne(
-      { _id: Mongo.ObjectId(serialId), status: "paused" },
+      { _id: new Mongo.ObjectId(serialId), status: "paused" },
       { $set: { status: "running" } }
     );
     if (result.modifiedCount === 1) {
