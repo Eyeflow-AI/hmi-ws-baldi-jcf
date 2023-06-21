@@ -3,27 +3,41 @@ import Mongo from "../../../components/mongo";
 
 async function post(req, res, next) {
   try {
-    let code = req?.body?.alert_code ?? null;
-    let station_id = req?.params?.stationId ?? null;
-    let alerts = await Mongo.db.collection('params').findOne({ name: 'alerts' });
+    let station_id = req.params.stationId;
+    let code = req.body.alert_code ?? null;
+    if (!Number.isInteger(code)) {
+      let err = new Error(`body parm alert_code is required and should be a valid int value`);
+      err.status = 400;
+      throw err;
+    };
 
-    if (Number.isInteger(code) && alerts?.alerts?.[code] && station_id) {
-      let alert = alerts.alerts[code];
-      await Mongo.db.collection('alert').updateOne({
-        station_id: Mongo.ObjectId(station_id)
-      }, {
-        $set: {
-          alert,
-          date: new Date(),
-        }
-      }, {
-        upsert: true
-      });
-      res.status(200).json({ ok: true, msg: 'alert inserted', alert });
+    let alertsDocument = await Mongo.db.collection('params').findOne({ name: 'alerts' });
+    if (!alertsDocument) {
+      let err = new Error(`Could not find alerts document`);
+      throw err;
+    };
+
+    if (!alertsDocument?.alerts?.hasOwnProperty(code)) {
+      let err = new Error(`Could not find alert with code ${code}`);
+      err.status = 400;
+      throw err;
+    };
+
+    let newAlertDocument = {
+      date: new Date(),
+      active: true,
+      station_id: Mongo.ObjectId(station_id),
+      alert: alertsDocument.alerts[code],
+    }
+
+    let result = await Mongo.db.collection('alert').insertOne(newAlertDocument);
+    if (result.acknowledged && result.insertedId) {
+      res.status(200).json({ ok: true, msg: 'alert inserted', alert: newAlertDocument });
     }
     else {
-      res.status(204).json('No alert registered or invalid code or station_id');
-    }
+      let err = new Error(`Could not insert alert`);
+      throw err;
+    };
   }
   catch (err) {
     next(err);
