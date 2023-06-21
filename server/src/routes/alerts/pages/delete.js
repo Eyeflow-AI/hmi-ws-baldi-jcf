@@ -4,7 +4,7 @@ import Mongo from "../../../components/mongo";
 async function _delete(req, res, next) {
   try {
     let alertId = req.params.alertId;
-    let result = await Mongo.db.collection('alert').updateOne({ _id: Mongo.ObjectId(alertId) }, { $set: { active: false, deletedDate: new Date() } });
+    let result = await Mongo.db.collection('alert').updateOne({ _id: new Mongo.ObjectId(alertId) }, { $set: { active: false, deletedDate: new Date() } });
     if (result.acknowledged && result.modifiedCount === 1) {
       res.status(200).json({ ok: true, msg: 'alert deleted' });
     }

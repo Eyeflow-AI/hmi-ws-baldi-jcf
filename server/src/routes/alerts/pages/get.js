@@ -5,7 +5,7 @@ import Mongo from "../../../components/mongo";
 async function get(req, res, next) {
   try {
     let station_id = req.params.stationId;
-    let alerts = await Mongo.db.collection('alert').find({ station_id: Mongo.ObjectId(station_id), active: true }).toArray();
+    let alerts = await Mongo.db.collection('alert').find({ station_id: new Mongo.ObjectId(station_id), active: true }).toArray();
     let alertsHash = "";
     alerts.forEach(alert => {
       alertsHash += alert._id.toString() + alert.date.toString();
