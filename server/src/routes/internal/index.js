@@ -9,6 +9,7 @@ import {
   , PutDefaultLanguage
   , GetParameters
   , GetParameterDocument
+  , PutParameterDocument
 } from './pages';
 import { isAuthorized, isAuthenticated } from '../auth';
 
@@ -23,5 +24,6 @@ router.put('/active-language', isAuthenticated, PutActiveLanguage);
 router.put('/default-language', isAuthenticated, PutDefaultLanguage);
 router.get('/parameters', isAuthenticated, isAuthorized(['master', 'builder']), GetParameters);
 router.get('/parameter-document', isAuthenticated, isAuthorized(['master', 'builder']), GetParameterDocument);
+router.put('/parameter-document', isAuthenticated, isAuthorized(['master']), PutParameterDocument);
 
 export default router;
