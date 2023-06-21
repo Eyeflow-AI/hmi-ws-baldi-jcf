@@ -26,7 +26,7 @@ async function post(req, res, next) {
     let newAlertDocument = {
       date: new Date(),
       active: true,
-      station_id: Mongo.ObjectId(station_id),
+      station_id: new Mongo.ObjectId(station_id),
       alert: alertsDocument.alerts[code],
     }
 
