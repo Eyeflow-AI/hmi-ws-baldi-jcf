@@ -13,7 +13,7 @@ function getUsertToken(userDocument) {
         let payload = { userid, username, accessControl, profile: userDocument.profile };
         let token = jwt.sign(
             {
-                _id: Mongo.ObjectId(),
+                _id: new Mongo.ObjectId(),
                 payload,
                 exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60),
             },

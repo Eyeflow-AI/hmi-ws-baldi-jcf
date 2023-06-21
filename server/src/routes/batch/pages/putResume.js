@@ -8,8 +8,8 @@ import errors from "../../../utils/errors"
 async function putResume(req, res, next) {
 
   try {
-    let stationId = Mongo.ObjectId(req.params.stationId);
-    let batchId = Mongo.ObjectId(req.params.batchId);
+    let stationId = new Mongo.ObjectId(req.params.stationId);
+    let batchId = new Mongo.ObjectId(req.params.batchId);
 
     let stationDocument = await Mongo.db.collection("station").findOne({ _id: stationId });
     if (!stationDocument) {
@@ -25,14 +25,14 @@ async function putResume(req, res, next) {
       throw err;
     };
 
-    let runningBatch = await Mongo.db.collection("batch").findOne({station: stationId, status: "running"});
+    let runningBatch = await Mongo.db.collection("batch").findOne({ station: stationId, status: "running" });
     if (runningBatch) {
       let err = new Error(`Batch with _id ${runningBatch._id} is already running`);
       err.status = 400;
       throw err;
     };
 
-    let batchDocument = await Mongo.db.collection("batch").findOne({_id: batchId});
+    let batchDocument = await Mongo.db.collection("batch").findOne({ _id: batchId });
     if (!batchDocument) {
       let err = new Error(`Batch with _id ${batchId} not found`);
       err.status = 400;
@@ -80,11 +80,11 @@ async function putResume(req, res, next) {
     };
 
     let result = await Mongo.db.collection("batch").updateOne(
-      {_id: batchId, status: "paused"},
-      {$set: {status: "running"}}
+      { _id: batchId, status: "paused" },
+      { $set: { status: "running" } }
     );
     if (result.modifiedCount === 1) {
-      res.status(200).json({ok: true});
+      res.status(200).json({ ok: true });
     }
     else {
       let err = new Error(`Could not update batch ${batchId}`);

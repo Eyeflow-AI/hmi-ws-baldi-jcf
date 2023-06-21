@@ -51,7 +51,7 @@ async function putChecklistReference(req, res, next) {
     reference = deleteInternalReferences(reference);
     reference = deleteVariableType(reference);
     let updated = await Mongo.db.collection("checklist").updateOne({
-      _id: Mongo.ObjectId(_id)
+      _id: new Mongo.ObjectId(_id)
     }, {
       $set: {
         reference

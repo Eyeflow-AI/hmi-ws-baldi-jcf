@@ -3,8 +3,8 @@ const Mongo = require('../components/mongo');
 function fixJson(data, parentKey, parentData) {
   try {
     if (Array.isArray(data)) {
-      for (let i = 0; i< data.length; i++) {
-        if (data[i] !== null && typeof data[i] === 'object')  {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] !== null && typeof data[i] === 'object') {
           data[i] = fixJson(data[i]);
         }
       };
@@ -14,11 +14,11 @@ function fixJson(data, parentKey, parentData) {
         if (value !== null && typeof value === 'object') {
           fixJson(data[key], key, data);
         }
-        else if (key === '$date'){
+        else if (key === '$date') {
           parentData[parentKey] = new Date(data[key]);
         }
-        else if (key === '$oid'){
-          parentData[parentKey] = Mongo.ObjectId(data[key]);
+        else if (key === '$oid') {
+          parentData[parentKey] = new Mongo.ObjectId(data[key]);
         };
       };
     };

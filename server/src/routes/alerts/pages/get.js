@@ -3,7 +3,7 @@ async function get(req, res, next) {
   try {
     let station_id = req?.params?.stationId ?? null;
     if (station_id) {
-      let alert = await Mongo.db.collection('alert').findOne({ station_id: Mongo.ObjectId(station_id) }) ?? null;
+      let alert = await Mongo.db.collection('alert').findOne({ station_id: new Mongo.ObjectId(station_id) }) ?? null;
       if (alert) {
         res.status(200).json(alert);
       }

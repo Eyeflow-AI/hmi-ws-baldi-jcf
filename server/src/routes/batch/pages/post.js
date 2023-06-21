@@ -90,7 +90,7 @@ function getUpdateRequestBody(body) {
 async function post(req, res, next) {
 
   try {
-    let stationId = Mongo.ObjectId(req.params.stationId);
+    let stationId = new Mongo.ObjectId(req.params.stationId);
     let body = getUpdateRequestBody(req.body);
 
     let stationDocument = await Mongo.db.collection("station").findOne({ _id: stationId });
@@ -117,7 +117,7 @@ async function post(req, res, next) {
     let partData = await getPartData(body.part_id);
 
     let newBatchDocument = {
-      _id: Mongo.ObjectId(),
+      _id: new Mongo.ObjectId(),
       station: stationId,
       start_time: new Date(),
       status: "running",

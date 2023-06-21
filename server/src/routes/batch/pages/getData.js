@@ -3,7 +3,7 @@ import Mongo from "../../../components/mongo";
 async function getData(req, res, next) {
 
   try {
-    let batchId = Mongo.ObjectId(req.params.batchId);
+    let batchId = new Mongo.ObjectId(req.params.batchId);
 
     let result = await Mongo.db.collection("batch").findOne({ _id: batchId });
     if (!result) {
@@ -25,7 +25,7 @@ async function getData(req, res, next) {
     if (result.status === "running") {
       let lastEvent = await Mongo.db.collection("events").findOne({ "event_data.batch_id": batchId }, { sort: { event_time: -1 } });
       if (lastEvent && lastEvent.event_data) {
-        let {total_output_parts, ...event_data} = lastEvent.event_data;
+        let { total_output_parts, ...event_data } = lastEvent.event_data;
         Object.assign(result.batch_data, event_data);
         result.batch_data.conveyor_speed = lastEvent.conveyor_speed;
         result.batch_data.parts_ok = total_output_parts ?? 0;

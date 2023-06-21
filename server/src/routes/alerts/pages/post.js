@@ -8,7 +8,7 @@ async function post(req, res, next) {
     if (Number.isInteger(code) && alerts?.alerts?.[code] && station_id) {
       let alert = alerts.alerts[code];
       await Mongo.db.collection('alert').updateOne({
-        station_id: Mongo.ObjectId(station_id)
+        station_id: new Mongo.ObjectId(station_id)
       }, {
         $set: {
           alert,

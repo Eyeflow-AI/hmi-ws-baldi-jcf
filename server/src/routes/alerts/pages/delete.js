@@ -3,7 +3,7 @@ async function _delete(req, res, next) {
   try {
     let station_id = req?.params?.stationId ?? null;
     if (station_id) {
-      await Mongo.db.collection('alert').deleteOne({ station_id: Mongo.ObjectId(station_id) });
+      await Mongo.db.collection('alert').deleteOne({ station_id: new Mongo.ObjectId(station_id) });
       res.status(200).json('alert deleted');
     }
     else {

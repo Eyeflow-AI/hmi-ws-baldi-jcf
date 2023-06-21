@@ -7,7 +7,7 @@ async function put(req, res, next) {
     let collection = "station";
     let stationId = req.params.stationId;
     let stationData = req.body;
-    let stationWithThisName = await Mongo.db.collection(collection).findOne({ label: stationData.label, _id: { $ne: Mongo.ObjectId(stationId) } });
+    let stationWithThisName = await Mongo.db.collection(collection).findOne({ label: stationData.label, _id: { $ne: new Mongo.ObjectId(stationId) } });
     if (Boolean(stationWithThisName)) {
       let err = new Error(`Station with label ${stationData.label} already exists.`);
       err.status = 400;
@@ -22,7 +22,7 @@ async function put(req, res, next) {
           slugLabel,
         }
       };
-      let filter = { _id: Mongo.ObjectId(stationId) };
+      let filter = { _id: new Mongo.ObjectId(stationId) };
       let options = { returnOriginal: false };
       await Mongo.db.collection(collection).findOneAndUpdate(filter, update, options);
       res.status(200).json({ message: `Station ${stationId} updated.` });

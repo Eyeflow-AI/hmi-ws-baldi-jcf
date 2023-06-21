@@ -5,7 +5,7 @@ async function getChecklistRegions(req, res, next) {
   try {
     let id = req?.params?.id ?? '';
     let checklist = await Mongo.db.collection("checklist").findOne({
-      _id: Mongo.ObjectId(id)
+      _id: new Mongo.ObjectId(id)
     }) ?? {};
     res.status(200).json({ ok: true, checklist });
   }
