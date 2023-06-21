@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.get('/:stationId', Get);
 router.put('/:stationId', isAuthenticated, Put);
-router.delete('/:stationId', Delete);
-router.post('/:stationId', Post);
+router.delete('/:stationId', isAuthenticated, Delete);
+router.post('/:stationId', isAuthenticated, Post);
+
 export default router;

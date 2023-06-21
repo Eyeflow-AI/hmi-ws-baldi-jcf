@@ -1,31 +1,46 @@
 import Mongo from "../../../components/mongo";
+
+
 async function put(req, res, next) {
   try {
-    let code = req?.body?.alert_code ?? null;
-    let alerts = await Mongo.db.collection('params').findOne({ name: 'alerts' });
-    let station_id = req?.params?.stationId ?? null;
+    let code = req.body.alert_code ?? null;
+    if (!Number.isInteger(code)) {
+      let err = new Error(`body parm alert_code is required and should be a valid int value`);
+      err.status = 400;
+      throw err;
+    };
 
-    if (Number.isInteger(code) && alerts?.alerts?.[code] && station_id) {
-      let alert = alerts.alerts[code];
-      await Mongo.db.collection('alert').updateOne({
-        station_id: Mongo.ObjectId(station_id)
-      }, {
-        $set: {
-          alert,
-          date: new Date(),
+    let alertsDocument = await Mongo.db.collection('params').findOne({ name: 'alerts' });
+    if (!alertsDocument) {
+      let err = new Error(`Could not find alerts document`);
+      throw err;
+    };
+
+    let station_id = req.params.stationId;
+
+    if (alertsDocument?.alerts?.hasOwnProperty(code)) {
+      let alert = alertsDocument.alerts[code];
+      let result = await Mongo.db.collection('alert').updateOne(
+        {station_id: Mongo.ObjectId(station_id)},
+        {
+          $set: {
+            alert,
+            date: new Date(),
+          }
+        }, {
+          upsert: true
         }
-      }, {
-        upsert: true
-      });
-      res.status(200).json({ ok: true, msg: 'alert inserted', alert });
+      );
+      res.status(200).json({ ok: true, msg: 'alert updated', alert });
     }
     else {
-      res.status(204).json('No alert registered or invalid code or station_id');
+      let err = new Error(`Could not find alert with code ${code}`);
+      err.status = 400;
+      throw err;
     }
   }
   catch (err) {
-    console.log({ err })
-    res.status(204).json({ msg: 'could not communicate' })
+    next(err);
   }
 };
 

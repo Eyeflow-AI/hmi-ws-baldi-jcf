@@ -1,4 +1,6 @@
 import Mongo from "../../../components/mongo";
+
+
 async function post(req, res, next) {
   try {
     let code = req?.body?.alert_code ?? null;
@@ -21,12 +23,10 @@ async function post(req, res, next) {
     }
     else {
       res.status(204).json('No alert registered or invalid code or station_id');
-
     }
   }
   catch (err) {
-    console.log({ err })
-    res.status(204).json({ msg: 'could not communicate' })
+    next(err);
   }
 };
 
