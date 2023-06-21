@@ -30,6 +30,13 @@ async function getListDir(req, res, next) {
     };
 
     let stationId = req.params.stationId;
+    let newDirPath = dirPath;
+    if (newDirPath.startsWith('/opt/eyeflow/data')) {
+      newDirPath = newDirPath.replace('/opt/eyeflow/data', '/eyeflow_data');
+    }
+    else if (newDirPath.startsWith('/data')) {
+      newDirPath = newDirPath.replace('/data', '/eyeflow_data');
+    };
 
     let files = (await fs.readdirSync(dirPath)).map((file) => {
       let filePath = `${dirPath}/${file}`;
@@ -43,7 +50,7 @@ async function getListDir(req, res, next) {
         size: stat.size,
       };
       if (fileURL) {
-        fileData.fileURL = `${hosts['hmi-files-ws'].url}/${filePath}`.replace('/opt/eyeflow/data', '/eyeflow_data')
+        fileData.fileURL = `${hosts['hmi-files-ws'].url}/${newDirPath}/${file}`;
       };
       return fileData;
     });

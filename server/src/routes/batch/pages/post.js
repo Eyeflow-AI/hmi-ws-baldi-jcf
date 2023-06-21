@@ -136,7 +136,7 @@ async function post(req, res, next) {
       },
     };
 
-    let response = await axios.post(postBatchURL, postRequestBody, { timeout: 1000 });
+    let response = await axios.post(postBatchURL, postRequestBody, { timeout: 2000 });
     if (response.status !== 201) {
       let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
       err.status = 400;
