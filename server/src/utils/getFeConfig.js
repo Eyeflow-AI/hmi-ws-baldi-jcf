@@ -4,7 +4,8 @@ import Mongo from "../components/mongo"
 let feConfigData = null;
 async function getFeConfig() {
 
-  if (!feConfigData || (new Date() - feConfigData.time) > 1000 * 10) {
+  if (!feConfigData || (new Date() - feConfigData.time) > 1000 * 15) {
+    // Get new feConfig if data is older than 15 seconds
     let document = await Mongo.db.collection('params').findOne({'name': 'feConfig'});
     if (document) {
       feConfigData = {
