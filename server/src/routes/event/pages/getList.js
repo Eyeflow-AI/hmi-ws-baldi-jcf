@@ -1,6 +1,7 @@
 import Mongo from "../../../components/mongo";
 import isIsoDate from "../../../utils/isIsoDate";
 import hashCode from "../../../utils/hashCode";
+import getHosts from "../../../utils/getHosts";
 
 function raiseError(message) {
   let err = new Error(message);
@@ -39,6 +40,8 @@ async function getList(req, res, next) {
 
   try {
     let match = getMatch(req.query);
+    let hosts = await getHosts();
+
     let projection = {
       _id: true,
       id: { $substr: [ "$event_data.car_data.vin", 11, -1 ] }, //TODO: Get from config file
@@ -50,7 +53,7 @@ async function getList(req, res, next) {
           "nok"
         ]
       },                                                       //TODO implement repaired and unidentified logic
-      thumbURL: "/assets/ItemButtonImage.svg"                  //TODO: Get from config file
+      thumbURL: `${hosts["hmi-files-ws"].url}/assets/ItemButtonImage.svg`
     };
     let collection = "inspection_events";                      //TODO: Get from config file
     let limit = 10000;                                         //TODO: Get from config file

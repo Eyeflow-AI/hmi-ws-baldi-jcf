@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-import Mongo from "../../../components/mongo";
+import getHosts from "../../../utils/getHosts";
 
 async function getListDir(req, res, next) {
   try {
@@ -21,12 +21,7 @@ async function getListDir(req, res, next) {
     let fileURL = Boolean(req.query.fileURL);
     let hosts;
     if (fileURL) {
-      let document = await Mongo.db.collection('params').findOne({'name': 'feConfig'}, {projection: {_id: false, hosts: true}})
-      if (!document) {
-        let err = new Error(`Could not find feConfig document`);
-        throw err;
-      };
-      hosts = document.hosts;
+      hosts = await getHosts();
     };
 
     let stationId = req.params.stationId;

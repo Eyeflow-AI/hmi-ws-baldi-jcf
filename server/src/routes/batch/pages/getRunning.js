@@ -1,4 +1,5 @@
 import Mongo from "../../../components/mongo";
+import getHosts from "../../../utils/getHosts";
 
 async function getRunning(req, res, next) {
 
@@ -19,8 +20,10 @@ async function getRunning(req, res, next) {
       throw err;
     };
     let result = await Mongo.db.collection("batch").findOne({ station: new Mongo.ObjectId(stationId), status: "running" }, { projection });
+    let hosts = await getHosts();
+
     if (result) {
-      result.thumbURL = "/assets/PerfumeIcon.svg";                 //TODO: Get from config file,
+      result.thumbURL = `${hosts["hmi-files-ws"].url}/others/PerfumeIcon.svg`;                 //TODO: Get from config file,
       result.thumbStyle = { height: 70 };                            //TODO: Get from config file,
     };
     res.status(200).json({ ok: true, batch: result ?? null });
