@@ -7,3 +7,4 @@ export { default as PutActiveLanguage } from './putActiveLanguage';
 export { default as PutDefaultLanguage } from './putDefaultLanguage';
 export { default as GetParameters } from './getParameters';
 export { default as GetParameterDocument } from './getParameterDocument';
+export { default as PutParameterDocument } from './putParameterDocument';
