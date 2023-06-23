@@ -1,4 +1,5 @@
 import Mongo from "../../../components/mongo";
+import FeConfigSingleton from "../../../components/FeConfigSingleton";
 
 async function getRunning(req, res, next) {
 
@@ -19,8 +20,10 @@ async function getRunning(req, res, next) {
       throw err;
     };
     let result = await Mongo.db.collection("batch").findOne({ station: new Mongo.ObjectId(stationId), status: "running" }, { projection });
+    let host = await FeConfigSingleton.getHost("hmi-files-ws");
+
     if (result) {
-      result.thumbURL = "/assets/PerfumeIcon.svg";                 //TODO: Get from config file,
+      result.thumbURL = `${host.url}/others/PerfumeIcon.svg`;                 //TODO: Get from config file,
       result.thumbStyle = { height: 70 };                            //TODO: Get from config file,
     };
     res.status(200).json({ ok: true, batch: result ?? null });

@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-import Mongo from "../../../components/mongo";
+import FeConfigSingleton from "../../../components/FeConfigSingleton";
 
 async function getListDir(req, res, next) {
   try {
@@ -19,14 +19,9 @@ async function getListDir(req, res, next) {
     };
 
     let fileURL = Boolean(req.query.fileURL);
-    let hosts;
+    let host;
     if (fileURL) {
-      let document = await Mongo.db.collection('params').findOne({'name': 'feConfig'}, {projection: {_id: false, hosts: true}})
-      if (!document) {
-        let err = new Error(`Could not find feConfig document`);
-        throw err;
-      };
-      hosts = document.hosts;
+      host = await FeConfigSingleton.getHost('hmi-files-ws');
     };
 
     let stationId = req.params.stationId;
@@ -50,12 +45,12 @@ async function getListDir(req, res, next) {
         size: stat.size,
       };
       if (fileURL) {
-        fileData.fileURL = `${hosts['hmi-files-ws'].url}/${newDirPath}/${file}`;
+        fileData.fileURL = `${host.url}/${newDirPath}/${file}`;
       };
       return fileData;
     });
 
-    res.status(200).json({ ok: true, files, debug: {depth, stationId, fileURL, hosts}, query: req.query});    
+    res.status(200).json({ ok: true, files, debug: {depth, stationId, fileURL, host}, query: req.query});
   }
   catch (err) {
     next(err);
