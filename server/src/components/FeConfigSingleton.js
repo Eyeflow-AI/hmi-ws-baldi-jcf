@@ -52,9 +52,11 @@ const FeConfigSingleton = (() => {
     }
     else if (!instance || document.datetime !== instance.datetime) {
       log.info("Updating feConfig");
-      raw = {...document};
-      instance = {...document};
+
+      raw = JSON.parse(JSON.stringify(document));
       Object.freeze(raw);
+
+      instance = document;
       updateConfig(instance["pages"], {hosts: instance.hosts});
       updateConfig(instance["components"], {hosts: instance.hosts});
       Object.freeze(instance);
@@ -65,6 +67,13 @@ const FeConfigSingleton = (() => {
     }
   }
 
+  async function getRaw() {
+    if (!raw || (new Date() - lastUpdated) > 1000 * 15) {
+      await updateData();
+    }
+    return raw;
+  };
+
   async function getIstance() {
     if (!instance || (new Date() - lastUpdated) > 1000 * 15) {
       await updateData();
@@ -73,6 +82,7 @@ const FeConfigSingleton = (() => {
   };
 
   return {
+    getRaw: () => getRaw(),
     getIstance: () => getIstance(),
     getHosts: () => getIstance().then(instance => instance.hosts),
     getHost: (hostName) => getIstance().then(instance => {
