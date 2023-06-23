@@ -5,7 +5,7 @@ async function getConfigForFE(req, res, next) {
 
   const requiredConfig = ["locale"];
   try {
-    let feConfig = await FeConfigSingleton.getIstance();
+    let feConfig = await FeConfigSingleton.getInstance();
     let output = {
       [feConfig.name]: feConfig,
     };

@@ -74,7 +74,7 @@ const FeConfigSingleton = (() => {
     return raw;
   };
 
-  async function getIstance() {
+  async function getInstance() {
     if (!instance || (new Date() - lastUpdated) > 1000 * 15) {
       await updateData();
     }
@@ -83,9 +83,9 @@ const FeConfigSingleton = (() => {
 
   return {
     getRaw: () => getRaw(),
-    getIstance: () => getIstance(),
-    getHosts: () => getIstance().then(instance => instance.hosts),
-    getHost: (hostName) => getIstance().then(instance => {
+    getInstance: () => getInstance(),
+    getHosts: () => getInstance().then(instance => instance.hosts),
+    getHost: (hostName) => getInstance().then(instance => {
       if (!instance.hosts.hasOwnProperty(hostName)) {
         let err = new Error(`Could not find host ${hostName}`);
         throw err;
