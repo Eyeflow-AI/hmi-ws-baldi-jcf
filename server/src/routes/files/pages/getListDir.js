@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-import getHosts from "../../../utils/getHosts";
+import FeConfigSingleton from "../../../components/FeConfigSingleton";
 
 async function getListDir(req, res, next) {
   try {
@@ -19,9 +19,9 @@ async function getListDir(req, res, next) {
     };
 
     let fileURL = Boolean(req.query.fileURL);
-    let hosts;
+    let host;
     if (fileURL) {
-      hosts = await getHosts();
+      host = await FeConfigSingleton.getHost('hmi-files-ws');
     };
 
     let stationId = req.params.stationId;
@@ -45,12 +45,12 @@ async function getListDir(req, res, next) {
         size: stat.size,
       };
       if (fileURL) {
-        fileData.fileURL = `${hosts['hmi-files-ws'].url}/${newDirPath}/${file}`;
+        fileData.fileURL = `${host.url}/${newDirPath}/${file}`;
       };
       return fileData;
     });
 
-    res.status(200).json({ ok: true, files, debug: {depth, stationId, fileURL, hosts}, query: req.query});    
+    res.status(200).json({ ok: true, files, debug: {depth, stationId, fileURL, host}, query: req.query});
   }
   catch (err) {
     next(err);

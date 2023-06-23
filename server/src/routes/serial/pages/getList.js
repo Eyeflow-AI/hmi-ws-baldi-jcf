@@ -1,7 +1,7 @@
 import Mongo from "../../../components/mongo";
 import isIsoDate from "../../../utils/isIsoDate";
 import hashCode from "../../../utils/hashCode";
-import getHosts from "../../../utils/getHosts";
+import FeConfigSingleton from "../../../components/FeConfigSingleton";
 
 function raiseError(message) {
   let err = new Error(message);
@@ -104,13 +104,13 @@ async function getList(req, res, next) {
     })
     serialList = serialList.filter(el => !el.toDelete);
 
-    let hosts = await getHosts();
+    host = await FeConfigSingleton.getHost('hmi-files-ws');
     let serialListLength = serialList.length;
     serialList.forEach((el, index) => {
       // console.log({ date: el.date })
       hashString += el.date.toISOString();
       el.index = serialListLength - index;
-      el.thumbURL = `${hosts["hmi-files-ws"].url}/others/GearIcon.svg`;                 //TODO: Get from config file,
+      el.thumbURL = `${host.url}/others/GearIcon.svg`;                 //TODO: Get from config file,
       el.thumbStyle = { height: 90 };                            //TODO: Get from config file,
       el.status = el.result ? "ok" : "ng";
       el.label = el?.part_id?.slice(-5) ?? 'N/A';

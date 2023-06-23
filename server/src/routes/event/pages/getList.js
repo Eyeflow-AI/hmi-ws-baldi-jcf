@@ -1,7 +1,7 @@
 import Mongo from "../../../components/mongo";
 import isIsoDate from "../../../utils/isIsoDate";
 import hashCode from "../../../utils/hashCode";
-import getHosts from "../../../utils/getHosts";
+import FeConfigSingleton from "../../../components/FeConfigSingleton";
 
 function raiseError(message) {
   let err = new Error(message);
@@ -40,7 +40,7 @@ async function getList(req, res, next) {
 
   try {
     let match = getMatch(req.query);
-    let hosts = await getHosts();
+    let host = await FeConfigSingleton.getHost("hmi-files-ws");
 
     let projection = {
       _id: true,
@@ -53,7 +53,7 @@ async function getList(req, res, next) {
           "nok"
         ]
       },                                                       //TODO implement repaired and unidentified logic
-      thumbURL: `${hosts["hmi-files-ws"].url}/assets/ItemButtonImage.svg`
+      thumbURL: `${host.url}/assets/ItemButtonImage.svg`
     };
     let collection = "inspection_events";                      //TODO: Get from config file
     let limit = 10000;                                         //TODO: Get from config file
