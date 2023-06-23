@@ -30,6 +30,13 @@ function getMatch(reqParams, reqQuery) {
       };
     };
 
+    for (let key of Object.keys(reqQuery)) {
+      if (key.startsWith("query.")) {
+        let _key = key.replace("query.", "");
+        match[_key] = reqQuery[key];
+      }
+    }
+
     if (!Mongo.ObjectId.isValid(reqParams["stationId"])) { raiseError(`Invalid station ${reqParams["stationId"]}. Valid ObjectId is required.`) }
 
     match.station = new Mongo.ObjectId(reqParams["stationId"]);
