@@ -1,22 +1,22 @@
 import Mongo from "./mongo"
 import log from "../utils/log";
 
-function updateConfig(data, {hosts}) {
+function updateConfig(data, { hosts }) {
 
   try {
     if (Array.isArray(data)) {
-      for (let i = 0; i< data.length; i++) {
-        if (data[i] !== null && typeof data[i] === 'object')  {
-          data[i] = updateConfig(data[i], {hosts});
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] !== null && typeof data[i] === 'object') {
+          data[i] = updateConfig(data[i], { hosts });
         }
       };
     }
     else {
       for (let [key, value] of Object.entries(data)) {
         if (value !== null && typeof value === 'object') {
-          updateConfig(value, {hosts});
+          updateConfig(value, { hosts });
         }
-        else if (typeof(value)=== 'string'){
+        else if (typeof (value) === 'string') {
           if (value.includes("{{hosts")) {
             let regexp = /({{hosts.*}}).*/g;
             let replaceStr = regexp.exec(value)?.[1];
@@ -45,7 +45,7 @@ const FeConfigSingleton = (() => {
   let lastUpdated;
 
   async function updateData() {
-    let document = await Mongo.db.collection('params').findOne({'name': 'feConfig'});
+    let document = await Mongo.db.collection('params').findOne({ 'name': 'feConfig' });
     if (!document) {
       let err = new Error(`Could not find feConfig document`);
       throw err;
@@ -57,8 +57,8 @@ const FeConfigSingleton = (() => {
       Object.freeze(raw);
 
       instance = document;
-      updateConfig(instance["pages"], {hosts: instance.hosts});
-      updateConfig(instance["components"], {hosts: instance.hosts});
+      updateConfig(instance["pages"], { hosts: instance.hosts });
+      updateConfig(instance["components"], { hosts: instance.hosts });
       Object.freeze(instance);
       lastUpdated = new Date();
     }

@@ -111,7 +111,7 @@ async function getList(req, res, next) {
     })
     serialList = serialList.filter(el => !el.toDelete);
 
-    host = await FeConfigSingleton.getHost('hmi-files-ws');
+    let host = await FeConfigSingleton.getHost('hmi-files-ws');
     let serialListLength = serialList.length;
     serialList.forEach((el, index) => {
       // console.log({ date: el.date })
