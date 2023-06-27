@@ -125,6 +125,7 @@ async function getList(req, res, next) {
       el.event_time = el.date;
       hashString += el.status;
       hashString += String(el.count);
+      el.collection = 'inspection_events';
     });
 
     // console.dir({ serialList }, { depth: null })

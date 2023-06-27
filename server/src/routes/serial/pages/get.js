@@ -5,8 +5,12 @@ async function get(req, res, next) {
 
   try {
     let serialId = req.params.serialId;
-    let results = await Mongo.db.collection("inspection_events").find({ 'event_data.inspection_id': serialId }).toArray();
-    if (results) {
+    let collection = req?.query?.collection ?? "inspection_events";
+    let results = await Mongo.db.collection(collection).find({ 'event_data.inspection_id': serialId }).toArray();
+    if (results.length > 0) {
+      if (collection === 'staging_events') {
+        results = [results[results.length - 1]];
+      };
       let inspectionsBuckets = {};
       results.forEach(result => {
         let bucket = result.view;
@@ -29,9 +33,7 @@ async function get(req, res, next) {
       });
     }
     else {
-      let err = new Error(`Serial with _id ${serialId} does not exist`);
-      err.status = 400;
-      throw err;
+      res.status(204).json({ ok: false, msg: 'No results' });
     }
   }
   catch (err) {
