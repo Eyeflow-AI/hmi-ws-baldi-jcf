@@ -1,32 +1,40 @@
 import Mongo from "../../../components/mongo";
 import FeConfigSingleton from "../../../components/FeConfigSingleton";
 
+
 async function getRunning(req, res, next) {
 
   try {
-    let stationId = req.params.stationId;
-    let projection = {
-      _id: true,
-      id: true,
-      label: true,
-      start_time: true,
-      end_time: true,
-      station: true,
-      status: true,
-    };
+    let stationId = new Mongo.ObjectId(req.params.stationId);
+
+    let host = await FeConfigSingleton.getHost('hmi-files-ws');
+
     if (!Mongo.ObjectId.isValid(stationId)) {
       let err = new Error(`${stationId} is not a valid station id`);
       err.status = 400;
       throw err;
     };
-    let result = await Mongo.db.collection("batch").findOne({ station: new Mongo.ObjectId(stationId), status: "running" }, { projection });
-    let host = await FeConfigSingleton.getHost('hmi-files-ws');
+    let result = await Mongo.db.collection("staging_events").find({ station: stationId }).sort({ _id: -1 }).limit(1).toArray();
+    result = result[0];
 
     if (result) {
-      result.thumbURL = `${host.url}/others/PerfumeIcon.svg`;                  //TODO: Get from config file,
+      result = {
+        _id: result.event_data.inspection_id,
+        document_id: result._id,
+        inspection_id: result.event_data.inspection_id,
+        part_id: result.event_data.part_data.id,
+        event_time: result.event_data.window_ini_time,
+        count: 1,
+        label: result.event_data?.part_data?.id?.slice(-5) ?? 'N/A',
+        status: result.event_data.inspection_result.ok ? "ok" : "ng",
+        result: result.event_data.inspection_result.ok,
+        collection: 'staging_events',
+      }
+      result.thumbURL = `${host.url}/others/GearIcon.svg`;                  //TODO: Get from config file,
       result.thumbStyle = { height: 70 };                            //TODO: Get from config file,
     };
-    res.status(200).json({ ok: true, batch: result ?? null });
+
+    res.status(200).json({ ok: true, serial: result ?? null });
   }
   catch (err) {
     next(err);

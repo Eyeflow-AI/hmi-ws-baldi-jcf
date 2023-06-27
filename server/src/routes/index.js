@@ -13,6 +13,8 @@ import TEST from './test';
 import CHECKLIST from './checklist';
 import FILES from './files';
 
+import packageJson from '../../../package.json';
+
 const router = express.Router();
 
 router.use('/auth', AUTH);
@@ -29,7 +31,7 @@ router.use('/alerts', ALERTS);
 router.use('/test', TEST);
 router.use('/checklist', CHECKLIST);
 
-router.get('/', (req, res, next) => res.json({ ok: true }));
+router.get('/', (req, res, next) => res.json({ ok: true, version: packageJson.version }));
 
 
 export default router;
