@@ -9,7 +9,7 @@ async function postInspectionEvent(req, res, next) {
     event = EJSON.parse(event);
 
     await Mongo.db.collection('inspection_events').insertOne(event);
-    await Mongo.db.collection('staging_events').deleteMany({ 'event_data.inspection_id': event.event_data.inspection_id });
+    await Mongo.db.collection('staging_events').deleteMany({});
     res.status(201).json({
       ok: true
     });

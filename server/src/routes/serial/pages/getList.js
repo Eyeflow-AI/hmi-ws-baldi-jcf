@@ -37,7 +37,6 @@ function getMatch(reqParams, reqQuery) {
         match[_key] = reqQuery[key];
       }
     }
-
     if (!Mongo.ObjectId.isValid(reqParams["stationId"])) { raiseError(`Invalid station ${reqParams["stationId"]}. Valid ObjectId is required.`) }
 
     match.station = new Mongo.ObjectId(reqParams["stationId"]);
