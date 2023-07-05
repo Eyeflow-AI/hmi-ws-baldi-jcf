@@ -15,7 +15,7 @@ async function runQuery(req, res, next) {
         let projection = query?.projection ?? {};
         let sort = query?.sort ?? {};
         let limit = query?.limit ?? 0;
-        limit = limit > 500 ? 500 : limit;
+        limit = limit > 500 || limit === 0 ? 500 : limit;
         let skip = query?.skip ?? 0;
         result = await Mongo.db.collection(collectionName).find(filter).project(projection).sort(sort).limit(limit).skip(skip).toArray();
       }
@@ -42,6 +42,8 @@ async function runQuery(req, res, next) {
         let options = query?.options ?? {};
         result = await Mongo.db.collection(collectionName).distinct(key, filter, options);
       };
+      result = EJSON.stringify(result);
+      result = JSON.parse(result);
 
       res.status(200).json({ ok: true, result });
 
