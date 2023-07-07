@@ -72,7 +72,7 @@ async function getList(req, res, next) {
       hashString += el.start_time.toISOString();
       hashString += el.status;
       el.index = batchListLength - index;
-      el.thumbURL = `${host.url}/others/PerfumeIcon.svg`;                 //TODO: Get from config file,
+      // el.thumbURL = `${host.url}/others/PerfumeIcon.svg`;                 //TODO: Get from config file,
       el.thumbStyle = { height: 70 };                            //TODO: Get from config file,
     });
 
