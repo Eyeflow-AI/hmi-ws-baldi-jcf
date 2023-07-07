@@ -116,7 +116,7 @@ async function getList(req, res, next) {
       // console.log({ date: el.date })
       hashString += el.date.toISOString();
       el.index = serialListLength - index;
-      el.thumbURL = `${host.url}/others/GearIcon.svg`;                 //TODO: Get from config file,
+      // el.thumbURL = `${host.url}/others/GearIcon.svg`;                 //TODO: Get from config file,
       el.thumbStyle = { height: 90 };                            //TODO: Get from config file,
       el.status = el.result ? "ok" : "ng";
       el.label = el?.part_id?.slice(-5) ?? 'N/A';

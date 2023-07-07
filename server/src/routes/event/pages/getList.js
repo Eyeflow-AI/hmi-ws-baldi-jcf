@@ -18,11 +18,11 @@ function getMatch(reqQuery) {
     if (reqQuery.hasOwnProperty("min_event_time") || reqQuery.hasOwnProperty("max_event_time")) {
       match.event_time = {};
       if (reqQuery.hasOwnProperty("min_event_time")) {
-        if (!isIsoDate(reqQuery["min_event_time"])) {raiseError("Invalid min_event_time . Valid iso date is required.")};
+        if (!isIsoDate(reqQuery["min_event_time"])) { raiseError("Invalid min_event_time . Valid iso date is required.") };
         match.event_time["$gte"] = new Date(reqQuery.min_event_time);
       }
       if (reqQuery.hasOwnProperty("max_event_time")) {
-        if (!isIsoDate(reqQuery["max_event_time"])) {raiseError("Invalid max_event_time . Valid iso date is required.")};
+        if (!isIsoDate(reqQuery["max_event_time"])) { raiseError("Invalid max_event_time . Valid iso date is required.") };
         match.event_time["$lte"] = new Date(reqQuery.max_event_time);
       };
     };
@@ -44,22 +44,22 @@ async function getList(req, res, next) {
 
     let projection = {
       _id: true,
-      id: { $substr: [ "$event_data.car_data.vin", 11, -1 ] }, //TODO: Get from config file
+      id: { $substr: ["$event_data.car_data.vin", 11, -1] }, //TODO: Get from config file
       event_time: true,
       status: {
         "$cond": [
           "$event_data.inspection_result.conformity",
-          "ok", 
+          "ok",
           "nok"
         ]
       },                                                       //TODO implement repaired and unidentified logic
-      thumbURL: `${host.url}/assets/ItemButtonImage.svg`
+      // thumbURL: `${host.url}/assets/ItemButtonImage.svg`
     };
     let collection = "inspection_events";                      //TODO: Get from config file
     let limit = 10000;                                         //TODO: Get from config file
-    let sort = {event_time: -1};                               //TODO: Get from config file
+    let sort = { event_time: -1 };                               //TODO: Get from config file
     let dateString;
-    let eventList = await Mongo.db.collection(collection).find(match, {projection}).sort(sort).limit(limit).toArray();
+    let eventList = await Mongo.db.collection(collection).find(match, { projection }).sort(sort).limit(limit).toArray();
     let eventListLength = eventList.length;
     eventList.forEach((el, index) => {
       dateString += el.event_time.toISOString();
@@ -73,7 +73,7 @@ async function getList(req, res, next) {
       hash: dateString ? hashCode(dateString) : null
     };
     if (process.env.NODE_ENV === "development") {
-      output.queryOptions = {match, projection, collection, limit};
+      output.queryOptions = { match, projection, collection, limit };
     };
 
     res.status(200).json(output);
