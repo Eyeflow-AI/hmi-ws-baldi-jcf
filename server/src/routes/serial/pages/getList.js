@@ -113,7 +113,7 @@ async function getList(req, res, next) {
     let host = await FeConfigSingleton.getHost('hmi-files-ws');
     let serialListLength = serialList.length;
     serialList.forEach((el, index) => {
-      // console.log({ date: el.date })
+      // console.log({ date: el.date, i: el.inspection_id })
       hashString += el.date.toISOString();
       el.index = serialListLength - index;
       // el.thumbURL = `${host.url}/others/GearIcon.svg`;                 //TODO: Get from config file,
@@ -128,7 +128,7 @@ async function getList(req, res, next) {
     });
 
     // console.dir({ serialList }, { depth: null })
-
+    // console.log({ x: hashCode(hashString) })
 
     let output = {
       ok: true,

@@ -9,6 +9,7 @@ async function getLanguagesData(req, res, next) {
     let usedLanguages = await Mongo.db.collection('params').findOne({ name: 'feConfig' }, { projection: { locale: 1, _id: 0 } });
     availableLanguages = availableLanguages?.available_languages ?? {};
     usedLanguages = usedLanguages?.locale ?? {};
+    usedLanguages.languageList = usedLanguages.languageList.filter(lang => lang.active)
     res.status(200).json({
       availableLanguages,
       usedLanguages

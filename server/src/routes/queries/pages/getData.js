@@ -21,12 +21,9 @@ async function getData(req, res, next) {
       else {
         result = await Mongo.db.collection(collectioName)[searchMethod](queryOBJ);
       }
-      // console.log({ result, f: query?.functions?.post_function })
-
       if (query?.functions?.post_function) {
         eval(query?.functions?.post_function);
       }
-
       res.status(200).json({ ok: true, result, chartInfo: queriesDocument?.queries?.[queryName].chart });
     }
 
