@@ -1,91 +1,105 @@
 {
     "client": "Thunder Client",
     "collectionName": "HMI-WS",
-    "dateExported": "2023-06-21T17:42:50.476Z",
+    "dateExported": "2023-07-07T20:44:51.343Z",
     "version": "1.1",
     "folders": [
         {
-            "_id": "735e283d-18eb-4bc0-923f-7cf77e2866b1",
+            "_id": "cb6c9c34-358e-4b12-afe6-509e924b2c92",
             "name": "alerts",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.285Z",
+            "created": "2023-07-04T16:42:59.612Z",
             "sortNum": 5000
         },
         {
-            "_id": "25172c65-fd5d-4059-bcc1-145ed01449fa",
+            "_id": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
             "name": "auth",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.286Z",
+            "created": "2023-07-04T16:42:59.613Z",
             "sortNum": 10000
         },
         {
-            "_id": "af54448d-f53e-4aca-aa7e-1890c6dcd6c0",
+            "_id": "cc3f7150-cc8b-48d1-ac11-72221654cb56",
             "name": "batch",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.287Z",
+            "created": "2023-07-04T16:42:59.619Z",
             "sortNum": 15000
         },
         {
-            "_id": "69ca8f34-9e4d-47b7-9374-5561b6e7548d",
+            "_id": "c460676c-9d50-4e42-b3c9-0865f63c3b4d",
             "name": "config",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.288Z",
+            "created": "2023-07-04T16:42:59.620Z",
             "sortNum": 17500
         },
         {
-            "_id": "7f6698f4-3559-4ddd-9fff-150a1ec5ffbd",
+            "_id": "be419572-c19b-4d1c-85f0-1b5008ffe1e6",
             "name": "event",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.289Z",
+            "created": "2023-07-04T16:42:59.621Z",
             "sortNum": 20000
         },
         {
-            "_id": "7a8b781a-8392-4f1c-9b0b-c71bafd40f4f",
+            "_id": "34b7c275-bed4-4a6b-b774-ac63eaf42972",
+            "name": "files",
+            "containerId": "",
+            "created": "2023-07-05T13:25:10.791Z",
+            "sortNum": 25000
+        },
+        {
+            "_id": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
             "name": "internal",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.290Z",
+            "created": "2023-07-04T16:42:59.622Z",
             "sortNum": 30000
         },
         {
-            "_id": "34a0de08-f0f1-48d7-8ef1-d14f87c44f2f",
+            "_id": "5da49058-d916-4124-a632-f050c7471aa3",
             "name": "parts",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.291Z",
+            "created": "2023-07-04T16:42:59.623Z",
             "sortNum": 45000
         },
         {
-            "_id": "80f35ca2-b0c0-4b4f-beba-3272a4fd2935",
+            "_id": "27bf295a-76a9-48ae-b17d-5f0b54bb52a0",
             "name": "queries",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.292Z",
+            "created": "2023-07-04T16:42:59.624Z",
             "sortNum": 60000
         },
         {
-            "_id": "12ff318d-3712-48f7-aed1-cc9d1fe56491",
+            "_id": "7ad308a8-9265-4d89-96b0-742ea91ae5a5",
             "name": "serial",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.293Z",
+            "created": "2023-07-04T16:42:59.625Z",
             "sortNum": 65000
         },
         {
-            "_id": "02d9cd16-4a40-47d8-8e75-575f5dd85452",
+            "_id": "e035c130-f976-433a-adfd-9048f74b1e9e",
             "name": "station",
             "containerId": "",
-            "created": "2023-06-21T16:39:49.294Z",
+            "created": "2023-07-04T16:42:59.626Z",
             "sortNum": 70000
+        },
+        {
+            "_id": "5bb2c736-1171-4249-9393-c255536b8a52",
+            "name": "tests",
+            "containerId": "",
+            "created": "2023-07-04T21:40:50.312Z",
+            "sortNum": 80000
         }
     ],
     "requests": [
         {
-            "_id": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
+            "_id": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
             "name": "login",
             "url": "{{LH_6030}}/auth/login",
             "method": "POST",
             "sortNum": 10000,
-            "created": "2023-06-21T16:39:49.285Z",
-            "modified": "2023-06-21T17:29:36.269Z",
+            "created": "2023-07-04T16:42:59.618Z",
+            "modified": "2023-07-04T18:19:21.344Z",
             "headers": [],
             "params": [],
             "body": {
@@ -103,15 +117,15 @@
             ]
         },
         {
-            "_id": "7c7a5719-eba7-48c5-8076-1b92aa081db4",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7f6698f4-3559-4ddd-9fff-150a1ec5ffbd",
+            "_id": "ebbbd9b8-6440-4f0a-a25e-519db57e810c",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "be419572-c19b-4d1c-85f0-1b5008ffe1e6",
             "name": "list",
             "url": "{{LH_6030}}/event/list",
             "method": "GET",
             "sortNum": 10000,
-            "created": "2023-06-21T16:39:49.286Z",
-            "modified": "2023-06-21T16:39:49.286Z",
+            "created": "2023-07-04T16:42:59.619Z",
+            "modified": "2023-07-04T16:42:59.619Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -122,8 +136,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -131,15 +145,15 @@
             }
         },
         {
-            "_id": "a137466c-bea1-4742-8868-7c60c1a3fee8",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "12ff318d-3712-48f7-aed1-cc9d1fe56491",
+            "_id": "92499757-55fb-46a0-a63d-dc173b805f1e",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "7ad308a8-9265-4d89-96b0-742ea91ae5a5",
             "name": "get",
-            "url": "{{LH_6030}}/serial/{{stationId}}/{{serialId}}",
+            "url": "{{LH_6030}}/serial/{{stationId1}}/{{serialId}}",
             "method": "GET",
             "sortNum": 10000,
-            "created": "2023-06-21T16:39:49.287Z",
-            "modified": "2023-06-21T16:39:49.287Z",
+            "created": "2023-07-04T16:42:59.620Z",
+            "modified": "2023-07-07T19:06:55.072Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -150,8 +164,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -159,15 +173,15 @@
             }
         },
         {
-            "_id": "ce2e17dd-f6ca-4a7b-9a8c-810d9bc1ee05",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
+            "_id": "233eede2-1f13-4eb7-a938-3e3c55b6fadf",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
             "name": "logout",
             "url": "{{LH_6030}}/auth/logout?token={{token}}",
             "method": "POST",
             "sortNum": 20000,
-            "created": "2023-06-21T16:39:49.288Z",
-            "modified": "2023-06-21T16:39:49.288Z",
+            "created": "2023-07-04T16:42:59.621Z",
+            "modified": "2023-07-04T16:42:59.621Z",
             "headers": [],
             "params": [
                 {
@@ -189,8 +203,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -198,15 +212,15 @@
             }
         },
         {
-            "_id": "35fa06ea-989e-4bb4-9759-32ced59943bf",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "12ff318d-3712-48f7-aed1-cc9d1fe56491",
-            "name": "getList",
-            "url": "{{LH_6030}}/serial/{{stationId2}}/list?min_event_time=2023-05-02T03:00:00.000Z&max_event_time=2023-05-03T03:00:00.000Z",
+            "_id": "ee836980-9622-49ac-9507-f8baca90288c",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "7ad308a8-9265-4d89-96b0-742ea91ae5a5",
+            "name": "list",
+            "url": "{{LH_6030}}/serial/{{stationId1}}/list?min_event_time=2023-05-02T03:00:00.000Z&max_event_time=2023-05-03T03:00:00.000Z",
             "method": "GET",
             "sortNum": 20000,
-            "created": "2023-06-21T16:39:49.289Z",
-            "modified": "2023-06-21T16:39:49.289Z",
+            "created": "2023-07-04T16:42:59.622Z",
+            "modified": "2023-07-07T19:07:04.399Z",
             "headers": [],
             "params": [
                 {
@@ -228,8 +242,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -237,15 +251,15 @@
             }
         },
         {
-            "_id": "58705a9f-ec83-43f0-ac80-b2bcb3e49d22",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
+            "_id": "57109e36-35f8-41a6-bbaf-6edc446d9285",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
             "name": "verify-token",
             "url": "{{LH_6030}}/auth/verify-token",
             "method": "GET",
             "sortNum": 30000,
-            "created": "2023-06-21T16:39:49.290Z",
-            "modified": "2023-06-21T16:39:49.290Z",
+            "created": "2023-07-04T16:42:59.623Z",
+            "modified": "2023-07-04T16:42:59.623Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -256,8 +270,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -265,15 +279,43 @@
             }
         },
         {
-            "_id": "07ec115a-5c03-446a-8556-199e1c4512d9",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
+            "_id": "5eaeca79-885f-4a10-a129-652b6ef50136",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "7ad308a8-9265-4d89-96b0-742ea91ae5a5",
+            "name": "running",
+            "url": "{{LH_6030}}/serial/{{stationId1}}/running",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-07-05T13:09:40.106Z",
+            "modified": "2023-07-07T19:07:27.964Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "13f199bd-be31-47d8-a9d4-94065ad18ed6",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
             "name": "create-user",
             "url": "{{LH_6030}}/auth/user",
             "method": "POST",
             "sortNum": 35000,
-            "created": "2023-06-21T16:39:49.291Z",
-            "modified": "2023-06-21T16:39:49.291Z",
+            "created": "2023-07-04T16:42:59.624Z",
+            "modified": "2023-07-04T16:42:59.624Z",
             "headers": [],
             "params": [],
             "body": {
@@ -289,8 +331,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -298,15 +340,70 @@
             }
         },
         {
-            "_id": "cb3697ae-204f-4a68-b6cf-311a26ea1d31",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
+            "_id": "b7c0853d-030b-4a5a-b065-f94f15e59773",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
+            "name": "reset-password",
+            "url": "{{LH_6030}}/auth/user/reset-password",
+            "method": "PUT",
+            "sortNum": 37500,
+            "created": "2023-07-04T16:42:59.633Z",
+            "modified": "2023-07-04T19:17:29.821Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"outro5\",\n  \"newPassword\": \"qcOnline2\"\n}",
+                "form": []
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "4da579ed-d79c-4aee-99b7-02c351f904eb",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
+            "name": "new-pass-login",
+            "url": "{{LH_6030}}/auth/login",
+            "method": "POST",
+            "sortNum": 38750,
+            "created": "2023-07-04T19:13:14.745Z",
+            "modified": "2023-07-04T19:18:30.906Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"outro5\",\n  \"password\": \"qcOnline2\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.token",
+                    "action": "setto",
+                    "value": "{{token}}"
+                }
+            ]
+        },
+        {
+            "_id": "dc69e367-7347-4397-9f06-224d5dc427b7",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
             "name": "access-control-data",
             "url": "{{LH_6030}}/auth/access-control-data?token={{token}}",
             "method": "GET",
             "sortNum": 40000,
-            "created": "2023-06-21T16:39:49.292Z",
-            "modified": "2023-06-21T16:39:49.292Z",
+            "created": "2023-07-04T16:42:59.625Z",
+            "modified": "2023-07-04T19:18:06.495Z",
             "headers": [],
             "params": [
                 {
@@ -317,15 +414,15 @@
             ],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"username\": \"felipealves\",\n  \"password\": \"vinfast\"\n}",
+                "raw": "{\n  \"username\": \"outro5\",\n  \"password\": \"qcOnline2\"\n}",
                 "form": []
             },
             "tests": [],
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -333,15 +430,33 @@
             }
         },
         {
-            "_id": "3ec96ec8-37a3-4835-a975-6c650325e281",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7a8b781a-8392-4f1c-9b0b-c71bafd40f4f",
+            "_id": "6ddde7a8-496a-4c59-8e74-a34554880254",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "7ad308a8-9265-4d89-96b0-742ea91ae5a5",
+            "name": "pause",
+            "url": "{{LH_6030}}/serial/{{stationId4}}/{{serialId}}/pause",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2023-07-05T13:10:25.861Z",
+            "modified": "2023-07-07T19:14:25.025Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "0ebbeda8-3725-4203-ab82-6c63c9f21742",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
             "name": "from-to",
-            "url": "{{LH_6030}}/internal/languages-data",
+            "url": "{{LH_6030}}/internal/from-to-document",
             "method": "GET",
             "sortNum": 45000,
-            "created": "2023-06-21T16:39:49.293Z",
-            "modified": "2023-06-21T16:39:49.293Z",
+            "created": "2023-07-04T16:42:59.626Z",
+            "modified": "2023-07-05T13:16:19.084Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -352,8 +467,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -361,23 +476,23 @@
             }
         },
         {
-            "_id": "f738add1-aed5-47a8-b4d8-bc2da8562fb5",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
+            "_id": "419debed-2732-4a33-91d8-23d6e751e909",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
             "name": "users-list",
             "url": "{{LH_6030}}/auth/users-list",
             "method": "GET",
             "sortNum": 50000,
-            "created": "2023-06-21T16:39:49.294Z",
-            "modified": "2023-06-21T16:39:49.294Z",
+            "created": "2023-07-04T16:42:59.627Z",
+            "modified": "2023-07-04T16:42:59.627Z",
             "headers": [],
             "params": [],
             "tests": [],
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -385,15 +500,15 @@
             }
         },
         {
-            "_id": "b700a7a2-5bf5-4aa7-95b2-287af58b4f3c",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "af54448d-f53e-4aca-aa7e-1890c6dcd6c0",
+            "_id": "2e2db747-d036-4865-a67d-5590676040c4",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cc3f7150-cc8b-48d1-ac11-72221654cb56",
             "name": "create",
-            "url": "{{LH_6030}}/batch/{{stationId}}",
+            "url": "{{LH_6030}}/batch/{{stationId1}}",
             "method": "POST",
             "sortNum": 50000,
-            "created": "2023-06-21T16:39:49.295Z",
-            "modified": "2023-06-21T16:39:49.295Z",
+            "created": "2023-07-04T16:42:59.628Z",
+            "modified": "2023-07-07T20:08:19.257Z",
             "headers": [],
             "params": [],
             "body": {
@@ -405,12 +520,19 @@
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": [],
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.batchId",
+                    "action": "setto",
+                    "value": "{{batchId}}"
+                }
+            ],
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -418,73 +540,15 @@
             }
         },
         {
-            "_id": "32833050-b64f-4ccf-87f6-0a650b74cedd",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
-            "name": "delete-user",
-            "url": "{{LH_6030}}/auth/user",
-            "method": "DELETE",
-            "sortNum": 60000,
-            "created": "2023-06-21T16:39:49.296Z",
-            "modified": "2023-06-21T16:39:49.296Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"username\": \"outro5\"\n}",
-                "form": []
-            },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
-        },
-        {
-            "_id": "bda8a5bb-ae22-484b-a6c6-959b39a6b111",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
-            "name": "user-role",
-            "url": "{{LH_6030}}/auth/user/role",
+            "_id": "256beb4a-76a1-4071-95e3-1100894ccfa2",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "7ad308a8-9265-4d89-96b0-742ea91ae5a5",
+            "name": "resume",
+            "url": "{{LH_6030}}/serial/{{stationId1}}/{{serialId}}/resume",
             "method": "PUT",
-            "sortNum": 70000,
-            "created": "2023-06-21T16:39:49.297Z",
-            "modified": "2023-06-21T16:39:49.297Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"username\": \"teste\",\n  \"newRole\": \"operator\"\n}",
-                "form": []
-            },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
-        },
-        {
-            "_id": "2d56a2b9-2916-41c3-9561-b5e2d80c8461",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "af54448d-f53e-4aca-aa7e-1890c6dcd6c0",
-            "name": "list",
-            "url": "{{LH_6030}}/batch/{{stationId}}/list",
-            "method": "GET",
-            "sortNum": 75000,
-            "created": "2023-06-21T16:39:49.298Z",
-            "modified": "2023-06-21T16:39:49.298Z",
+            "sortNum": 50000,
+            "created": "2023-07-05T13:10:41.245Z",
+            "modified": "2023-07-07T19:14:38.673Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -494,76 +558,101 @@
             "tests": []
         },
         {
-            "_id": "1ab39d4c-0afa-400e-905e-d3145de1436f",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+            "_id": "31e746f7-36f0-45f1-90a1-be9d89bb860b",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
+            "name": "update-user-role",
+            "url": "{{LH_6030}}/auth/user/role",
+            "method": "PUT",
+            "sortNum": 70000,
+            "created": "2023-07-04T16:42:59.630Z",
+            "modified": "2023-07-04T19:22:27.891Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"outro5\",\n  \"newRole\": \"builder\"\n}",
+                "form": []
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "c38ae518-2319-4efc-b5a5-3728182516e0",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cc3f7150-cc8b-48d1-ac11-72221654cb56",
+            "name": "list",
+            "url": "{{LH_6030}}/batch/{{stationId1}}/list",
+            "method": "GET",
+            "sortNum": 75000,
+            "created": "2023-07-04T16:42:59.631Z",
+            "modified": "2023-07-07T20:08:43.835Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "f2fc5a98-19e1-4dbe-925d-5ad7291d957c",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
             "containerId": "",
             "name": "index",
             "url": "{{LH_6030}}/",
             "method": "GET",
             "sortNum": 80000,
-            "created": "2023-06-21T16:39:49.299Z",
-            "modified": "2023-06-21T16:39:49.299Z",
+            "created": "2023-07-04T16:42:59.632Z",
+            "modified": "2023-07-04T16:42:59.632Z",
             "headers": [],
             "params": [],
             "tests": []
         },
         {
-            "_id": "f89a229f-9c8c-4f4b-963b-31a5905be6bf",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
-            "name": "reset-password",
-            "url": "{{LH_6030}}/auth/user/reset-password",
-            "method": "PUT",
-            "sortNum": 80000,
-            "created": "2023-06-21T16:39:49.300Z",
-            "modified": "2023-06-21T16:39:49.300Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"username\": \"outro5\",\n  \"newPassword\": \"qcOnline\"\n}",
-                "form": []
-            },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
-        },
-        {
-            "_id": "d143c4a9-dd96-4822-8dfd-d9efa9eab057",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "af54448d-f53e-4aca-aa7e-1890c6dcd6c0",
+            "_id": "72776444-6638-4711-a45d-7d19ef05703b",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cc3f7150-cc8b-48d1-ac11-72221654cb56",
             "name": "running",
-            "url": "{{LH_6030}}/batch/{{stationId}}/running",
+            "url": "{{LH_6030}}/batch/{{stationId2}}/running",
             "method": "GET",
             "sortNum": 87500,
-            "created": "2023-06-21T16:39:49.301Z",
-            "modified": "2023-06-21T16:39:49.301Z",
+            "created": "2023-07-04T16:42:59.635Z",
+            "modified": "2023-07-07T20:24:35.682Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": []
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.batch._id",
+                    "action": "setto",
+                    "value": "{{batchId}}"
+                }
+            ]
         },
         {
-            "_id": "e1f4ffd4-1304-4656-9ef2-ad447652aa5f",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7a8b781a-8392-4f1c-9b0b-c71bafd40f4f",
+            "_id": "f9c88885-690a-432e-beed-2cd8b5e3063e",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
             "name": "package-data",
             "url": "{{LH_6030}}/internal/package-data",
             "method": "GET",
             "sortNum": 90000,
-            "created": "2023-06-21T16:39:49.302Z",
-            "modified": "2023-06-21T16:39:49.302Z",
+            "created": "2023-07-04T16:42:59.636Z",
+            "modified": "2023-07-04T16:42:59.636Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -574,8 +663,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -583,15 +672,15 @@
             }
         },
         {
-            "_id": "2b949dce-d2d5-4bf9-9c4e-9a89967c8756",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "af54448d-f53e-4aca-aa7e-1890c6dcd6c0",
+            "_id": "e10f1922-ec4e-4b0c-8809-5ca5cbf1a8b8",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cc3f7150-cc8b-48d1-ac11-72221654cb56",
             "name": "get",
-            "url": "{{LH_6030}}/batch/{{stationId}}/{{batchId}}",
+            "url": "{{LH_6030}}/batch/{{stationId2}}/{{batchId2}}",
             "method": "GET",
             "sortNum": 100000,
-            "created": "2023-06-21T16:39:49.303Z",
-            "modified": "2023-06-21T16:39:49.303Z",
+            "created": "2023-07-04T16:42:59.637Z",
+            "modified": "2023-07-07T20:25:09.645Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -602,8 +691,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -611,15 +700,36 @@
             }
         },
         {
-            "_id": "3d92acec-35b5-4cf7-a710-913b1362a336",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7a8b781a-8392-4f1c-9b0b-c71bafd40f4f",
+            "_id": "b87119b7-7b8c-48a8-a1e5-1c17438ad0d2",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cb6c9c34-358e-4b12-afe6-509e924b2c92",
+            "name": "get",
+            "url": "{{LH_6030}}/alerts/{{stationId1}}",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2023-07-04T16:42:59.656Z",
+            "modified": "2023-07-07T20:36:12.236Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.alertId",
+                    "action": "setto",
+                    "value": "{{alertId}}"
+                }
+            ]
+        },
+        {
+            "_id": "b12c5209-44db-4cd3-bae4-0fa099e60e51",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
             "name": "languages-data",
             "url": "{{LH_6030}}/internal/languages-data",
             "method": "GET",
             "sortNum": 110000,
-            "created": "2023-06-21T16:39:49.304Z",
-            "modified": "2023-06-21T16:39:49.304Z",
+            "created": "2023-07-04T16:42:59.638Z",
+            "modified": "2023-07-04T16:42:59.638Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -630,8 +740,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -639,15 +749,15 @@
             }
         },
         {
-            "_id": "776d99ed-7c51-450c-8288-bc91296e72d4",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "af54448d-f53e-4aca-aa7e-1890c6dcd6c0",
+            "_id": "407498a6-bb9a-4129-a03b-470f85b29ecc",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cc3f7150-cc8b-48d1-ac11-72221654cb56",
             "name": "data",
-            "url": "{{LH_6030}}/batch/{{stationId}}/{{batchId}}/data",
+            "url": "{{LH_6030}}/batch/{{stationId2}}/{{batchId2}}/data",
             "method": "GET",
             "sortNum": 115000,
-            "created": "2023-06-21T16:39:49.305Z",
-            "modified": "2023-06-21T16:39:49.305Z",
+            "created": "2023-07-04T16:42:59.639Z",
+            "modified": "2023-07-07T20:25:14.870Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -658,8 +768,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -667,15 +777,15 @@
             }
         },
         {
-            "_id": "f72d9652-1d81-4038-b1d0-123ed586673f",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7a8b781a-8392-4f1c-9b0b-c71bafd40f4f",
+            "_id": "796911a9-e2cb-4fb0-ad0d-477dbb4a6411",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
             "name": "icon-info",
             "url": "{{LH_6030}}/internal/icon-info/{{icon}}",
             "method": "GET",
             "sortNum": 120000,
-            "created": "2023-06-21T16:39:49.306Z",
-            "modified": "2023-06-21T16:39:49.306Z",
+            "created": "2023-07-04T16:42:59.640Z",
+            "modified": "2023-07-04T16:42:59.640Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -686,8 +796,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -695,15 +805,15 @@
             }
         },
         {
-            "_id": "372678cc-a996-4350-b7f6-0a53e490de2c",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "af54448d-f53e-4aca-aa7e-1890c6dcd6c0",
+            "_id": "ef935538-7cac-4e73-b9c6-27fdb4e005b0",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cc3f7150-cc8b-48d1-ac11-72221654cb56",
             "name": "pause",
-            "url": "{{LH_6030}}/batch/{{stationId}}/{{batchId}}/pause",
+            "url": "{{LH_6030}}/batch/{{stationId2}}/{{batchId2}}/pause",
             "method": "PUT",
             "sortNum": 130000,
-            "created": "2023-06-21T16:39:49.307Z",
-            "modified": "2023-06-21T16:39:49.307Z",
+            "created": "2023-07-04T16:42:59.641Z",
+            "modified": "2023-07-07T20:25:20.329Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -713,122 +823,122 @@
             "tests": []
         },
         {
-            "_id": "08ce330f-fded-47e0-b02f-7c046a5d09e6",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7a8b781a-8392-4f1c-9b0b-c71bafd40f4f",
+            "_id": "37676967-a4f7-4b17-a4e0-09a26bd89b66",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
             "name": "active-dataset",
+            "url": "{{LH_6030}}/internal/active-dataset",
+            "method": "PUT",
+            "sortNum": 130000,
+            "created": "2023-07-04T16:42:59.642Z",
+            "modified": "2023-07-05T13:24:03.480Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"datasetId\": \"64105601312c5b001bd49196\",\n  \"status\": true\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "0ad01062-8471-46ae-af80-2c3436cd57ed",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cc3f7150-cc8b-48d1-ac11-72221654cb56",
+            "name": "resume",
+            "url": "{{LH_6030}}/batch/{{stationId2}}/{{batchId2}}/resume",
+            "method": "PUT",
+            "sortNum": 140000,
+            "created": "2023-07-04T16:42:59.643Z",
+            "modified": "2023-07-07T20:25:27.557Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "2fa83257-5ffb-43d7-b941-cdd915282ad6",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
+            "name": "active-language",
+            "url": "{{LH_6030}}/internal/active-language",
+            "method": "PUT",
+            "sortNum": 140000,
+            "created": "2023-07-04T16:42:59.644Z",
+            "modified": "2023-07-07T19:48:13.174Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"languageId\": \"es\",\n  \"status\": false\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "7a6c154b-55c9-4d08-8452-456f6daa8bf8",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "be419572-c19b-4d1c-85f0-1b5008ffe1e6",
+            "name": "inspection",
+            "url": "{{LH_6030}}/event/inspection",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2023-07-04T16:42:59.645Z",
+            "modified": "2023-07-05T13:29:40.154Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "d3559b9d-1ad6-4b26-9f62-dcdb830c4ea6",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
+            "name": "default-language",
             "url": "{{LH_6030}}/internal/default-language",
             "method": "PUT",
-            "sortNum": 130000,
-            "created": "2023-06-21T16:39:49.308Z",
-            "modified": "2023-06-21T16:39:49.308Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"languageId\": \"fr\"\n}",
-                "form": []
-            },
-            "auth": {
-                "type": "bearer",
-                "bearer": "Bearer {{token}}"
-            },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
-        },
-        {
-            "_id": "df740b87-cc22-4714-b339-1ddb57794f41",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "af54448d-f53e-4aca-aa7e-1890c6dcd6c0",
-            "name": "resume",
-            "url": "{{LH_6030}}/batch/{{stationId}}/{{batchId}}/resume",
-            "method": "PUT",
-            "sortNum": 140000,
-            "created": "2023-06-21T16:39:49.309Z",
-            "modified": "2023-06-21T16:39:49.309Z",
-            "headers": [],
-            "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "Bearer {{token}}"
-            },
-            "tests": []
-        },
-        {
-            "_id": "0a1386c3-367f-4bb9-b5d5-b3e66780cfa0",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7a8b781a-8392-4f1c-9b0b-c71bafd40f4f",
-            "name": "active-language",
-            "url": "{{LH_6030}}/internal/active-dataset",
-            "method": "PUT",
-            "sortNum": 140000,
-            "created": "2023-06-21T16:39:49.310Z",
-            "modified": "2023-06-21T16:39:49.310Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"datasetId\": \"64105601312c5b001bd49196\",\n  \"status\": false\n}",
-                "form": []
-            },
-            "auth": {
-                "type": "bearer",
-                "bearer": "Bearer {{token}}"
-            },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
-        },
-        {
-            "_id": "f3b941df-7efb-44cd-bff2-4a540330baf6",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7f6698f4-3559-4ddd-9fff-150a1ec5ffbd",
-            "name": "get",
-            "url": "{{LH_6030}}/event/{{eventId}}",
-            "method": "GET",
             "sortNum": 150000,
-            "created": "2023-06-21T16:39:49.311Z",
-            "modified": "2023-06-21T16:39:49.311Z",
-            "headers": [],
-            "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "Bearer {{token}}"
-            },
-            "tests": []
-        },
-        {
-            "_id": "8c3ab328-9e2b-4576-bc60-8d067f83db21",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "7a8b781a-8392-4f1c-9b0b-c71bafd40f4f",
-            "name": "default-language",
-            "url": "{{LH_6030}}/internal/active-dataset",
-            "method": "PUT",
-            "sortNum": 150000,
-            "created": "2023-06-21T16:39:49.312Z",
-            "modified": "2023-06-21T16:39:49.312Z",
+            "created": "2023-07-04T16:42:59.646Z",
+            "modified": "2023-07-05T13:23:34.312Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"datasetId\": \"64105601312c5b001bd49196\",\n  \"status\": false\n}",
+                "raw": "{\n  \"languageId\": \"pt\"\n}",
                 "form": []
             },
             "auth": {
@@ -839,8 +949,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -848,29 +958,57 @@
             }
         },
         {
-            "_id": "4b5a7388-d58d-4847-a4a9-5253e52b9a3b",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "69ca8f34-9e4d-47b7-9374-5561b6e7548d",
+            "_id": "d577da2f-8872-4cc7-b56f-d97c450d1879",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "c460676c-9d50-4e42-b3c9-0865f63c3b4d",
             "name": "fe",
             "url": "{{LH_6030}}/config/fe",
             "method": "GET",
             "sortNum": 160000,
-            "created": "2023-06-21T16:39:49.313Z",
-            "modified": "2023-06-21T16:39:49.313Z",
+            "created": "2023-07-04T16:42:59.647Z",
+            "modified": "2023-07-04T16:42:59.647Z",
             "headers": [],
             "params": [],
             "tests": []
         },
         {
-            "_id": "e55c9d53-3376-4a22-a243-bdc526bfe5d3",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "80f35ca2-b0c0-4b4f-beba-3272a4fd2935",
+            "_id": "4ba7a274-ed42-428e-a3f1-65dd770dde1b",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
+            "name": "parameters",
+            "url": "{{LH_6030}}/internal/parameters",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2023-07-05T13:19:33.477Z",
+            "modified": "2023-07-05T13:22:27.763Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "88388be7-1f55-46dc-b8a3-e11b4cb61aba",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "27bf295a-76a9-48ae-b17d-5f0b54bb52a0",
             "name": "data",
-            "url": "{{LH_6030}}/queries/{{stationId}}/data?startTime=2023-03-01T12:18:46.000Z&endTime=2023-04-17T12:18:46.583Z&queryName=good_bad_parts",
+            "url": "{{LH_6030}}/queries/{{stationId1}}/data?startTime=2023-03-01T12:18:46.000Z&endTime=2023-04-17T12:18:46.583Z&queryName=good_bad_parts",
             "method": "GET",
             "sortNum": 170000,
-            "created": "2023-06-21T16:39:49.314Z",
-            "modified": "2023-06-21T16:39:49.314Z",
+            "created": "2023-07-04T16:42:59.648Z",
+            "modified": "2023-07-07T19:38:48.394Z",
             "headers": [],
             "params": [
                 {
@@ -897,8 +1035,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -906,15 +1044,49 @@
             }
         },
         {
-            "_id": "0acae3ab-6962-41af-9800-15821ff5e8bb",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "80f35ca2-b0c0-4b4f-beba-3272a4fd2935",
+            "_id": "64d94149-4a9a-468c-aefe-84a63352c44f",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
+            "name": "parameter-document",
+            "url": "{{LH_6030}}/internal/parameter-document?name=locale",
+            "method": "GET",
+            "sortNum": 170000,
+            "created": "2023-07-05T13:20:22.916Z",
+            "modified": "2023-07-07T19:54:35.941Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "name",
+                    "value": "locale",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "52acc068-9b86-4f5b-8c7e-16ccd7ec1838",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "27bf295a-76a9-48ae-b17d-5f0b54bb52a0",
             "name": "add",
             "url": "{{LH_6030}}/queries/add-query",
             "method": "POST",
             "sortNum": 175000,
-            "created": "2023-06-21T16:39:49.315Z",
-            "modified": "2023-06-21T16:39:49.315Z",
+            "created": "2023-07-04T16:42:59.649Z",
+            "modified": "2023-07-07T19:38:50.383Z",
             "headers": [],
             "params": [],
             "body": {
@@ -926,28 +1098,18 @@
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "2ac83f98-4f93-4b6e-ba46-3d1480130671",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
+            "tests": []
         },
         {
-            "_id": "b0f51775-e25b-4bdb-be27-e709db4e9710",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "80f35ca2-b0c0-4b4f-beba-3272a4fd2935",
+            "_id": "35a39ef1-bcd8-42e9-bb98-4d46c6ae9d3d",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "27bf295a-76a9-48ae-b17d-5f0b54bb52a0",
             "name": "run",
             "url": "{{LH_6030}}/queries/run-query",
             "method": "POST",
             "sortNum": 175625,
-            "created": "2023-06-21T16:39:49.316Z",
-            "modified": "2023-06-21T16:39:49.316Z",
+            "created": "2023-07-04T16:42:59.650Z",
+            "modified": "2023-07-07T19:39:22.447Z",
             "headers": [],
             "params": [],
             "body": {
@@ -959,28 +1121,18 @@
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "2ac83f98-4f93-4b6e-ba46-3d1480130671",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
+            "tests": []
         },
         {
-            "_id": "1ed39a6b-2974-42c0-9866-4402683fda3b",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "80f35ca2-b0c0-4b4f-beba-3272a4fd2935",
+            "_id": "650fe1c2-94f8-40e4-8a16-7a9295939225",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "27bf295a-76a9-48ae-b17d-5f0b54bb52a0",
             "name": "save",
             "url": "{{LH_6030}}/queries/save-query",
             "method": "PUT",
             "sortNum": 176250,
-            "created": "2023-06-21T16:39:49.317Z",
-            "modified": "2023-06-21T16:39:49.317Z",
+            "created": "2023-07-04T16:42:59.651Z",
+            "modified": "2023-07-07T19:39:34.083Z",
             "headers": [],
             "params": [],
             "body": {
@@ -992,28 +1144,18 @@
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "2ac83f98-4f93-4b6e-ba46-3d1480130671",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
+            "tests": []
         },
         {
-            "_id": "c139d4dc-1b92-481c-aace-75d0811152f4",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "80f35ca2-b0c0-4b4f-beba-3272a4fd2935",
+            "_id": "a3f4cbe0-5abd-4c53-a4a6-b0f6e4ede5eb",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "27bf295a-76a9-48ae-b17d-5f0b54bb52a0",
             "name": "remove",
             "url": "{{LH_6030}}/queries/remove-query",
             "method": "DELETE",
             "sortNum": 177500,
-            "created": "2023-06-21T16:39:49.318Z",
-            "modified": "2023-06-21T16:39:49.318Z",
+            "created": "2023-07-04T16:42:59.652Z",
+            "modified": "2023-07-07T19:39:39.430Z",
             "headers": [],
             "params": [],
             "body": {
@@ -1025,42 +1167,32 @@
                 "type": "bearer",
                 "bearer": "Bearer {{token}}"
             },
-            "tests": [],
-            "preReq": {
-                "runRequests": [
-                    {
-                        "reqId": "2ac83f98-4f93-4b6e-ba46-3d1480130671",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
-                    }
-                ]
-            }
+            "tests": []
         },
         {
-            "_id": "797a19ca-c335-4416-9858-a23f2ca82945",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "02d9cd16-4a40-47d8-8e75-575f5dd85452",
+            "_id": "5f80e013-25ff-4c6e-b9f4-e6c38b4d22c4",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "e035c130-f976-433a-adfd-9048f74b1e9e",
             "name": "list",
-            "url": "{{LH_6030}}/station/list",
+            "url": "{{LH_6030}}/station/list/",
             "method": "GET",
             "sortNum": 180000,
-            "created": "2023-06-21T16:39:49.319Z",
-            "modified": "2023-06-21T16:39:49.319Z",
+            "created": "2023-07-04T16:42:59.653Z",
+            "modified": "2023-07-07T17:33:48.152Z",
             "headers": [],
             "params": [],
             "tests": []
         },
         {
-            "_id": "03e0353f-2dc0-46b6-b9da-5afde1aaddf1",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "80f35ca2-b0c0-4b4f-beba-3272a4fd2935",
-            "name": "query",
+            "_id": "08b63af6-61cc-47a6-9cfc-769bb1af7d8d",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "27bf295a-76a9-48ae-b17d-5f0b54bb52a0",
+            "name": "queries",
             "url": "{{LH_6030}}/queries/",
             "method": "GET",
             "sortNum": 180000,
-            "created": "2023-06-21T16:39:49.320Z",
-            "modified": "2023-06-21T16:39:49.320Z",
+            "created": "2023-07-04T16:42:59.654Z",
+            "modified": "2023-07-07T19:17:52.481Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -1071,8 +1203,8 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
@@ -1080,62 +1212,90 @@
             }
         },
         {
-            "_id": "faa30a85-9900-40b7-b7c2-34ea7398eb5b",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "735e283d-18eb-4bc0-923f-7cf77e2866b1",
-            "name": "delete",
-            "url": "{{LH_6030}}/alerts/{{stationId}}/{{alertId}}",
-            "method": "DELETE",
-            "sortNum": 200000,
-            "created": "2023-06-21T16:39:49.321Z",
-            "modified": "2023-06-21T17:38:13.372Z",
-            "headers": [],
-            "params": [],
-            "tests": []
-        },
-        {
-            "_id": "dfcb5d32-f864-4818-9961-6e169e3482d0",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "735e283d-18eb-4bc0-923f-7cf77e2866b1",
-            "name": "get",
-            "url": "{{LH_6030}}/alerts/{{stationId}}",
-            "method": "GET",
-            "sortNum": 210000,
-            "created": "2023-06-21T16:39:49.322Z",
-            "modified": "2023-06-21T16:39:49.322Z",
-            "headers": [],
-            "params": [],
-            "tests": []
-        },
-        {
-            "_id": "fe0dfcf2-fb96-4d2b-a8ec-5f6afcce5823",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
-            "name": "role",
-            "url": "{{LH_6030}}/auth/role",
-            "method": "POST",
-            "sortNum": 210000,
-            "created": "2023-06-21T16:39:49.323Z",
-            "modified": "2023-06-21T16:39:49.323Z",
+            "_id": "429a0b26-cf64-47e5-933c-5b00623761db",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "3ec2e248-1d94-4d42-9318-19cd9afeae54",
+            "name": "update parameter-document",
+            "url": "{{LH_6030}}/internal/parameter-document",
+            "method": "PUT",
+            "sortNum": 180000,
+            "created": "2023-07-05T13:20:57.811Z",
+            "modified": "2023-07-07T20:01:24.682Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"roleName\": \"outro teste\",\n  \"description\": \"um teste\",\n  \"types\": [\"master\"]\n}",
+                "raw": "{\n  \"document\": \"locale\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "579b01c1-bf80-4102-9b9e-abaa99d39cc3",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "e035c130-f976-433a-adfd-9048f74b1e9e",
+            "name": "station",
+            "url": "{{LH_6030}}/station/{{stationId1}}",
+            "method": "PUT",
+            "sortNum": 190000,
+            "created": "2023-07-04T22:03:51.381Z",
+            "modified": "2023-07-07T19:06:33.676Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"label\": \"Station 1\",\n  \"parms\": {\n    \"wsURL\": \"http://localhost:6030\",\n    \"postBatchURL\": \"http://localhost:6030/batch\"\n  }\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "42dd5125-ac1f-432e-8020-ab9d0fd33f23",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
+            "name": "create-role",
+            "url": "{{LH_6030}}/auth/role",
+            "method": "POST",
+            "sortNum": 210000,
+            "created": "2023-07-04T16:42:59.657Z",
+            "modified": "2023-07-04T19:08:06.844Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"roleName\": \"tester\",\n  \"description\": \"Cara que faz testes\",\n  \"types\": [\"master\"]\n}\n",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "132d4994-c22d-4259-a93d-914362e10781",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "735e283d-18eb-4bc0-923f-7cf77e2866b1",
+            "_id": "45e842b2-cc96-47bc-b21d-bf69e87baa1d",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cb6c9c34-358e-4b12-afe6-509e924b2c92",
             "name": "post",
-            "url": "{{LH_6030}}/alerts/{{stationId}}",
+            "url": "{{LH_6030}}/alerts/{{stationId1}}",
             "method": "POST",
             "sortNum": 220000,
-            "created": "2023-06-21T16:39:49.324Z",
-            "modified": "2023-06-21T17:25:37.611Z",
+            "created": "2023-07-04T16:42:59.658Z",
+            "modified": "2023-07-07T20:42:27.449Z",
             "headers": [],
             "params": [],
             "body": {
@@ -1150,53 +1310,96 @@
             "tests": []
         },
         {
-            "_id": "4e59e92b-997f-4343-a117-ff896f21e87e",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
-            "name": "role",
+            "_id": "da0c42e6-844d-4039-bfff-ef97f88e063f",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
+            "name": "update-role",
             "url": "{{LH_6030}}/auth/role",
             "method": "PUT",
             "sortNum": 220000,
-            "created": "2023-06-21T16:39:49.325Z",
-            "modified": "2023-06-21T16:39:49.325Z",
+            "created": "2023-07-04T16:42:59.659Z",
+            "modified": "2023-07-04T19:21:28.381Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"roleName\": \"outro teste2\",\n  \"oldRoleName\": \"outro teste\",\n  \"description\": \"um teste\",\n  \"types\": [\"master\"]\n}",
+                "raw": "{\n  \"roleName\": \"outro tester\",\n  \"oldRoleName\": \"tester\",\n  \"description\": \"Cara que ainda faz o teste\",\n  \"types\": [\"master\"]\n}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "eba06e7a-41e8-45fa-ae15-8f2058c23f95",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "25172c65-fd5d-4059-bcc1-145ed01449fa",
-            "name": "role",
+            "_id": "f5e0330c-cdb8-40e1-8a72-0240727a2365",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "cb6c9c34-358e-4b12-afe6-509e924b2c92",
+            "name": "delete",
+            "url": "{{LH_6030}}/alerts/{{stationId1}}/{{alertId}}",
+            "method": "DELETE",
+            "sortNum": 230000,
+            "created": "2023-07-04T16:42:59.655Z",
+            "modified": "2023-07-07T20:31:05.651Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "174a7475-e498-4658-9356-99c1542ef10e",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
+            "name": "delete-role",
             "url": "{{LH_6030}}/auth/role",
             "method": "DELETE",
             "sortNum": 230000,
-            "created": "2023-06-21T16:39:49.327Z",
-            "modified": "2023-06-21T16:39:49.327Z",
+            "created": "2023-07-04T16:42:59.660Z",
+            "modified": "2023-07-04T19:21:25.122Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"roleName\": \"operator2\"\n}",
+                "raw": "{\n  \"roleName\": \"outro tester\"\n}",
                 "form": []
             },
             "tests": []
         },
         {
-            "_id": "756e4b26-a5ca-47d1-9c4b-646abe82fc34",
-            "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
-            "containerId": "34a0de08-f0f1-48d7-8ef1-d14f87c44f2f",
+            "_id": "2f7c5b83-dd2f-4758-b0f3-345b2a97f481",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "9084ca76-3a89-4a7b-85b2-d2c2b8115536",
+            "name": "delete-user",
+            "url": "{{LH_6030}}/auth/user",
+            "method": "DELETE",
+            "sortNum": 240000,
+            "created": "2023-07-04T16:42:59.629Z",
+            "modified": "2023-07-04T16:42:59.629Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"outro5\"\n}",
+                "form": []
+            },
+            "tests": [],
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "14ccf6d6-8ec8-48bf-bcb8-d7dce3a5d98c",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "5da49058-d916-4124-a632-f050c7471aa3",
             "name": "list",
             "url": "{{LH_6030}}/parts/list",
             "method": "GET",
             "sortNum": 240000,
-            "created": "2023-06-21T16:39:49.328Z",
-            "modified": "2023-06-21T16:39:49.328Z",
+            "created": "2023-07-04T16:42:59.661Z",
+            "modified": "2023-07-04T16:42:59.661Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -1207,22 +1410,95 @@
             "preReq": {
                 "runRequests": [
                     {
-                        "reqId": "48f23675-d6e5-4b75-ace4-e3b9f637d75d",
-                        "colId": "29587ec8-e7a7-4540-badd-8d9d138acc24",
+                        "reqId": "14a8b5e4-0624-4781-933a-f400b1ae46b6",
+                        "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
                         "triggerCondition": "run-always",
                         "triggerValue": ""
                     }
                 ]
             }
+        },
+        {
+            "_id": "22e798fc-337f-459b-b68e-784b82c35cda",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "be419572-c19b-4d1c-85f0-1b5008ffe1e6",
+            "name": "event",
+            "url": "{{LH_6030}}/event/staging",
+            "method": "POST",
+            "sortNum": 250000,
+            "created": "2023-07-04T21:31:41.465Z",
+            "modified": "2023-07-05T13:29:48.245Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "209502b1-a6ae-48c9-86f4-f8243cbe08ed",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "5bb2c736-1171-4249-9393-c255536b8a52",
+            "name": "get-cameras",
+            "url": "{{LH_6030}}/test/cameras",
+            "method": "GET",
+            "sortNum": 260000,
+            "created": "2023-07-04T21:44:33.566Z",
+            "modified": "2023-07-07T17:32:17.550Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "46243a11-b789-4d4f-857e-1c2623b9a0ef",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "5bb2c736-1171-4249-9393-c255536b8a52",
+            "name": "get-image",
+            "url": "{{LH_6030}}/test/cameras/{{img_name}}",
+            "method": "GET",
+            "sortNum": 270000,
+            "created": "2023-07-04T21:45:28.570Z",
+            "modified": "2023-07-07T17:32:40.943Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "d2371d3a-85f2-4e9c-be0a-483b0a0269ee",
+            "colId": "7d1d731c-3945-417e-98fa-9ff9cbe87f04",
+            "containerId": "34b7c275-bed4-4a6b-b774-ac63eaf42972",
+            "name": "get",
+            "url": "{{LH_6030}}/files/{{stationId}}/list?fileURL&dirPath",
+            "method": "GET",
+            "sortNum": 280000,
+            "created": "2023-07-05T13:26:51.518Z",
+            "modified": "2023-07-07T20:04:18.456Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "fileURL",
+                    "value": "",
+                    "isPath": false
+                },
+                {
+                    "name": "dirPath",
+                    "value": "",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "Bearer {{token}}"
+            },
+            "tests": []
         }
     ],
     "settings": {
-        "headers": [],
         "auth": {
             "type": "bearer",
             "bearer": "Bearer {{token}}"
         },
-        "tests": [],
-        "envId": "867c9ecb-afbf-4630-8815-b6bb11dd3d95"
+        "envId": "acf63744-83d7-4779-b9f1-9d64af02a07c"
     }
 }

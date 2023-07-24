@@ -1,13 +1,10 @@
 import Mongo from "../../../components/mongo";
-
+import StationListSingleton from "../../../components/StationListSingleton";
 
 async function getList(req, res, next) {
 
   try {
-    let collection = "station";
-    // let projection = {};
-    let sort = { label: 1 };
-    let stationList = await Mongo.db.collection(collection).find({}).sort(sort).toArray();
+    let stationList = await StationListSingleton.getInstance();
     let stationListLength = stationList.length;
     let output = {
       ok: true,
