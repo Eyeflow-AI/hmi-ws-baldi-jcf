@@ -7,7 +7,7 @@ const axios = require('axios');
 
 async function putPause(req, res, next) {
 
-  const timeout = 15000;
+  const timeout = 10000;
   try {
     let stationId = new Mongo.ObjectId(req.params.stationId);
     let batchId = new Mongo.ObjectId(req.params.batchId);
@@ -75,6 +75,15 @@ async function putPause(req, res, next) {
         err.extraData = { address, port, timeout };
       }
     }
+    else if (err?.code === "ECONNABORTED") {
+      let address = err.address;
+      let port = err.port;
+      err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
+      err.status = 500;
+      if (address && port) {
+        err.extraData = { address, port, timeout };
+      }
+    };
     next(err);
   };
 };
