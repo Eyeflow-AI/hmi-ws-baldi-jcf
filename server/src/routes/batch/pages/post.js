@@ -89,6 +89,7 @@ function getUpdateRequestBody(body) {
 
 async function post(req, res, next) {
 
+  const timeout = 15000;
   try {
     let stationId = new Mongo.ObjectId(req.params.stationId);
     let body = getUpdateRequestBody(req.body);
@@ -136,7 +137,7 @@ async function post(req, res, next) {
       },
     };
 
-    let response = await axios.post(postBatchURL, postRequestBody, { timeout: 2000 });
+    let response = await axios.post(postBatchURL, postRequestBody, { timeout });
     if (response.status !== 201) {
       let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
       err.status = 400;
@@ -164,7 +165,7 @@ async function post(req, res, next) {
       err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
       err.status = 500;
       if (address && port) {
-        err.extraData = { address, port };
+        err.extraData = { address, port, timeout };
       }
     }
     next(err);
