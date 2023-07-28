@@ -7,6 +7,7 @@ const axios = require('axios');
 
 async function putPause(req, res, next) {
 
+  const timeout = 10000;
   try {
     let stationId = new Mongo.ObjectId(req.params.stationId);
     let batchId = new Mongo.ObjectId(req.params.batchId);
@@ -40,7 +41,7 @@ async function putPause(req, res, next) {
 
     try {
       // TODO: Try again on fail. Maybe use a queue?
-      let response = await axios.post(postBatchURL, postRequestBody, { timeout: 1000 });
+      let response = await axios.post(postBatchURL, postRequestBody, { timeout });
       if (response.status !== 201) {
         log.info(`Successfully paused batch ${batchId} in station ${stationId}`);
       }
@@ -64,6 +65,25 @@ async function putPause(req, res, next) {
     }
   }
   catch (err) {
+    if (err?.code === "ECONNREFUSED") {
+      let address = err.address;
+      let port = err.port;
+      err = new Error(`Edge station is not reachable`);
+      err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
+      err.status = 500;
+      if (address && port) {
+        err.extraData = { address, port, timeout };
+      }
+    }
+    else if (err?.code === "ECONNABORTED") {
+      let address = err.address;
+      let port = err.port;
+      err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
+      err.status = 500;
+      if (address && port) {
+        err.extraData = { address, port, timeout };
+      }
+    };
     next(err);
   };
 };

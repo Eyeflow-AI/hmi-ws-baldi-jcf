@@ -7,6 +7,7 @@ import errors from "../../../utils/errors"
 
 async function putResume(req, res, next) {
 
+  const timeout = 10000;
   try {
     let stationId = new Mongo.ObjectId(req.params.stationId);
     let batchId = new Mongo.ObjectId(req.params.batchId);
@@ -72,7 +73,7 @@ async function putResume(req, res, next) {
       postRequestBody.batch.ng = batchDocument.batch_data.ng;
     };
 
-    let response = await axios.post(postBatchURL, postRequestBody, { timeout: 1000 });
+    let response = await axios.post(postBatchURL, postRequestBody, { timeout });
     if (response.status !== 201) {
       let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
       err.status = 400;
@@ -100,9 +101,18 @@ async function putResume(req, res, next) {
       err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
       err.status = 500;
       if (address && port) {
-        err.extraData = { address, port };
+        err.extraData = { address, port, timeout };
       }
     }
+    else if (err?.code === "ECONNABORTED") {
+      let address = err.address;
+      let port = err.port;
+      err.code = errors.EDGE_STATION_IS_NOT_REACHABLE;
+      err.status = 500;
+      if (address && port) {
+        err.extraData = { address, port, timeout };
+      }
+    };
     next(err);
   };
 };
