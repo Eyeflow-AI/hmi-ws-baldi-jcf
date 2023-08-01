@@ -40,6 +40,9 @@ async function post(req, res, next) {
     };
   }
   catch (err) {
+    if (err.message.includes('E11000')) {
+      err.message = `Document with this station already exists`;
+    }
     next(err);
   }
 };
