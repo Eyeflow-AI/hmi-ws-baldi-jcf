@@ -4,7 +4,8 @@ import {
   Get,
   GetRunning,
   PutPause,
-  PutResume
+  PutResume,
+  PutFeedback,
 } from './pages';
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.get('/:stationId/:serialId', Get);
 
 router.put('/:stationId/:serialId/pause', PutPause);
 router.put('/:stationId/:serialId/resume', PutResume);
+router.put('/:stationId/:serialId/feedback', PutFeedback);
 
 export default router;
