@@ -26,9 +26,12 @@ async function putFeedback(req, res, next) {
       let feedbackRegion = document.event_data.inspection_result.check_list.region.find(region => region.name === regionName);
       await Mongo.db.collection("events_to_upload").insertOne({
         data: feedbackRegion,
-        original_id: new Mongo.ObjectId(serialId),
+        original_id: document._id,
         original_collection: 'inspection_events',
         uploaded: false,
+        image_file: feedbackRegion.image_file,
+        image_path: feedbackRegion.image_path,
+        image_scale: feedbackRegion.image_scale,
       });
 
       res.status(200).json({ ok: true });
