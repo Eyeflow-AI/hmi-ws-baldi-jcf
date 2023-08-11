@@ -71,6 +71,7 @@ async function getList(req, res, next) {
       part_id: '$part_id',
       date: '$date',
       count: '$count',
+      feedback_time: '$feedback_time',
     };
     let sort = { 'date': -1 };
     let limit = 10000;                                          //TODO: Get from config file
@@ -90,6 +91,7 @@ async function getList(req, res, next) {
           },
           date: { $first: "$event_data.window_ini_time" },
           part_id: { $first: "$event_data.part_data.id" },
+          feedback_time: { $first: "$feedback_time" },
           count: { $sum: 1 },
         }
       },
@@ -100,6 +102,7 @@ async function getList(req, res, next) {
     let resultsNotOk = [];
 
     serialList = serialList.map((el, index) => {
+      // console.log({ el })
       if (!el.result) {
         resultsNotOk.push(el.inspection_id);
       };
@@ -115,6 +118,8 @@ async function getList(req, res, next) {
     serialList.forEach((el, index) => {
       // console.log({ date: el.date, i: el.inspection_id })
       hashString += el.date.toISOString();
+      // console.log({ f: el?.feedback_time })
+      hashString += el?.feedback_time?.toISOString() ?? '';
       el.index = serialListLength - index;
       // el.thumbURL = `${host.url}/others/GearIcon.svg`;                 //TODO: Get from config file,
       el.thumbStyle = { height: 90 };                            //TODO: Get from config file,
