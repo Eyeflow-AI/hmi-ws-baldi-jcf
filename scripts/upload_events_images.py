@@ -259,10 +259,10 @@ def upload_files(dataset_list):
                 log.error(f'Fail uploading feedback surface{dataset["dataset"]}')
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-def get_events():
-    client_dst = MongoClient("mongodb://silicon:vinfast@192.168.2.2:27017/?authSource=admin&readPreference=primary&directConnection=true&ssl=false")
-    db_dst = client_dst["eyeflow"]
-    cursor = db_dst.events_to_upload.find({"uploaded": {"$ne": True}})
+def get_events(mongo_url, mongo_db, mongo_collection):
+    client_dst = MongoClient(mongo_url)
+    db_dst = client_dst[mongo_db]
+    cursor = db_dst[mongo_collection].find({"uploaded": {"$ne": True}}).limit(100)
     events = []
     if cursor is not None:
         for evt in cursor:
@@ -273,10 +273,10 @@ def get_events():
     return events
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-def update_events(events_ids):
-    client_dst = MongoClient("mongodb://silicon:vinfast@192.168.2.2:27017/?authSource=admin&readPreference=primary&directConnection=true&ssl=false")
-    db_dst = client_dst["eyeflow"]
-    db_dst.events_to_upload.update_many({"_id": {"$in": events_ids}}, {"$set": {"uploaded": True} })
+def update_events(mongo_url, mongo_db, mongo_collection, events):
+    client_dst = MongoClient(mongo_url) 
+    db_dst = client_dst[mongo_db]
+    db_dst[mongo_collection].update_many({"_id": {"$in": events}}, {"$set": {"uploaded": True} })
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def get_image(image,v_type):
@@ -296,11 +296,11 @@ def get_image(image,v_type):
     return img
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-def get_examples(frame_data):
+def get_examples(data):
     res=[]
-    for comp_key in get_comps(frame_data):
+    for comp_key in get_comps(data):
         instances = []
-        comp = frame_data[comp_key]
+        comp = data[comp_key]
         comp_dataset_id= comp["dataset_id"]
         dets = [comp["outputs"][out] for out in comp["outputs"] if comp["outputs"][out]]
         for detections in dets:
@@ -310,10 +310,10 @@ def get_examples(frame_data):
                             "class": aux.get("class"),
                             "label": aux.get("label"),
                             "bbox":  {
-                                         "x_min": aux.get("bbox").get("x_min") * frame_data.get("event_scale"),
-                                         "y_min": aux.get("bbox").get("y_min") * frame_data.get("event_scale"),
-                                         "x_max": aux.get("bbox").get("x_max") * frame_data.get("event_scale"),
-                                         "y_max": aux.get("bbox").get("y_max") * frame_data.get("event_scale")
+                                         "x_min": aux.get("bbox").get("x_min") * data.get("event_scale"),
+                                         "y_min": aux.get("bbox").get("y_min") * data.get("event_scale"),
+                                         "x_max": aux.get("bbox").get("x_max") * data.get("event_scale"),
+                                         "y_max": aux.get("bbox").get("y_max") * data.get("event_scale")
                                      }
                             }
                 for sub_comp_key in get_comps(detection):
@@ -376,45 +376,46 @@ def copy_example(example):
             shutil.copy2(img_src+fl, img_dst+fl)
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-def main():
-    events = get_events()
+def main(mongo_url, mongo_db, mongo_collection):
+    events = get_events(mongo_url, mongo_db, mongo_collection)
     dataset_list=[]
     if not events:
         log.info("no example to upload")
         return
     
     for evt in events:
-        if evt.get("original_collection") == "events":
-            scale = evt.get("frame_data", {}).get("event_scale", 1)
-            v_type = "debug"
-            aux = {
-                    "image_file": evt.get("image_file", None),
-                    "image_path": evt.get("image_path", None),
-                    "image_scale": scale
-            }
-            examples = get_examples(evt.get("frame_data",{}))
-        elif evt.get("original_collection") == "repair_events":
-            scale = evt.get("region", {}).get("image_scale", 1)
+        aux = {}
+        if evt.get("original_collection") == "inspection_events":
+            scale = evt.get("image_scale", 1)
             v_type = "feedback"
             aux = {
-                    "image_file": evt.get("region", {}).get("image_file", None),
-                    "image_path": evt.get("region", {}).get("image_path", None),
-                    "image_scale": scale
-            }
-            examples = get_example(evt.get("region",{}))
-        
-        elif evt.get("original_collection") == "surface":
-            v_type = "surface"
-            aux = {
                     "image_file": evt.get("image_file", None),
                     "image_path": evt.get("image_path", None),
-                    "original_id": str(evt.get("original_id", None)),
-                    "dataset": evt.get("dataset", None)
+                    "image_scale": scale
             }
-            copy_example(aux)
-            if evt.get("dataset", None) not in [dtset["dataset"] for dtset in dataset_list]:
-                dataset_list.append({"dataset": evt.get("dataset", None),  "type": "surface"})
-            continue
+            examples = get_examples(evt.get("data",{}))
+        # elif evt.get("original_collection") == "repair_events":
+        #     scale = evt.get("region", {}).get("image_scale", 1)
+        #     v_type = "feedback"
+        #     aux = {
+        #             "image_file": evt.get("region", {}).get("image_file", None),
+        #             "image_path": evt.get("region", {}).get("image_path", None),
+        #             "image_scale": scale
+        #     }
+        #     examples = get_example(evt.get("region",{}))
+        
+        # elif evt.get("original_collection") == "surface":
+        #     v_type = "surface"
+        #     aux = {
+        #             "image_file": evt.get("image_file", None),
+        #             "image_path": evt.get("image_path", None),
+        #             "original_id": str(evt.get("original_id", None)),
+        #             "dataset": evt.get("dataset", None)
+        #     }
+        #     copy_example(aux)
+        #     if evt.get("dataset", None) not in [dtset["dataset"] for dtset in dataset_list]:
+        #         dataset_list.append({"dataset": evt.get("dataset", None),  "type": "surface"})
+        #     continue
 
         else:
             continue
@@ -475,14 +476,16 @@ def main():
                 if example["dataset_id"] not in [dtset["dataset"] for dtset in dataset_list]:
                     dataset_list.append({"dataset": example["dataset_id"], "type":v_type})
     upload_files(dataset_list)
-    update_events([evt["_id"] for evt in events])
+    update_events(mongo_url, mongo_db, mongo_collection, events = [evt["_id"] for evt in events])
     clear_extract(dataset_list)
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    while True:
-        main()
-        time.sleep(30)
+    # while True:
+        # main()
+        # time.sleep(30)
+    main(mongo_url = "mongodb://localhost:27017", mongo_db = "eyeflow", mongo_collection = "events" )
+
 
