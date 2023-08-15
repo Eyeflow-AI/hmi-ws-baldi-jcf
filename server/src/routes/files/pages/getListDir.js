@@ -10,7 +10,6 @@ async function getListDir(req, res, next) {
       err.status = 400;
       throw err;
     };
-
     let depth = parseInt(req.query.depth) ?? 0;
     if (isNaN(depth)) {
       let err = new Error(`query parm depth should be a valid int value`);
@@ -50,7 +49,7 @@ async function getListDir(req, res, next) {
       return fileData;
     });
 
-    res.status(200).json({ ok: true, files, debug: {depth, stationId, fileURL, host}, query: req.query});
+    res.status(200).json({ ok: true, files, debug: { depth, stationId, fileURL, host }, query: req.query });
   }
   catch (err) {
     next(err);
