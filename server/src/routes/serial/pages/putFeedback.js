@@ -7,7 +7,6 @@ async function putFeedback(req, res, next) {
     let serialId = req.params.serialId;
     let regionName = req.body.regionName;
     const tokenData = { ...req?.app?.auth } ?? {};
-    console.dir({ tokenData }, { depth: null })
     let query = {
       station: new Mongo.ObjectId(stationId),
       'event_data.inspection_id': serialId,
