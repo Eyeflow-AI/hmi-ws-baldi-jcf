@@ -43,20 +43,20 @@ async function postInspectionEvent(req, res, next) {
     } else {
       console.log("No IPv4 address found.");
     }
-    const station = await Mongo.db.collection('station').findOne({ 'parms.host': ipv4Address });
-    const host = station.parms.host;
-    const filesPort = station.parms.filesPort;
-    const url = `http://${host}:${filesPort}/eyeflow_data/event_image`;
+    const station = await Mongo.db.collection('station').findOne({ 'parms.host': `http://${ipv4Address}` });
+    const host = station?.parms?.host ?? '';
+    const filesPort = station?.parms?.filesPort ?? '';
+    const url = `${host}:${filesPort}/eyeflow_data/event_image`;
     const imagesList = [];
 
-    event.inspection_result.checklist.region.forEach(region => {
+    event.event_data.inspection_result.check_list.region.forEach(region => {
       imagesList.push({
         url: `${url}/${region.image_path}/${region.image_file}`,
         image_path: region.image_path,
         image_file: region.image_file
       })
     });
-    Promise.all(imagesList.map(imageObj => saveImage(imageObj)));
+    await Promise.all(imagesList.map(imageObj => saveImage(imageObj)));
 
 
     await Mongo.db.collection('inspection_events').insertOne(event);
