@@ -9,6 +9,8 @@ async function postDebugEvent(req, res, next) {
     event = JSON.stringify(event);
     event = EJSON.parse(event);
 
+    const clientIP = req.connection.remoteAddress;
+    event.host = clientIP;
     await Mongo.db.collection('debug_events').insertOne(event);
     res.status(201).json({
       ok: true
