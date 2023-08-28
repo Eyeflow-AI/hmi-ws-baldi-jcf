@@ -10,6 +10,13 @@ async function saveImage(imageObj) {
     axios.get(imageObj.url, { responseType: 'arraybuffer' })
       .then(response => {
         // Save the image to a file
+        if (!fs.existsSync(`/data/event_image/${imageObj.image_path}/`)) {
+          // Create the directory
+          fs.mkdirSync(`/data/event_image/${imageObj.image_path}/`);
+          console.log('Directory created successfully.');
+        } else {
+          console.log('Directory already exists.');
+        }
         fs.writeFileSync(`/data/event_image/${imageObj.image_path}/${imageObj.image_file}`, Buffer.from(response.data));
         console.log('Image saved successfully.');
         resolve();
