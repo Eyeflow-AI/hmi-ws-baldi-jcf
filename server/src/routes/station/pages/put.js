@@ -15,10 +15,13 @@ async function put(req, res, next) {
     }
     else {
       let slugLabel = slugify(stationData.label);
+      let parms = stationData?.parms ? JSON.parse(stationData.parms) : {};
+      let edges = stationData?.edges ? JSON.parse(stationData.edges) : [];
       let update = {
         $set: {
           label: stationData.label,
-          parms: JSON.parse(stationData.parms),
+          parms,
+          edges,
           slugLabel,
         }
       };
