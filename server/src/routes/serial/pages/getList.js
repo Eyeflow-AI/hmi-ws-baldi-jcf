@@ -89,7 +89,7 @@ async function getList(req, res, next) {
             inspection_id: "$event_data.inspection_id",
             result: "$event_data.inspection_result.ok",
           },
-          date: { $first: "$event_data.window_ini_time" },
+          date: { $last: "$event_data.window_ini_time" },
           part_id: { $first: "$event_data.part_data.id" },
           feedback_time: { $first: "$feedback_time" },
           count: { $sum: 1 },
