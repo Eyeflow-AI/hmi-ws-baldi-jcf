@@ -6,29 +6,38 @@ import fs from 'fs';
 async function saveImage(imageObj) {
 
   return new Promise(async (resolve, reject) => {
-    // Fetch the image
-    axios.get(imageObj.url, { responseType: 'arraybuffer' })
-      .then(response => {
-        // Save the image to a file
-        if (!fs.existsSync(`/data/event_image/${imageObj.image_path}/`)) {
-          // Create the directory
-          fs.mkdirSync(`/data/event_image/${imageObj.image_path}/`);
-          console.log('Directory created successfully.');
-        } else {
-          console.log('Directory already exists.');
-        }
-        fs.writeFileSync(`/data/event_image/${imageObj.image_path}/${imageObj.image_file}`, Buffer.from(response.data));
-        console.log('Image saved successfully.');
-        resolve();
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-        resolve();
-      });
+    if (!fs.existsSync(`/data/event_image/${imageObj.image_path}/`)) {
+      // Create the directory
+      fs.mkdirSync(`/data/event_image/${imageObj.image_path}/`);
+      console.log('Directory created successfully.');
+    } else {
+      console.log('Directory already exists.');
+    }
+    // Save the image to a file
+
+    // check if file exists
+    if (fs.existsSync(`/data/event_image/${imageObj.image_path}/${imageObj.image_file}`)) {
+
+    } else {
+      console.log('File does not exist.');
+      // Fetch the image
+      axios.get(imageObj.url, { responseType: 'arraybuffer' })
+        .then(response => {
+          fs.writeFileSync(`/data/event_image/${imageObj.image_path}/${imageObj.image_file}`, Buffer.from(response.data));
+          console.log('Image saved successfully.');
+
+          resolve();
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+          resolve();
+        });
+
+
+    }
 
   });
 };
-
 
 async function postInspectionEvent(req, res, next) {
 
@@ -50,9 +59,10 @@ async function postInspectionEvent(req, res, next) {
     } else {
       console.log("No IPv4 address found.");
     }
-    const station = await Mongo.db.collection('station').findOne({ 'parms.host': `http://${ipv4Address}` });
-    const host = station?.parms?.host ?? '';
-    const filesPort = station?.parms?.filesPort ?? '';
+    const station = await Mongo.db.collection('station').findOne({ 'edges.host': `http://${ipv4Address}` });
+    const edge = station?.edges.find(edge => edge.host === `http://${ipv4Address}`);
+    const host = edge?.host ?? '';
+    const filesPort = edge?.filesPort ?? '';
     const url = `${host}:${filesPort}/eyeflow_data/event_image`;
     const imagesList = [];
 
