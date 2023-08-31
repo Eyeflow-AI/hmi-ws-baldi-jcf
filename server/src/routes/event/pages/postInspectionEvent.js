@@ -17,7 +17,7 @@ async function saveImage(imageObj) {
 
     // check if file exists
     if (fs.existsSync(`/data/event_image/${imageObj.image_path}/${imageObj.image_file}`)) {
-
+      resolve();
     } else {
       console.log('File does not exist.');
       // Fetch the image
@@ -25,15 +25,12 @@ async function saveImage(imageObj) {
         .then(response => {
           fs.writeFileSync(`/data/event_image/${imageObj.image_path}/${imageObj.image_file}`, Buffer.from(response.data));
           console.log('Image saved successfully.');
-
           resolve();
         })
         .catch(error => {
           console.error('There was a problem with the fetch operation:', error);
           resolve();
         });
-
-
     }
 
   });
