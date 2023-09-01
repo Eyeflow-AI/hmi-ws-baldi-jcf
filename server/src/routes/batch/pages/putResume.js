@@ -64,7 +64,9 @@ async function putResume(req, res, next) {
         current_pack: batchDocument?.batch_data?.pack_num ?? 1,
         current_total_output_parts: batchDocument?.batch_data?.total_output_parts ?? 0,
       },
+      part_data: {...partData},
     };
+    delete postRequestBody.part_data.color_profile;
 
     if (batchDocument?.batch_data?.hasOwnProperty("ok")) {
       postRequestBody.batch.ok = batchDocument.batch_data.ok;

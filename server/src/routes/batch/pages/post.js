@@ -135,7 +135,9 @@ async function post(req, res, next) {
         parts_per_pack: parseIntThrowError(body.parts_per_pack, `Failed to parse body.parts_per_pack ${body.parts_per_pack} as integer`),
         profile_parms: partData.color_profile
       },
+      part_data: {...partData},
     };
+    delete postRequestBody.part_data.color_profile;
 
     let response = await axios.post(postBatchURL, postRequestBody, { timeout });
     if (response.status !== 201) {
