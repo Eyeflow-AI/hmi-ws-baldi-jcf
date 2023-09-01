@@ -63,11 +63,31 @@ async function postInspectionEvent(req, res, next) {
     const url = `${host}:${filesPort}/eyeflow_data/event_image`;
     const imagesList = [];
 
-    event.event_data.inspection_result.check_list.region.forEach(region => {
-      imagesList.push({
-        url: `${url}/${region.image_path}/${region.image_file}`,
-        image_path: region.image_path,
-        image_file: region.image_file
+    let urlControl = [];
+    event?.event_data?.inspection_result?.check_list?.region?.forEach(region => {
+      let full_url = `${url}/${region?.image?.image_path ?? region?.image_path}/${region?.image?.image_file ?? region?.image_file}`;
+      if (!urlControl.includes(full_url)) {
+        urlControl.push(full_url);
+        imagesList.push({
+          url: full_url,
+          image_path: region?.image?.image_path ?? region?.image_path,
+          image_file: region?.image?.image_file ?? region?.image_file
+        })
+      };
+      region?.tests?.forEach(test => {
+        test?.detections?.forEach(detection => {
+          if (detection?.image?.image_path && detection?.image?.image_file) {
+            full_url = `${url}/${detection?.image?.image_path ?? detection?.image_path}/${detection?.image?.image_file ?? detection?.image_file}`;
+            if (!urlControl.includes(full_url)) {
+              urlControl.push(full_url);
+              imagesList.push({
+                url: full_url,
+                image_path: detection?.image?.image_path ?? detection?.image_path,
+                image_file: detection?.image?.image_file ?? test?.image_file
+              })
+            };
+          }
+        })
       })
     });
     await Promise.all(imagesList.map(imageObj => saveImage(imageObj)));
