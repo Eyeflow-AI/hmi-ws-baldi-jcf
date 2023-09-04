@@ -1,5 +1,6 @@
 import fs from 'fs';
 import fsx from 'fs-extra';
+const DATA_PATH = process.env.DATA_PATH || '/data';
 
 const postImage = async (req, res) => {
 
@@ -7,7 +8,7 @@ const postImage = async (req, res) => {
   const base64Data = req.body.image;
   let fileName = req.body.name;
   // const path = `/opt/eyeflow/data/framework-tools/checklist-connector/images`;
-  const path = `/data/framework-tools/checklist-connector/images`;
+  const path = `/${DATA_PATH}/framework-tools/checklist-connector/images`;
   fsx.ensureDirSync(path);
 
   const imageBuffer = Buffer.from(base64Data, 'base64');
