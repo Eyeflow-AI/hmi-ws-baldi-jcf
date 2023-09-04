@@ -4,3 +4,4 @@ export { default as GetChecklistRegions } from './getChecklistRegions';
 export { default as GetChecklistSchemas } from './getChecklistSchemas';
 export { default as PutChecklistReference } from './putChecklistReference';
 export { default as PutReferenceToSchema } from './putReferenceToSchema';
+export { default as PostImage } from './postImage';
