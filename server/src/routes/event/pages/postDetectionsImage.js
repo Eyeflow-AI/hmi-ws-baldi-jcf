@@ -9,12 +9,10 @@ async function postDetectionsImage(req, res, next) {
     event = EJSON.parse(event);
 
     const clientIP = req.connection.remoteAddress;
-    let info = event[Object.keys(event)[0]];
-    let _id = new ObjectId(Object.keys(event)[0]);
-    delete event[Object.keys(event)[0]];
+    let _id = new ObjectId(event.image_id);
+    delete event['image_id'];
     event._id = _id;
     event.host = clientIP;
-    event.info = info;
 
     await Mongo.db.collection('image_detections').insertOne(event);
     res.status(201).json({
