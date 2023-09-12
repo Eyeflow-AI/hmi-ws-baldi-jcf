@@ -4,7 +4,6 @@ import { BSON, EJSON, ObjectId } from 'bson';
 async function postDetectionsImage(req, res, next) {
 
   try {
-    //TODO
     let event = req.body;
     event = JSON.stringify(event);
     event = EJSON.parse(event);
