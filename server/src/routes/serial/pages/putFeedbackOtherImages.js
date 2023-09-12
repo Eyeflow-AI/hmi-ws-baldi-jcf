@@ -26,8 +26,9 @@ async function putFeedbackOtherImages(req, res, next) {
     await Mongo.db.collection('inspection_events').updateOne({ 'event_data.inspection_id': serialId, station: new Mongo.ObjectId(stationId) }, { $set: { feedback_time: new Date() } });
     let document = await Mongo.db.collection('image_detections').findOne({_id: new Mongo.ObjectId(imageId)});
     await Mongo.db.collection("events_to_upload").insertOne({
-      data: document?.info?.[0],
+      data: document?.info,
       original_id: document._id,
+      image: document?.image,
       original_collection: 'image_detections',
       uploaded: false,
       host: document.host,
