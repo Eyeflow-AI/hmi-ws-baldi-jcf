@@ -12,6 +12,7 @@ import ALERTS from './alerts';
 import TEST from './test';
 import CHECKLIST from './checklist';
 import FILES from './files';
+import TASKS from './tasks';
 
 import packageJson from '../../../package.json';
 
@@ -30,6 +31,7 @@ router.use('/files', isAuthenticated, FILES);
 router.use('/alerts', ALERTS);
 router.use('/test', TEST);
 router.use('/checklist', CHECKLIST);
+router.use('/tasks', TASKS);
 
 router.get('/', (req, res, next) => res.json({ ok: true, version: packageJson.version }));
 
