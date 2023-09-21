@@ -64,7 +64,7 @@ async function post(req, res, next) {
     };
 
     let result = await Mongo.db.collection('tasks').insertOne(taskDoc);
-    res.status(200).json({ ok: true, taskId: result.insertedId });
+    res.status(201).json({ ok: true, taskId: result.insertedId });
   }
   catch (err) {
     next(err);
