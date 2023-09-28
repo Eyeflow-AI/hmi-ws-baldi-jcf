@@ -63,6 +63,7 @@ async function putResume(req, res, next) {
         profile_parms: partData.color_profile,
         current_pack: batchDocument?.batch_data?.pack_num ?? 1,
         current_total_output_parts: batchDocument?.batch_data?.total_output_parts ?? 0,
+        batch_data: batchDocument?.batch_data ?? {},
       },
       part_data: {...partData},
     };
