@@ -59,7 +59,7 @@ async function putResume(req, res, next) {
         _id: batchDocument._id,
         status: "resume_batch",
         total_packs: parseIntThrowError(batchDocument.info.total_packs, `Failed to parse batchDocument.info.total_packs ${batchDocument.info.total_packs} as integer`),
-        parts_per_pack: parseIntThrowError(batchDocument.info.total_packs, `Failed to parse batchDocument.info.parts_per_pack ${batchDocument.info.parts_per_pack} as integer`),
+        parts_per_pack: parseIntThrowError(batchDocument.info.parts_per_pack, `Failed to parse batchDocument.info.parts_per_pack ${batchDocument.info.parts_per_pack} as integer`),
         profile_parms: partData.color_profile,
         current_pack: batchDocument?.batch_data?.pack_num ?? 1,
         current_total_output_parts: batchDocument?.batch_data?.total_output_parts ?? 0,
@@ -84,7 +84,7 @@ async function putResume(req, res, next) {
 
     let result = await Mongo.db.collection("batch").updateOne(
       { _id: batchId, status: "paused" },
-      { $set: { status: "running" } }
+      { $set: { status: "running" }, $push: { "debug.data_sent_to_edge_station": postRequestBody } }
     );
     if (result.modifiedCount === 1) {
       res.status(200).json({ ok: true });
