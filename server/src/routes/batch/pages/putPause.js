@@ -39,6 +39,7 @@ async function putPause(req, res, next) {
       },
     };
 
+    postRequestBody.env_var = postRequestBody;
     try {
       // TODO: Try again on fail. Maybe use a queue?
       let response = await axios.post(postBatchURL, postRequestBody, { timeout });

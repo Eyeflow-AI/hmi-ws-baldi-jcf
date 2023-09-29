@@ -75,6 +75,7 @@ async function putResume(req, res, next) {
       postRequestBody.batch.ng = batchDocument.batch_data.ng;
     };
 
+    postRequestBody.env_var = postRequestBody;
     let response = await axios.post(postBatchURL, postRequestBody, { timeout });
     if (response.status !== 201) {
       let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
