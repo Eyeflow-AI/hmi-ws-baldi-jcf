@@ -1,6 +1,7 @@
 import Mongo from "../../../components/mongo";
 import consolidateBatch from "../../../utils/consolidateBatch";
 import log from "../../../utils/log";
+import lodash from "lodash";
 
 const axios = require('axios');
 
@@ -39,11 +40,11 @@ async function putPause(req, res, next) {
       },
     };
 
-    postRequestBody.env_var = postRequestBody;
+    postRequestBody.env_var = lodash.cloneDeep(postRequestBody);
     try {
       // TODO: Try again on fail. Maybe use a queue?
       let response = await axios.post(postBatchURL, postRequestBody, { timeout });
-      if (response.status !== 201) {
+      if (![200, 201].includes(response.status)) {
         log.info(`Successfully paused batch ${batchId} in station ${stationId}`);
       }
       else {

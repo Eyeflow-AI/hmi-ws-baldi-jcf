@@ -4,6 +4,7 @@ import Mongo from "../../../components/mongo";
 import getPartData from "../../../utils/getPartData";
 import parseIntThrowError from "../../../utils/parseIntThrowError";
 import errors from "../../../utils/errors"
+import lodash from "lodash";
 
 async function putResume(req, res, next) {
 
@@ -75,9 +76,9 @@ async function putResume(req, res, next) {
       postRequestBody.batch.ng = batchDocument.batch_data.ng;
     };
 
-    postRequestBody.env_var = postRequestBody;
+    postRequestBody.env_var = lodash.cloneDeep(postRequestBody);
     let response = await axios.post(postBatchURL, postRequestBody, { timeout });
-    if (response.status !== 201) {
+    if (![200, 201].includes(response.status)) {
       let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
       err.status = 400;
       throw err;
