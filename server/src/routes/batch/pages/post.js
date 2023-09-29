@@ -139,6 +139,7 @@ async function post(req, res, next) {
     };
     delete postRequestBody.part_data.color_profile;
 
+    postRequestBody.env_var = postRequestBody;
     let response = await axios.post(postBatchURL, postRequestBody, { timeout });
     if (response.status !== 201) {
       let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
