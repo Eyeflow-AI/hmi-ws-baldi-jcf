@@ -60,7 +60,7 @@ async function putPauseOrStop(req, res, next) {
       batchStatus = "paused";
     }
     else {
-      batchStatus = "stopped";
+      batchStatus = "closed";
     }
 
     let result = await consolidateBatch(batchId, batchStatus);
