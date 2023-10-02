@@ -5,13 +5,24 @@ async function postDebugEvent(req, res, next) {
 
   try {
     //TODO
-    let event = req.body;
-    event = JSON.stringify(event);
-    event = EJSON.parse(event);
+    let eventList = req.body;
+    eventList = JSON.stringify(eventList);
+    eventList = EJSON.parse(eventList);
+    if (!Array.isArray(eventList)) {
+      eventList = [eventList];
+    }
 
     const clientIP = req.connection.remoteAddress;
-    event.host = clientIP;
-    await Mongo.db.collection('debug_events').insertOne(event);
+    for (let event of eventList) {
+      event.host = clientIP;
+    }
+    let result = await Mongo.db.collection('debug_events').insertMany(eventList);
+    if (result.insertedCount !== eventList.length) {
+      let err = new Error(`Failed to insert all debug events`);
+      err.status = 500;
+      throw err;
+    }
+
     res.status(201).json({
       ok: true
     });

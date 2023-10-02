@@ -28,7 +28,7 @@ async function getData(req, res, next) {
         let { total_output_parts, ...event_data } = lastEvent.event_data;
         Object.assign(result.batch_data, event_data);
         result.batch_data.conveyor_speed = lastEvent.conveyor_speed;
-        result.batch_data.parts_ok = total_output_parts ?? 0;
+        result.batch_data.parts_ok = total_output_parts ?? event_data?.parts_ok ?? 0;
       }
     }
 

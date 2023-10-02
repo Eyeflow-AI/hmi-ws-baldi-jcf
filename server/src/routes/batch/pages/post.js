@@ -4,6 +4,7 @@ import Mongo from "../../../components/mongo";
 import getPartData from "../../../utils/getPartData";
 import errors from "../../../utils/errors"
 import parseIntThrowError from "../../../utils/parseIntThrowError";
+import lodash from "lodash";
 
 
 // req.body example
@@ -139,8 +140,9 @@ async function post(req, res, next) {
     };
     delete postRequestBody.part_data.color_profile;
 
+    postRequestBody.env_var = lodash.cloneDeep(postRequestBody);
     let response = await axios.post(postBatchURL, postRequestBody, { timeout });
-    if (response.status !== 201) {
+    if (![200, 201].includes(response.status)) {
       let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
       err.status = 400;
       throw err;

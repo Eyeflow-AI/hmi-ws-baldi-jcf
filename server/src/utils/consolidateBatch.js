@@ -20,6 +20,12 @@ async function consolidateBatch(batchId, status="closed") {
   if (lastEvent) {
     delete lastEvent.event_data.batch_id;
     updateResult = await Mongo.db.collection("batch").updateOne({ _id: batchId }, { $set: { batch_data: lastEvent.event_data, status } });
+  //   if (updateResult.modifiedCount !== 1) {
+  //     let err = new Error(`Batch with _id ${batchId} was not updated`);
+  //     err.status = 500;
+  //     throw err;
+  //   }
+  //   let deleteResult = await Mongo.db.collection("events").deleteMany({ "event_data.batch_id": batchId, event_time: { $lte: lastEvent.event_time } });
   }
   else {
     updateResult = await Mongo.db.collection("batch").updateOne({ _id: batchId }, { $set: { status } });
