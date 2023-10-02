@@ -6,7 +6,7 @@ import lodash from "lodash";
 const axios = require('axios');
 
 
-async function putPause(req, res, next) {
+async function putPauseOrStop(req, res, next) {
 
   const timeout = 10000;
   try {
@@ -55,7 +55,15 @@ async function putPause(req, res, next) {
       log.error(`Failed to pause batch ${batchId} in station ${stationId}. Error: ${err}`);
     }
 
-    let result = await consolidateBatch(batchId, "paused");
+    let batchStatus;
+    if (req.path.includes("pause")) {
+      batchStatus = "paused";
+    }
+    else {
+      batchStatus = "stopped";
+    }
+
+    let result = await consolidateBatch(batchId, batchStatus);
 
     if (result) {
       res.status(200).json({ ok: true });
@@ -90,4 +98,4 @@ async function putPause(req, res, next) {
   };
 };
 
-export default putPause;
+export default putPauseOrStop;
