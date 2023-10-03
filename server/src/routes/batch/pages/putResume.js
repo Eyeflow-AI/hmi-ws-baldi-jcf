@@ -5,6 +5,7 @@ import getPartData from "../../../utils/getPartData";
 import parseIntThrowError from "../../../utils/parseIntThrowError";
 import errors from "../../../utils/errors"
 import lodash from "lodash";
+import log from "../../../utils/log";
 
 async function putResume(req, res, next) {
 
