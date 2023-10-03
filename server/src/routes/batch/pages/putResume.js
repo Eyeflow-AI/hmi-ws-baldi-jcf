@@ -77,12 +77,19 @@ async function putResume(req, res, next) {
     };
 
     postRequestBody.env_var = lodash.cloneDeep(postRequestBody);
-    let response = await axios.post(postBatchURL, postRequestBody, { timeout });
-    if (![200, 201].includes(response.status)) {
-      let err = new Error(`Failed to create batch. Edge station responded with status ${response.status}`);
-      err.status = 400;
-      throw err;
-    };
+    try {
+      // TODO: Try again on fail. Maybe use a queue?
+      let response = await axios.post(postBatchURL, postRequestBody, { timeout });
+      if (![200, 201].includes(response.status)) {
+        log.info(`Successfully resumed batch ${batchId} in station ${stationId}`);
+      }
+      else {
+        log.error(`Failed to resume batch ${batchId} in station ${stationId}`);
+      }
+    }
+    catch (err) {
+      log.error(`Failed to resume batch ${batchId} in station ${stationId}. Error: ${err}`);
+    }
 
     let result = await Mongo.db.collection("batch").updateOne(
       { _id: batchId, status: "paused" },
