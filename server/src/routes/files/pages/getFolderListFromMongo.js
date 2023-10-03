@@ -10,8 +10,10 @@ async function getFolderListFromMongo(req, res, next) {
       throw err;
     }
 
-    let url = `::ffff:${host.replace('http://', '')}`;
-    let inspectionDates = await Mongo.db.collection('debug_events').distinct('inspection_date', { host: url });
+    let urlIPV6 = `::ffff:${host.replace('http://', '')}`;
+    let urlIPV4 = host.replace('http://', '');
+    let inspectionDates = await Mongo.db.collection('debug_events').distinct('inspection_date', { host: { $in: [urlIPV4, urlIPV6] } });
+    // console.log({inspectionDates})
     res.status(200).json({ ok: true, inspectionDates });
   }
   catch (err) {
