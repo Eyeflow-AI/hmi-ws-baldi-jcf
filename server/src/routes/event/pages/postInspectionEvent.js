@@ -39,23 +39,30 @@ async function saveImage(imageObj) {
 async function postInspectionEvent(req, res, next) {
 
   try {
+    let ipv4Address;
+    const ipv4Pattern = /::ffff:(\d+\.\d+\.\d+\.\d+)/;
+    const clientIP = req.connection.remoteAddress;
+    const match = clientIP.match(ipv4Pattern);
+
+
     let event = req.body;
     event = JSON.stringify(event);
     event = EJSON.parse(event);
-    const clientIP = req.connection.remoteAddress;
-    event.host = clientIP;
-    const ipv4Pattern = /::ffff:(\d+\.\d+\.\d+\.\d+)/;
-
-    const match = clientIP.match(ipv4Pattern);
-
-    let ipv4Address;
-
-    if (match && match.length >= 2) {
-      ipv4Address = match[1];
-      console.log("IPv4 address:", ipv4Address);
-    } else {
-      console.log("No IPv4 address found.");
+    if (event?.event_host) {
+      event.host = event.event_host;
+      ipv4Address = event.event_host;
+      delete event.event_host;
     }
+    else {
+      event.host = clientIP;
+      if (match && match.length >= 2) {
+        ipv4Address = match[1];
+        console.log("IPv4 address:", ipv4Address);
+      } else {
+        console.log("No IPv4 address found.");
+      }
+    }
+
     const station = await Mongo.db.collection('station').findOne({ 'edges.host': `http://${ipv4Address}` });
     const edge = station?.edges.find(edge => edge.host === `http://${ipv4Address}`);
     const host = edge?.host ?? '';
@@ -89,7 +96,7 @@ async function postInspectionEvent(req, res, next) {
           }
         })
       })
-    });
+    }); 
     await Promise.all(imagesList.map(imageObj => saveImage(imageObj)));
 
 
