@@ -4,17 +4,22 @@ async function getFolderListFromMongo(req, res, next) {
   try {
     let dirPath = req.query.dirPath;
     let host = req.query.host;
-    let port = req.query.port;
-    if (dirPath && host && port) {
-      let url = `::ffff:${host.replace('http://', '')}`;
-      const collection = Mongo.db.collection('debug_events');
 
-      let inspectionDates = await collection.find({ host: url }).project({ inspection_date: 1, _id: 0 }).toArray();
-      // create a Set from inspectionDates
-      inspectionDates = [...new Set(inspectionDates.map(item => item.inspection_date))];
-      res.status(200).json({ ok: true, inspectionDates });
-
+    if (!dirPath) {
+      let err = new Error(`query.dirPath is required`);
+      err.status = 400;
+      throw err;
     }
+
+    if (!host) {
+      let err = new Error(`query.host is required`);
+      err.status = 400;
+      throw err;
+    }
+
+    let url = `::ffff:${host.replace('http://', '')}`;
+    let inspectionDates = await Mongo.db.collection('debug_events').distinct('inspection_date', { host: url });
+    res.status(200).json({ ok: true, inspectionDates });
   }
   catch (err) {
     next(err);
