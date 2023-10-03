@@ -2,14 +2,7 @@ import Mongo from "../../../components/mongo";
 
 async function getFolderListFromMongo(req, res, next) {
   try {
-    let dirPath = req.query.dirPath;
     let host = req.query.host;
-
-    if (!dirPath) {
-      let err = new Error(`query.dirPath is required`);
-      err.status = 400;
-      throw err;
-    }
 
     if (!host) {
       let err = new Error(`query.host is required`);
