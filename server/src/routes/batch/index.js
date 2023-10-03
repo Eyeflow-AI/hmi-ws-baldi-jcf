@@ -5,7 +5,7 @@ import {
   Get,
   GetData,
   GetRunning,
-  PutPause,
+  PutPauseOrStop,
   PutResume
 } from './pages';
 
@@ -18,7 +18,8 @@ router.get('/:stationId/running', GetRunning);
 router.get('/:stationId/:batchId', Get);
 router.get('/:stationId/:batchId/data', GetData);
 
-router.put('/:stationId/:batchId/pause', PutPause);
+router.put('/:stationId/:batchId/pause', PutPauseOrStop);
+router.put('/:stationId/:batchId/stop', PutPauseOrStop);
 router.put('/:stationId/:batchId/resume', PutResume);
 
 export default router;
