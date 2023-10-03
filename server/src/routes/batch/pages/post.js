@@ -117,10 +117,11 @@ async function post(req, res, next) {
       throw err;
     }
 
+    let batchId = new Mongo.ObjectId();
     let partData = await getPartData(body.part_id);
 
     let newBatchDocument = {
-      _id: new Mongo.ObjectId(),
+      _id: batchId,
       station: stationId,
       start_time: new Date(),
       status: "running",
@@ -162,7 +163,7 @@ async function post(req, res, next) {
 
     let result = await Mongo.db.collection("batch").insertOne(newBatchDocument);
     if (result.insertedId) {
-      res.status(201).json({ ok: true, batchId: result.insertedId });
+      res.status(201).json({ ok: true, batchId });
     }
     else {
       let err = new Error(`Failed to create batch`);
