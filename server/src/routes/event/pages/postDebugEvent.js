@@ -5,6 +5,11 @@ async function postDebugEvent(req, res, next) {
 
   try {
     //TODO
+    let ipv4Address;
+    const ipv4Pattern = /::ffff:(\d+\.\d+\.\d+\.\d+)/;
+    const clientIP = req.connection.remoteAddress;
+    const match = clientIP.match(ipv4Pattern);
+
     let eventList = req.body;
     eventList = JSON.stringify(eventList);
     eventList = EJSON.parse(eventList);
@@ -12,9 +17,14 @@ async function postDebugEvent(req, res, next) {
       eventList = [eventList];
     }
 
-    const clientIP = req.connection.remoteAddress;
     for (let event of eventList) {
-      event.host = clientIP;
+      if (event?.event_host) {
+        event.host = event.event_host;
+        delete event.event_host;
+      }
+      else {
+        event.host = clientIP;
+      }
     }
     let result = await Mongo.db.collection('debug_events').insertMany(eventList);
     if (result.insertedCount !== eventList.length) {
