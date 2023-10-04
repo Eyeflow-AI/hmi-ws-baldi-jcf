@@ -1,6 +1,6 @@
 {
   "name": "hmi-ws",
-  "version": "1.17.2",
+  "version": "1.18.0",
   "private": true,
   "scripts": {
     "start": "npm run prod",

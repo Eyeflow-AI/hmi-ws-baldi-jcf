@@ -1,4 +1,5 @@
 import Mongo from "../../../components/mongo";
+import { BSON, EJSON, ObjectId } from 'bson';
 
 // Task document example:
 // {
@@ -29,13 +30,16 @@ import Mongo from "../../../components/mongo";
 
 async function post(req, res, next) {
   try {
-    let edgeId = req.params.edgeId;
+    // let edgeId = req?.params?.edgeId;
     let task = req.body.task;
-    if (!Mongo.ObjectId.isValid(edgeId)) {
-      let err = new Error(`Invalid edge id: ${edgeId}`);
-      err.status = 400;
-      throw err;
-    }
+    task = JSON.stringify(task);
+    task = EJSON.parse(task);
+
+    // if (!Mongo.ObjectId.isValid(edgeId)) {
+    //   let err = new Error(`Invalid edge id: ${edgeId}`);
+    //   err.status = 400;
+    //   throw err;
+    // }
 
     if (!task) {
       let err = new Error("Missing task in request body");
@@ -56,7 +60,7 @@ async function post(req, res, next) {
     }
 
     let taskDoc = {
-      edge_id: new Mongo.ObjectId(edgeId),
+      // edge_id: new Mongo.ObjectId(edgeId),
       active: true,
       inserted_date: new Date(),
       status: "created",
@@ -64,6 +68,7 @@ async function post(req, res, next) {
     };
 
     let result = await Mongo.db.collection('tasks').insertOne(taskDoc);
+    console.log({iId: result.insertedId})
     res.status(201).json({ ok: true, taskId: result.insertedId });
   }
   catch (err) {

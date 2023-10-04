@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get('/:edgeId', Get);
+router.get('/:stationId', Get);
 router.put('/:edgeId/:taskId', Put);
 router.delete('/:edgeId/:taskId', Delete);
-router.post('/:edgeId', Post);
+router.post('/:stationId', Post);
 
 export default router;
