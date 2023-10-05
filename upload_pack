@@ -200,36 +200,29 @@ def main():
     generate_manifest_json(manifest)
 
     filename = f'{package_json["name"]}-{package_json["version"]}-{manifest["arch"]}.pack'
-    edge_doc = {
-        "name": manifest["name"],
-        "description": manifest["description"],
-        "storage_resource_id": storage_resource_id,
-    }
 
     # log.info(f"Insere pack")
     # upload_pack("install-packs", cloud_parms, filename)
 
-
-    log.info(f"Insere pack")
-    # upload_pack("install-packs", cloud_parms, filename)
     date = datetime.datetime.now(datetime.timezone.utc)
     result = db_client["install-packs"].update_one(
         {"name": manifest["name"]},
         {
             "$set": {
+                "description": manifest["description"],
+                "storage_resource_id": storage_resource_id,
                 "latest_version": manifest["version"],
-                "date": date
+                "date": date,
             },
             "$pull": {
                 "version_list": {"filename": filename}
             },
-            "$setOnInsert": edge_doc
         },
         upsert=True
     )
 
     if "upserted" in result.raw_result:
-        print(f"Pack {manifest['name']} inserido com sucesso")
+        log.info(f"Pack {manifest['name']} inserido com sucesso")
 
     result = db_client["install-packs"].update_one(
         {"name": manifest["name"]},
@@ -246,9 +239,9 @@ def main():
     )
 
     if result.modified_count > 0:
-        print(f"Pack {manifest['name']} atualizado com sucesso")
+        log.info(f"Pack {manifest['name']} atualizado com sucesso")
     else:
-        print(f"Pack {manifest['name']} não foi atualizado")
+        log.info(f"Pack {manifest['name']} não foi atualizado")
     #----------------------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
