@@ -19,17 +19,23 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 os.chdir(SCRIPT_DIR)
 
 def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCRIPT_DIR, "docker-compose.yml")):
+
     try:
         with open(docker_compose_file, 'r') as fp:
             docker_compose = yaml.safe_load(fp)
 
         image_name = docker_compose["services"][app_name]["image"]
+        build_command = [
+            "docker",
+            "compose",
+            "build",
+            # "--no-cache",
+            app_name
+        ]
+
+        log.info(f'Build image {image_name} command: {" ".join(build_command)}')
         result = subprocess.run(
-            [
-                "docker", "compose", "build",
-                # "--no-cache",
-                image_name
-            ],
+            build_command,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True
@@ -37,10 +43,17 @@ def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCR
         if result.returncode != 0:
             raise Exception(result.stderr)
 
-        # get image arch
-        # example: docker image inspect --format "{{.Architecture}}" siliconlife/hmi-ws
+        get_arch_command = [
+            "docker",
+            "image",
+            "inspect",
+            "--format",
+            "{{.ID}} {{.Architecture}}",
+            image_name
+        ]
+        log.info(f'Get image arch command: {" ".join(get_arch_command)}')
         result = subprocess.run(
-            ["docker", "image", "inspect", "--format", "{{.Architecture}}", image_name],
+            get_arch_command,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True
@@ -48,23 +61,30 @@ def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCR
         if result.returncode != 0:
             raise Exception(result.stderr)
 
-        arch = result.stdout.strip()
-        exit(0)
-        # result = subprocess.run(
-        #     ["docker", "save", "-o", output_file, image_name],
-        #     stdout=subprocess.PIPE,
-        #     stderr=subprocess.PIPE,
-        #     universal_newlines=True
-        # )
+        image_id, arch = result.stdout.strip().split(" ")
+        if arch == "amd64":
+            arch = "x86_64"
 
-        # if result.returncode != 0:
-        #     raise Exception(result.stderr)
+        output_file = f"{app_name}-{app_version}-{arch}.tar"
+
+        result = subprocess.run(
+            ["docker", "save", "-o", os.path.join("build", output_file), image_name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+
+        if result.returncode != 0:
+            raise Exception(result.stderr)
+
+        return output_file, image_id, arch
 
 
     except Exception as excp:
         log.error(traceback.format_exc())
         log.error(f"gen_docker_image error: {excp}")
         raise excp
+
 
 def upload_pack(cloud_storage, cloud_parms, pack_name):
     comp_lib = importlib.import_module(f'eyeflow_sdk.cloud_store.{cloud_parms["provider"]}')
@@ -148,15 +168,19 @@ def main():
     with open(os.path.join(SCRIPT_DIR, "package.json"), 'r') as fp:
         package_json = json.load(fp)
 
-    metadata = {
+    manifest = {
         "name": package_json["name"],
         "description": package_json["description"],
         "version": package_json["version"],
     }
 
-    gen_docker_image(metadata["name"], metadata["version"])
-    # filename = f'{package_json["name"]}-{package_json["version"]}-{manifest["arch"]}.pack'
+    output_file, image_id, arch = gen_docker_image(manifest["name"], manifest["version"])
 
+    manifest["arch"] = arch
+    manifest["image_id"] = image_id
+
+    filename = f'{package_json["name"]}-{package_json["version"]}-{manifest["arch"]}.pack'
+    pass
     # edge_doc = db_client["install-packs"].find_one({"name": manifest["name"]})
     # if not edge_doc:
     #     edge_doc = {
