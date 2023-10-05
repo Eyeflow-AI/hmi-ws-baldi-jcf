@@ -10,9 +10,9 @@ import shutil
 import subprocess
 import yaml
 from pymongo.mongo_client import MongoClient
-from bson.objectid import ObjectId
 
 from eyeflow_sdk.log_obj import log
+
 #----------------------------------------------------------------------------------------------------------------------------------
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
