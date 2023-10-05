@@ -181,16 +181,22 @@ def main():
 
     db_client = db_auth_client["eyeflow-admin"]
 
-    with open(os.path.join(SCRIPT_DIR, "package.json"), 'r') as fp:
-        package_json = json.load(fp)
+    try:
+        with open(os.path.join(SCRIPT_DIR, "manifest.json"), 'r') as fp:
+            manifest = json.load(fp)
+    except:
+        with open(os.path.join(SCRIPT_DIR, "package.json"), 'r') as fp:
+            package_json = json.load(fp)
 
-    manifest = {
-        "name": package_json["name"],
-        "description": package_json["description"],
-        "version": package_json["version"],
-    }
+        manifest = {
+            "name": package_json["name"],
+            "description": package_json["description"],
+            "version": package_json["version"],
+        }
 
-    shutil.rmtree(BUILD_DIR)
+    if os.path.exists(BUILD_DIR):
+        shutil.rmtree(BUILD_DIR)
+
     os.makedirs(BUILD_DIR, exist_ok=True)
     output_file, image_id, arch = gen_docker_image(manifest["name"], manifest["version"])
 
