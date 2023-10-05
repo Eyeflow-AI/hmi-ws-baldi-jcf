@@ -19,6 +19,11 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 BUILD_DIR = os.path.join(SCRIPT_DIR, "build")
 os.chdir(SCRIPT_DIR)
 
+def slugify(value):
+
+    return value.replace(" ", "_").replace("-", "_").lower()
+
+
 def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCRIPT_DIR, "docker-compose.yml")):
 
     try:
@@ -66,7 +71,7 @@ def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCR
         if arch == "amd64":
             arch = "x86_64"
 
-        output_file = f"{app_name}-{app_version}-{arch}.tar"
+        output_file = f"{slugify(app_name)}-{app_version}-{arch}.tar"
 
         result = subprocess.run(
             ["docker", "save", "-o", os.path.join("build", output_file), image_name],
@@ -93,7 +98,7 @@ def generate_setup_sh(image_file, setup_sh_file=os.path.join(SCRIPT_DIR, "build"
                  'cd "$(dirname "$0")"' + "\n" \
                  "docker load -i " + image_file + "\n"
 
-    with open(setup_sh_file, "w") as fp:
+    with open(setup_sh_file, "w", 0o755) as fp:
         fp.write(sh_content)
 
 
@@ -193,7 +198,7 @@ def main():
     generate_setup_sh(output_file)
     generate_manifest_json(manifest)
 
-    filename = f'{package_json["name"]}-{package_json["version"]}-{manifest["arch"]}.pack'
+    filename = f'{slugify(manifest["name"])}-{manifest["version"]}-{manifest["arch"]}.pack'
 
     log.info(f"Insere pack")
     upload_pack("install-packs", cloud_parms, filename)
