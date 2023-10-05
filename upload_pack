@@ -1,0 +1,192 @@
+#!/usr/bin/python3
+
+import os
+import importlib
+import datetime
+import json
+import traceback
+import tarfile
+import shutil
+import subprocess
+import yaml
+from pymongo.mongo_client import MongoClient
+from bson.objectid import ObjectId
+
+from eyeflow_sdk.log_obj import log
+#----------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+os.chdir(SCRIPT_DIR)
+
+def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCRIPT_DIR, "docker-compose.yml")):
+    try:
+        with open(docker_compose_file, 'r') as fp:
+            docker_compose = yaml.safe_load(fp)
+
+        image_name = docker_compose["services"][app_name]["image"]
+        result = subprocess.run(
+            [
+                "docker", "compose", "build",
+                # "--no-cache",
+                image_name
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+        if result.returncode != 0:
+            raise Exception(result.stderr)
+
+        # get image arch
+        # example: docker image inspect --format "{{.Architecture}}" siliconlife/hmi-ws
+        result = subprocess.run(
+            ["docker", "image", "inspect", "--format", "{{.Architecture}}", image_name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+        if result.returncode != 0:
+            raise Exception(result.stderr)
+
+        arch = result.stdout.strip()
+        exit(0)
+        # result = subprocess.run(
+        #     ["docker", "save", "-o", output_file, image_name],
+        #     stdout=subprocess.PIPE,
+        #     stderr=subprocess.PIPE,
+        #     universal_newlines=True
+        # )
+
+        # if result.returncode != 0:
+        #     raise Exception(result.stderr)
+
+
+    except Exception as excp:
+        log.error(traceback.format_exc())
+        log.error(f"gen_docker_image error: {excp}")
+        raise excp
+
+def upload_pack(cloud_storage, cloud_parms, pack_name):
+    comp_lib = importlib.import_module(f'eyeflow_sdk.cloud_store.{cloud_parms["provider"]}')
+    cloud_obj = comp_lib.Connector(**cloud_parms)
+
+    try:
+        local_folder = "../build/pack"
+        shutil.rmtree(local_folder)
+        os.makedirs(local_folder, exist_ok=True)
+
+        for file in os.listdir("../run"):
+            shutil.copy("../run/" + file, local_folder)
+
+        shutil.copy("../build/manifest.json", local_folder)
+        shutil.copy("../build/eyeflow_edge", local_folder)
+
+        wd = os.getcwd()
+        os.chdir(local_folder)
+        with tarfile.open(pack_name, "w:gz") as tar:
+            for file in os.listdir():
+                tar.add(file)
+
+        log.info(f'\tUpload file {pack_name}')
+        with open(pack_name, "rb") as fp:
+            file_data = fp.read()
+
+        if cloud_obj.is_file(
+                folder=cloud_storage,
+                resource_id=None,
+                filename=pack_name,
+            ):
+            cloud_obj.delete_file(
+                folder=cloud_storage,
+                resource_id=None,
+                filename=pack_name,
+            )
+
+        file_data = cloud_obj.upload_file(
+            folder=cloud_storage,
+            resource_id=None,
+            filename=pack_name,
+            data=file_data
+        )
+
+        os.remove(pack_name)
+        os.chdir(wd)
+
+    except Exception as excp:
+        log.error(traceback.format_exc())
+        log.error(f"sync_files error: {excp}")
+        raise excp
+#----------------------------------------------------------------------------------------------------------------------------------
+
+# if args.plat == 'dev':
+#     cred_file = os.path.join(os.environ['HOME'], ".eyeflow", "env_credentials_dev.json")
+#     with open(cred_file) as fp:
+#         credentials = json.load(fp)
+
+# elif args.plat == 'beta':
+#     cred_file = os.path.join(os.environ['HOME'], ".eyeflow", "env_credentials_beta.json")
+#     with open(cred_file) as fp:
+#         credentials = json.load(fp)
+
+def main():
+
+    cred_file = os.path.join(os.environ['HOME'], ".eyeflow", "env_credentials_prod.json")
+    with open(cred_file) as fp:
+        credentials = json.load(fp)
+
+    db_auth_client = MongoClient(credentials["atlas"]["db_url"])
+    db_auth = db_auth_client["eyeflow-auth"]
+    env_credentials = db_auth.environment.find_one({"name": "Public"})
+    if not env_credentials:
+        raise Exception(f"Environment not found Public")
+
+    storage_resource_id = list(env_credentials["storage_resource"].keys())[0]
+    cloud_parms = env_credentials["storage_resource"][storage_resource_id]
+
+    db_client = db_auth_client["eyeflow-admin"]
+
+    with open(os.path.join(SCRIPT_DIR, "package.json"), 'r') as fp:
+        package_json = json.load(fp)
+
+    metadata = {
+        "name": package_json["name"],
+        "description": package_json["description"],
+        "version": package_json["version"],
+    }
+
+    gen_docker_image(metadata["name"], metadata["version"])
+    # filename = f'{package_json["name"]}-{package_json["version"]}-{manifest["arch"]}.pack'
+
+    # edge_doc = db_client["install-packs"].find_one({"name": manifest["name"]})
+    # if not edge_doc:
+    #     edge_doc = {
+    #         "_id": ObjectId("64fb7933f257ab6cb37ce65d"),
+    #         "name": manifest["name"],
+    #         "description": "Eyeflow Edge",
+    #         "storage_resource_id": storage_resource_id,
+    #         "version_list": []
+    #     }
+    #     db_client["install-packs"].insert_one(edge_doc)
+
+    
+    # edge_doc["latest_version"] = manifest["version"]
+    # edge_doc["date"] = datetime.datetime.fromisoformat(manifest["compilation_date"])
+    # for idx in reversed(range(len(edge_doc["version_list"]))):
+    #     if edge_doc["version_list"][idx]["version"] == edge_doc["latest_version"]:
+    #         del edge_doc["version_list"][idx]
+
+    # edge_doc["version_list"].append({
+    #     "date": edge_doc["date"],
+    #     "version": edge_doc["latest_version"],
+    #     "arch": manifest["arch"],
+    #     "filename": filename
+    #     }
+    # )
+
+    # log.info(f"Insere pack")
+    # upload_pack("install-packs", cloud_parms, filename)
+    # db_client["install-packs"].update_one({"_id": edge_doc["_id"]}, {"$set": edge_doc}, upsert=True)
+    #----------------------------------------------------------------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    main()
