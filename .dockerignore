@@ -10,3 +10,4 @@ testing_HMI-WS.json
 .git
 .gitignore
 .dockerignore
+build/

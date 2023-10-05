@@ -86,6 +86,22 @@ def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCR
         raise excp
 
 
+def generate_setup_sh(image_file, setup_sh_file=os.path.join(SCRIPT_DIR, "build", "setup.sh")):
+
+    sh_content = "#!/bin/bash\n" \
+                 'cd "$(dirname "$0")"' + "\n" \
+                 "docker load -i " + image_file + "\n"
+
+    with open(setup_sh_file, "w") as fp:
+        fp.write(sh_content)
+
+
+def generate_manifest_json(manifest, manifest_file=os.path.join(SCRIPT_DIR, "build", "manifest.json")):
+
+        with open(manifest_file, "w") as fp:
+            json.dump(manifest, fp, indent=4)
+
+
 def upload_pack(cloud_storage, cloud_parms, pack_name):
     comp_lib = importlib.import_module(f'eyeflow_sdk.cloud_store.{cloud_parms["provider"]}')
     cloud_obj = comp_lib.Connector(**cloud_parms)
@@ -174,42 +190,65 @@ def main():
         "version": package_json["version"],
     }
 
+    os.makedirs("./build", exist_ok=True)
     output_file, image_id, arch = gen_docker_image(manifest["name"], manifest["version"])
 
     manifest["arch"] = arch
     manifest["image_id"] = image_id
 
+    generate_setup_sh(output_file)
+    generate_manifest_json(manifest)
+
     filename = f'{package_json["name"]}-{package_json["version"]}-{manifest["arch"]}.pack'
-    pass
-    # edge_doc = db_client["install-packs"].find_one({"name": manifest["name"]})
-    # if not edge_doc:
-    #     edge_doc = {
-    #         "_id": ObjectId("64fb7933f257ab6cb37ce65d"),
-    #         "name": manifest["name"],
-    #         "description": "Eyeflow Edge",
-    #         "storage_resource_id": storage_resource_id,
-    #         "version_list": []
-    #     }
-    #     db_client["install-packs"].insert_one(edge_doc)
-
-    
-    # edge_doc["latest_version"] = manifest["version"]
-    # edge_doc["date"] = datetime.datetime.fromisoformat(manifest["compilation_date"])
-    # for idx in reversed(range(len(edge_doc["version_list"]))):
-    #     if edge_doc["version_list"][idx]["version"] == edge_doc["latest_version"]:
-    #         del edge_doc["version_list"][idx]
-
-    # edge_doc["version_list"].append({
-    #     "date": edge_doc["date"],
-    #     "version": edge_doc["latest_version"],
-    #     "arch": manifest["arch"],
-    #     "filename": filename
-    #     }
-    # )
+    edge_doc = {
+        "name": manifest["name"],
+        "description": manifest["description"],
+        "storage_resource_id": storage_resource_id,
+    }
 
     # log.info(f"Insere pack")
     # upload_pack("install-packs", cloud_parms, filename)
-    # db_client["install-packs"].update_one({"_id": edge_doc["_id"]}, {"$set": edge_doc}, upsert=True)
+
+
+    log.info(f"Insere pack")
+    # upload_pack("install-packs", cloud_parms, filename)
+    date = datetime.datetime.now(datetime.timezone.utc)
+    result = db_client["install-packs"].update_one(
+        {"name": manifest["name"]},
+        {
+            "$set": {
+                "latest_version": manifest["version"],
+                "date": date
+            },
+            "$pull": {
+                "version_list": {"filename": filename}
+            },
+            "$setOnInsert": edge_doc
+        },
+        upsert=True
+    )
+
+    if "upserted" in result.raw_result:
+        print(f"Pack {manifest['name']} inserido com sucesso")
+
+    result = db_client["install-packs"].update_one(
+        {"name": manifest["name"]},
+        {
+            "$push": {
+                "version_list": {
+                    "date": date,
+                    "version": manifest["version"],
+                    "arch": manifest["arch"],
+                    "filename": filename
+                }
+            }
+        },
+    )
+
+    if result.modified_count > 0:
+        print(f"Pack {manifest['name']} atualizado com sucesso")
+    else:
+        print(f"Pack {manifest['name']} não foi atualizado")
     #----------------------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
