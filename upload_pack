@@ -98,8 +98,10 @@ def generate_setup_sh(image_file, setup_sh_file=os.path.join(SCRIPT_DIR, "build"
                  'cd "$(dirname "$0")"' + "\n" \
                  "docker load -i " + image_file + "\n"
 
-    with open(setup_sh_file, "w", 0o755) as fp:
+    with open(setup_sh_file, "w") as fp:
         fp.write(sh_content)
+
+    os.chmod(setup_sh_file, 0o755)
 
 
 def generate_manifest_json(manifest, manifest_file=os.path.join(SCRIPT_DIR, "build", "manifest.json")):
