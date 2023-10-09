@@ -27,12 +27,12 @@ async function putPauseOrStop(req, res, next) {
       throw err;
     };
 
-    let isRunning = Boolean(await Mongo.db.collection("batch").findOne({ _id: batchId, status: "running" }));
-    if (!isRunning) {
-      let err = new Error(`Batch with _id ${batchId} is not running`);
-      err.status = 400;
-      throw err;
-    };
+    // let isRunning = Boolean(await Mongo.db.collection("batch").findOne({ _id: batchId, status: "running" }));
+    // if (!isRunning) {
+    //   let err = new Error(`Batch with _id ${batchId} is not running`);
+    //   err.status = 400;
+    //   throw err;
+    // };
 
     let postRequestBody = {
       batch: {
