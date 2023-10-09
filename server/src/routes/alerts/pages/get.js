@@ -6,6 +6,10 @@ async function get(req, res, next) {
     let station_id = req.params.stationId;
     let alerts = await Mongo.db.collection('alert').find({ station_id: new Mongo.ObjectId(station_id), active: true }).toArray();
     let alertsHash = "";
+    // sort alerts by date (newest first)
+    alerts.sort((a, b) => {
+      return b.date - a.date;
+    });
     alerts.forEach(alert => {
       alertsHash += alert._id.toString() + alert.date.toString();
     });
