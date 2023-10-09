@@ -10,13 +10,19 @@ import shutil
 import subprocess
 import yaml
 from pymongo.mongo_client import MongoClient
-from bson.objectid import ObjectId
 
 from eyeflow_sdk.log_obj import log
+
 #----------------------------------------------------------------------------------------------------------------------------------
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+BUILD_DIR = os.path.join(SCRIPT_DIR, "build")
 os.chdir(SCRIPT_DIR)
+
+def slugify(value):
+
+    return value.replace(" ", "_").replace("-", "_").lower()
+
 
 def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCRIPT_DIR, "docker-compose.yml")):
 
@@ -65,7 +71,7 @@ def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCR
         if arch == "amd64":
             arch = "x86_64"
 
-        output_file = f"{app_name}-{app_version}-{arch}.tar"
+        output_file = f"{slugify(app_name)}-{app_version}-{arch}.tar"
 
         result = subprocess.run(
             ["docker", "save", "-o", os.path.join("build", output_file), image_name],
@@ -86,23 +92,33 @@ def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCR
         raise excp
 
 
-def upload_pack(cloud_storage, cloud_parms, pack_name):
+def generate_setup_sh(image_file, setup_sh_file=os.path.join(SCRIPT_DIR, "build", "setup.sh")):
+
+    sh_content = "#!/bin/bash\n" \
+                 'cd "$(dirname "$0")"' + "\n" \
+                 "docker load -i " + image_file + "\n"
+
+    with open(setup_sh_file, "w") as fp:
+        fp.write(sh_content)
+
+    os.chmod(setup_sh_file, 0o755)
+
+
+def generate_manifest_json(manifest, manifest_file=os.path.join(SCRIPT_DIR, "build", "manifest.json")):
+
+        with open(manifest_file, "w") as fp:
+            json.dump(manifest, fp, indent=4)
+
+
+def upload_pack(cloud_storage, cloud_parms, pack_name, build_dir=BUILD_DIR):
+
     comp_lib = importlib.import_module(f'eyeflow_sdk.cloud_store.{cloud_parms["provider"]}')
     cloud_obj = comp_lib.Connector(**cloud_parms)
 
     try:
-        local_folder = "../build/pack"
-        shutil.rmtree(local_folder)
-        os.makedirs(local_folder, exist_ok=True)
-
-        for file in os.listdir("../run"):
-            shutil.copy("../run/" + file, local_folder)
-
-        shutil.copy("../build/manifest.json", local_folder)
-        shutil.copy("../build/eyeflow_edge", local_folder)
 
         wd = os.getcwd()
-        os.chdir(local_folder)
+        os.chdir(build_dir)
         with tarfile.open(pack_name, "w:gz") as tar:
             for file in os.listdir():
                 tar.add(file)
@@ -165,51 +181,74 @@ def main():
 
     db_client = db_auth_client["eyeflow-admin"]
 
-    with open(os.path.join(SCRIPT_DIR, "package.json"), 'r') as fp:
-        package_json = json.load(fp)
+    try:
+        with open(os.path.join(SCRIPT_DIR, "manifest.json"), 'r') as fp:
+            manifest = json.load(fp)
+    except:
+        with open(os.path.join(SCRIPT_DIR, "package.json"), 'r') as fp:
+            package_json = json.load(fp)
 
-    manifest = {
-        "name": package_json["name"],
-        "description": package_json["description"],
-        "version": package_json["version"],
-    }
+        manifest = {
+            "name": package_json["name"],
+            "description": package_json["description"],
+            "version": package_json["version"],
+        }
 
+    if os.path.exists(BUILD_DIR):
+        shutil.rmtree(BUILD_DIR)
+
+    os.makedirs(BUILD_DIR, exist_ok=True)
     output_file, image_id, arch = gen_docker_image(manifest["name"], manifest["version"])
 
     manifest["arch"] = arch
     manifest["image_id"] = image_id
 
-    filename = f'{package_json["name"]}-{package_json["version"]}-{manifest["arch"]}.pack'
-    pass
-    # edge_doc = db_client["install-packs"].find_one({"name": manifest["name"]})
-    # if not edge_doc:
-    #     edge_doc = {
-    #         "_id": ObjectId("64fb7933f257ab6cb37ce65d"),
-    #         "name": manifest["name"],
-    #         "description": "Eyeflow Edge",
-    #         "storage_resource_id": storage_resource_id,
-    #         "version_list": []
-    #     }
-    #     db_client["install-packs"].insert_one(edge_doc)
+    generate_setup_sh(output_file)
+    generate_manifest_json(manifest)
 
-    
-    # edge_doc["latest_version"] = manifest["version"]
-    # edge_doc["date"] = datetime.datetime.fromisoformat(manifest["compilation_date"])
-    # for idx in reversed(range(len(edge_doc["version_list"]))):
-    #     if edge_doc["version_list"][idx]["version"] == edge_doc["latest_version"]:
-    #         del edge_doc["version_list"][idx]
+    filename = f'{slugify(manifest["name"])}-{manifest["version"]}-{manifest["arch"]}.pack'
 
-    # edge_doc["version_list"].append({
-    #     "date": edge_doc["date"],
-    #     "version": edge_doc["latest_version"],
-    #     "arch": manifest["arch"],
-    #     "filename": filename
-    #     }
-    # )
+    log.info(f"Insere pack")
+    upload_pack("install-packs", cloud_parms, filename)
 
-    # log.info(f"Insere pack")
-    # upload_pack("install-packs", cloud_parms, filename)
-    # db_client["install-packs"].update_one({"_id": edge_doc["_id"]}, {"$set": edge_doc}, upsert=True)
+    date = datetime.datetime.now(datetime.timezone.utc)
+    result = db_client["install-packs"].update_one(
+        {"name": manifest["name"]},
+        {
+            "$set": {
+                "description": manifest["description"],
+                "storage_resource_id": storage_resource_id,
+                "latest_version": manifest["version"],
+                "date": date,
+            },
+            "$pull": {
+                "version_list": {"filename": filename}
+            },
+        },
+        upsert=True
+    )
+
+    if "upserted" in result.raw_result:
+        log.info(f"Pack {manifest['name']} inserido com sucesso")
+
+    result = db_client["install-packs"].update_one(
+        {"name": manifest["name"]},
+        {
+            "$push": {
+                "version_list": {
+                    "date": date,
+                    "version": manifest["version"],
+                    "arch": manifest["arch"],
+                    "filename": filename
+                }
+            }
+        },
+    )
+
+    if result.modified_count > 0:
+        log.info(f"Pack {manifest['name']} atualizado com sucesso")
+    else:
+        log.info(f"Pack {manifest['name']} não foi atualizado")
     #----------------------------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
