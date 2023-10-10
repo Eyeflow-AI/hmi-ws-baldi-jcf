@@ -17,7 +17,6 @@ async function getData(req, res, next) {
     };
 
     result.batch_data.parts_ok = result.batch_data?.total_output_parts ?? result.batch_data?.parts_ok ?? 0;
-    result.batch_data.parts_ng = 0;
     result.batch_data.conveyor_speed = 0;
     result.batch_data.ng = result.batch_data.ng ?? {};
     result.batch_data.defects_count = {};
@@ -32,6 +31,7 @@ async function getData(req, res, next) {
       }
     }
 
+    result.batch_data.parts_ng = 0;
     for (let [key, valueList] of Object.entries(result.batch_data.ng)) {
       for (let value of valueList) {
         result.batch_data.parts_ng += value?.count ?? 0;
