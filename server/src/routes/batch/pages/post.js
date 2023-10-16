@@ -35,29 +35,13 @@ function getUpdateRequestBody(body) {
     err.status = 400;
     throw err;
   }
-  if (!total_packs) {
-    let err = new Error(`Non empty total_packs is required`);
-    err.status = 400;
-    throw err;
-  }
-  if (!parts_per_pack) {
-    let err = new Error(`Non empty parts_per_pack is required`);
-    err.status = 400;
-    throw err;
+
+  if (total_packs !== undefined) {
+    total_packs = parseIntThrowError(total_packs, `Failed to parse total_packs ${total_packs} as integer`);
   }
 
-  total_packs = parseInt(total_packs);
-  if (isNaN(total_packs)) {
-    let err = new Error(`total_packs must be a number`);
-    err.status = 400;
-    throw err;
-  }
-
-  parts_per_pack = parseInt(parts_per_pack);
-  if (isNaN(parts_per_pack)) {
-    let err = new Error(`parts_per_pack must be a number`);
-    err.status = 400;
-    throw err;
+  if (parts_per_pack !== undefined) {
+    parts_per_pack = parseIntThrowError(parts_per_pack, `Failed to parse parts_per_pack ${parts_per_pack} as integer`);
   }
 
   return {
@@ -134,9 +118,8 @@ async function post(req, res, next) {
       batch: {
         _id: newBatchDocument._id,
         status: "new_batch",
-        total_packs: parseIntThrowError(body.total_packs, `Failed to parse body.total_packs ${body.total_packs} as integer`),
-        parts_per_pack: parseIntThrowError(body.parts_per_pack, `Failed to parse body.parts_per_pack ${body.parts_per_pack} as integer`),
-        profile_parms: partData.color_profile
+        profile_parms: partData.color_profile,
+        ...body
       },
       part_data: {...partData},
     };
