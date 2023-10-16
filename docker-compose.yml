@@ -6,18 +6,19 @@ services:
       dockerfile: Dockerfile
     image: siliconlife/hmi-ws
     hostname: hmi-ws
-    network_mode: host
     restart: unless-stopped
     container_name: hmi-ws
+    ports:
+      - "6030:6030"
     environment:
       PORT: 6030
-      MONGO_URL: "mongodb://studies:62e05dd021ccc531bd645b2e@143.244.167.128:27017/?authSource=admin&readPreference=primary&ssl=false"
+      MONGO_URL: ""
       MONGO_DB: "eyeflow"
-      PACKAGE_ID: "5faebb5986528f0723e9514f"
-      DATA_PATH: "/data"
+      PACKAGE_ID: ""
+      DATA_PATH: "/opt/eyeflow/data"
       JWT_PRIVATE_KEY_FILE: "/usr/src/app/keys/jwtRS256.key"
       JWT_PUBLIC_KEY_FILE: "/usr/src/app/keys/jwtRS256.key.pub"
       USER_DEFAULT_PASSWORD: "123456"
     volumes:
-      - /opt/eyeflow/data/:/data
-      - /opt/eyeflow/log/:/usr/src/app/logs
+      - /opt/eyeflow/data:/opt/eyeflow/data
+      - /opt/eyeflow/log:/usr/src/app/logs

@@ -1,0 +1,258 @@
+#!/usr/bin/python3
+
+import os
+import importlib
+import datetime
+import json
+import traceback
+import tarfile
+import shutil
+import subprocess
+import yaml
+from pymongo.mongo_client import MongoClient
+
+from eyeflow_sdk.log_obj import log
+
+#----------------------------------------------------------------------------------------------------------------------------------
+
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+BUILD_DIR = os.path.join(SCRIPT_DIR, "build")
+os.chdir(SCRIPT_DIR)
+
+def slugify(value):
+
+    return value.replace(" ", "_").replace("-", "_").lower()
+
+
+def gen_docker_image(app_name, app_version, docker_compose_file=os.path.join(SCRIPT_DIR, "docker-compose.yml")):
+
+    try:
+        with open(docker_compose_file, 'r') as fp:
+            docker_compose = yaml.safe_load(fp)
+
+        image_name = docker_compose["services"][app_name]["image"]
+        build_command = [
+            "docker",
+            "compose",
+            "build",
+            # "--no-cache",
+            app_name
+        ]
+
+        log.info(f'Build image {image_name} command: {" ".join(build_command)}')
+        result = subprocess.run(
+            build_command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+        if result.returncode != 0:
+            raise Exception(result.stderr)
+
+        get_arch_command = [
+            "docker",
+            "image",
+            "inspect",
+            "--format",
+            "{{.ID}} {{.Architecture}}",
+            image_name
+        ]
+        log.info(f'Get image arch command: {" ".join(get_arch_command)}')
+        result = subprocess.run(
+            get_arch_command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+        if result.returncode != 0:
+            raise Exception(result.stderr)
+
+        image_id, arch = result.stdout.strip().split(" ")
+        if arch == "amd64":
+            arch = "x86_64"
+
+        output_file = f"{slugify(app_name)}-{app_version}-{arch}.tar"
+
+        result = subprocess.run(
+            ["docker", "save", "-o", os.path.join("build", output_file), image_name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True
+        )
+
+        if result.returncode != 0:
+            raise Exception(result.stderr)
+
+        return output_file, image_id, arch
+
+
+    except Exception as excp:
+        log.error(traceback.format_exc())
+        log.error(f"gen_docker_image error: {excp}")
+        raise excp
+
+
+def generate_setup_sh(image_file, setup_sh_file=os.path.join(SCRIPT_DIR, "build", "setup.sh")):
+
+    gktb_app_ip = "192.168.0.210"
+    sh_content = "#!/bin/bash\n" \
+                 'cd "$(dirname "$0")"' + "\n" \
+                 f"""sudo -u eyeflow -H sh -c "scp {image_file} {gktb_app_ip}:/opt/eyeflow/docker-images"\n""" \
+                 f"""sudo -u eyeflow -H sh -c "ssh {gktb_app_ip} 'docker load -i /opt/eyeflow/docker-images/{image_file}'"\n""" \
+                 f"""sudo -u eyeflow -H sh -c "ssh {gktb_app_ip} 'docker compose -f /opt/eyeflow/docker-compose.yaml up -d'"\n""" \
+
+    with open(setup_sh_file, "w") as fp:
+        fp.write(sh_content)
+
+    os.chmod(setup_sh_file, 0o755)
+
+
+def generate_manifest_json(manifest, manifest_file=os.path.join(SCRIPT_DIR, "build", "manifest.json")):
+
+        with open(manifest_file, "w") as fp:
+            json.dump(manifest, fp, indent=4)
+
+
+def upload_pack(cloud_storage, cloud_parms, pack_name, build_dir=BUILD_DIR):
+
+    comp_lib = importlib.import_module(f'eyeflow_sdk.cloud_store.{cloud_parms["provider"]}')
+    cloud_obj = comp_lib.Connector(**cloud_parms)
+
+    try:
+
+        wd = os.getcwd()
+        os.chdir(build_dir)
+        with tarfile.open(pack_name, "w:gz") as tar:
+            for file in os.listdir():
+                tar.add(file)
+
+        log.info(f'\tUpload file {pack_name}')
+        with open(pack_name, "rb") as fp:
+            file_data = fp.read()
+
+        if cloud_obj.is_file(
+                folder=cloud_storage,
+                resource_id=None,
+                filename=pack_name,
+            ):
+            cloud_obj.delete_file(
+                folder=cloud_storage,
+                resource_id=None,
+                filename=pack_name,
+            )
+
+        file_data = cloud_obj.upload_file(
+            folder=cloud_storage,
+            resource_id=None,
+            filename=pack_name,
+            data=file_data
+        )
+
+        os.remove(pack_name)
+        os.chdir(wd)
+
+    except Exception as excp:
+        log.error(traceback.format_exc())
+        log.error(f"sync_files error: {excp}")
+        raise excp
+#----------------------------------------------------------------------------------------------------------------------------------
+
+# if args.plat == 'dev':
+#     cred_file = os.path.join(os.environ['HOME'], ".eyeflow", "env_credentials_dev.json")
+#     with open(cred_file) as fp:
+#         credentials = json.load(fp)
+
+# elif args.plat == 'beta':
+#     cred_file = os.path.join(os.environ['HOME'], ".eyeflow", "env_credentials_beta.json")
+#     with open(cred_file) as fp:
+#         credentials = json.load(fp)
+
+def main():
+
+    cred_file = os.path.join(os.environ['HOME'], ".eyeflow", "env_credentials_prod.json")
+    with open(cred_file) as fp:
+        credentials = json.load(fp)
+
+    db_auth_client = MongoClient(credentials["atlas"]["db_url"])
+    db_auth = db_auth_client["eyeflow-auth"]
+    env_credentials = db_auth.environment.find_one({"name": "Public"})
+    if not env_credentials:
+        raise Exception(f"Environment not found Public")
+
+    storage_resource_id = list(env_credentials["storage_resource"].keys())[0]
+    cloud_parms = env_credentials["storage_resource"][storage_resource_id]
+
+    db_client = db_auth_client["eyeflow-admin"]
+
+    try:
+        with open(os.path.join(SCRIPT_DIR, "manifest.json"), 'r') as fp:
+            manifest = json.load(fp)
+    except:
+        with open(os.path.join(SCRIPT_DIR, "package.json"), 'r') as fp:
+            package_json = json.load(fp)
+
+        manifest = {
+            "name": "gktb_" + package_json["name"],
+            "description": package_json["description"],
+            "version": package_json["version"],
+        }
+
+    if os.path.exists(BUILD_DIR):
+        shutil.rmtree(BUILD_DIR)
+
+    os.makedirs(BUILD_DIR, exist_ok=True)
+    output_file, image_id, arch = gen_docker_image(package_json["name"], manifest["version"])
+
+    manifest["arch"] = arch
+    manifest["image_id"] = image_id
+
+    generate_setup_sh(output_file)
+    generate_manifest_json(manifest)
+
+    filename = f'{slugify(manifest["name"])}-{manifest["version"]}-{manifest["arch"]}.pack'
+
+    log.info(f"Insere pack")
+    upload_pack("install-packs", cloud_parms, filename)
+
+    date = datetime.datetime.now(datetime.timezone.utc)
+    result = db_client["install-packs"].update_one(
+        {"name": manifest["name"]},
+        {
+            "$set": {
+                "description": manifest["description"],
+                "storage_resource_id": storage_resource_id,
+                "latest_version": manifest["version"],
+                "date": date,
+            },
+            "$pull": {
+                "version_list": {"filename": filename}
+            },
+        },
+        upsert=True
+    )
+
+    if "upserted" in result.raw_result:
+        log.info(f"Pack {manifest['name']} inserido com sucesso")
+
+    result = db_client["install-packs"].update_one(
+        {"name": manifest["name"]},
+        {
+            "$push": {
+                "version_list": {
+                    "date": date,
+                    "version": manifest["version"],
+                    "arch": manifest["arch"],
+                    "filename": filename
+                }
+            }
+        },
+    )
+
+    if result.modified_count > 0:
+        log.info(f"Pack {manifest['name']} atualizado com sucesso")
+    else:
+        log.info(f"Pack {manifest['name']} não foi atualizado")
+    #----------------------------------------------------------------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    main()
