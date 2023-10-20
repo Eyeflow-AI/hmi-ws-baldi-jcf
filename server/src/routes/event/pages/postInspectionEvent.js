@@ -6,9 +6,9 @@ import fs from 'fs';
 async function saveImage(imageObj) {
 
   return new Promise(async (resolve, reject) => {
-    if (!fs.existsSync(`/data/event_image/${imageObj.image_path}/`)) {
+    if (!fs.existsSync(`/opt/eyeflow/data/event_image/${imageObj.image_path}/`)) {
       // Create the directory
-      fs.mkdirSync(`/data/event_image/${imageObj.image_path}/`);
+      fs.mkdirSync(`/opt/eyeflow/data/event_image/${imageObj.image_path}/`);
       console.log('Directory created successfully.');
     } else {
       console.log('Directory already exists.');
@@ -16,14 +16,14 @@ async function saveImage(imageObj) {
     // Save the image to a file
 
     // check if file exists
-    if (fs.existsSync(`/data/event_image/${imageObj.image_path}/${imageObj.image_file}`)) {
+    if (fs.existsSync(`/opt/eyeflow/data/event_image/${imageObj.image_path}/${imageObj.image_file}`)) {
       resolve();
     } else {
       console.log('File does not exist.');
       // Fetch the image
       axios.get(imageObj.url, { responseType: 'arraybuffer' })
         .then(response => {
-          fs.writeFileSync(`/data/event_image/${imageObj.image_path}/${imageObj.image_file}`, Buffer.from(response.data));
+          fs.writeFileSync(`/opt/eyeflow/data/event_image/${imageObj.image_path}/${imageObj.image_file}`, Buffer.from(response.data));
           console.log('Image saved successfully.');
           resolve();
         })
