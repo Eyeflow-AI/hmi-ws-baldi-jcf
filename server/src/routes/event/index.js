@@ -6,6 +6,7 @@ import {
   PostEventToUpload,
   PostDebugEvent,
   PostDetectionsImage,
+  PostCustomEvent,
 } from './pages';
 
 const router = express.Router();
@@ -17,5 +18,6 @@ router.post('/staging', PostStagingEvent);
 router.post('/debug', PostDebugEvent);
 router.post('/to-upload', PostEventToUpload);
 router.post('/detections-image', PostDetectionsImage);
+router.post('/custom', PostCustomEvent);
 
 export default router;
