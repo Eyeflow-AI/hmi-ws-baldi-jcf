@@ -5,10 +5,11 @@ import fs from 'fs';
 
 async function saveImage(imageObj) {
 
+  console.log({imageObj})
   return new Promise(async (resolve, reject) => {
-    if (!fs.existsSync(`/opt/eyeflow/data/event_image/${imageObj.image_path}/`)) {
+    if (!fs.existsSync(imageObj.absolute_image_path)) {
       // Create the directory
-      fs.mkdirSync(`/opt/eyeflow/data/event_image/${imageObj.image_path}/`);
+      fs.mkdirSync(imageObj.absolute_image_path, { recursive: true });
       console.log('Directory created successfully.');
     } else {
       console.log('Directory already exists.');
@@ -16,14 +17,14 @@ async function saveImage(imageObj) {
     // Save the image to a file
 
     // check if file exists
-    if (fs.existsSync(`/opt/eyeflow/data/event_image/${imageObj.image_path}/${imageObj.image_file}`)) {
+    if (fs.existsSync(`${imageObj.absolute_image_path}/${imageObj.image_file}`)) {
       resolve();
     } else {
       console.log('File does not exist.');
       // Fetch the image
       axios.get(imageObj.url, { responseType: 'arraybuffer' })
         .then(response => {
-          fs.writeFileSync(`/opt/eyeflow/data/event_image/${imageObj.image_path}/${imageObj.image_file}`, Buffer.from(response.data));
+          fs.writeFileSync(`${imageObj.absolute_image_path}/${imageObj.image_file}`, response.data);
           console.log('Image saved successfully.');
           resolve();
         })
@@ -72,25 +73,26 @@ async function postInspectionEvent(req, res, next) {
 
     let urlControl = [];
     event?.event_data?.inspection_result?.check_list?.region?.forEach(region => {
-      let full_url = `${url}/${region?.image?.image_path ?? region?.image_path}/${region?.image?.image_file ?? region?.image_file}`;
+      // let full_url = `${url}/${region?.image?.image_path ?? region?.image_path}/${region?.image?.image_file ?? region?.image_file}`;
+      let full_url = `${url}${region?.image?.absolute_image_path ?? region?.absolute_image_path}}/${region?.image?.image_file ?? region?.image_file}`
       if (!urlControl.includes(full_url)) {
         urlControl.push(full_url);
         imagesList.push({
           url: full_url,
-          image_path: region?.image?.image_path ?? region?.image_path,
+          absolute_image_path: region?.image?.absolute_image_path ?? region?.absolute_image_path,
           image_file: region?.image?.image_file ?? region?.image_file
         })
       };
       region?.tests?.forEach(test => {
         test?.detections?.forEach(detection => {
           if (detection?.image?.image_path && detection?.image?.image_file) {
-            full_url = `${url}/${detection?.image?.image_path ?? detection?.image_path}/${detection?.image?.image_file ?? detection?.image_file}`;
+            let full_url = `${url}${detection?.image?.absolute_image_path ?? detection?.absolute_image_path}/${detection?.image?.image_file ?? detection?.image_file}`
             if (!urlControl.includes(full_url)) {
               urlControl.push(full_url);
               imagesList.push({
                 url: full_url,
-                image_path: detection?.image?.image_path ?? detection?.image_path,
-                image_file: detection?.image?.image_file ?? test?.image_file
+                absolute_image_path: detection?.image?.absolute_image_path ?? detection?.absolute_image_path,
+                image_file: detection?.image?.image_file ?? detection?.image_file
               })
             };
           }
