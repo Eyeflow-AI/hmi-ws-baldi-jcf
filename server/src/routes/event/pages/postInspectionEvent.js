@@ -5,6 +5,7 @@ import fs from 'fs';
 
 async function saveImage(imageObj) {
 
+  console.log({imageObj})
   return new Promise(async (resolve, reject) => {
     if (!fs.existsSync(imageObj.absolute_image_path)) {
       // Create the directory
@@ -85,13 +86,13 @@ async function postInspectionEvent(req, res, next) {
       region?.tests?.forEach(test => {
         test?.detections?.forEach(detection => {
           if (detection?.image?.image_path && detection?.image?.image_file) {
-            full_url = `${url}/${detection?.image?.image_path ?? detection?.image_path}/${detection?.image?.image_file ?? detection?.image_file}`;
+            let full_url = `${url}${detection?.image?.absolute_image_path ?? detection?.absolute_image_path}/${detection?.image?.image_file ?? detection?.image_file}`
             if (!urlControl.includes(full_url)) {
               urlControl.push(full_url);
               imagesList.push({
                 url: full_url,
-                image_path: detection?.image?.image_path ?? detection?.image_path,
-                image_file: detection?.image?.image_file ?? test?.image_file
+                absolute_image_path: detection?.image?.absolute_image_path ?? detection?.absolute_image_path,
+                image_file: detection?.image?.image_file ?? detection?.image_file
               })
             };
           }

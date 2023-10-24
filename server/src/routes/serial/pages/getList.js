@@ -17,17 +17,17 @@ function getMatch(reqParams, reqQuery) {
 
     if (reqQuery.hasOwnProperty("min_event_time") || reqQuery.hasOwnProperty("max_event_time")) {
       match = {
-        "event_data.window_ini_time": {}
+        "event_data.window_end_time": {}
       };
       if (reqQuery.hasOwnProperty("min_event_time")) {
         if (!isIsoDate(reqQuery["min_event_time"])) { raiseError("Invalid min_event_time. Valid iso date is required.") };
         // match.start_time["$gte"] = new Date(reqQuery.min_event_time);
-        match['event_data.window_ini_time']['$gte'] = new Date(reqQuery.min_event_time);
+        match['event_data.window_end_time']['$gte'] = new Date(reqQuery.min_event_time);
       }
       if (reqQuery.hasOwnProperty("max_event_time")) {
         if (!isIsoDate(reqQuery["max_event_time"])) { raiseError("Invalid max_event_time. Valid iso date is required.") };
         // match.start_time["$lte"] = new Date(reqQuery.max_event_time);
-        match['event_data.window_ini_time']['$lte'] = new Date(reqQuery.max_event_time);
+        match['event_data.window_end_time']['$lte'] = new Date(reqQuery.max_event_time);
       };
     };
 
@@ -89,7 +89,7 @@ async function getList(req, res, next) {
             inspection_id: "$event_data.inspection_id",
             result: "$event_data.inspection_result.ok",
           },
-          date: { $last: "$event_data.window_ini_time" },
+          date: { $last: "$event_data.window_end_time" },
           part_id: { $first: "$event_data.part_data.id" },
           feedback_time: { $first: "$feedback_time" },
           count: { $sum: 1 },
