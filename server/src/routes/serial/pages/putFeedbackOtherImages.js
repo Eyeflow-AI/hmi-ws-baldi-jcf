@@ -9,6 +9,8 @@ async function putFeedbackOtherImages(req, res, next) {
     const tokenData = { ...req?.app?.auth } ?? {};
     let imageId = req.body.imageId;
 
+    console.dir({body: req.body}, {depth: null});
+  
     let query = {
       station: new Mongo.ObjectId(stationId),
       'event_data.inspection_id': serialId,
@@ -18,12 +20,13 @@ async function putFeedbackOtherImages(req, res, next) {
       {
         $set: {
           'event_data.inspection_result.check_list.region.$.feedback': true,
+          feedback_time: new Date()
         },
       }
 
     );
 
-    await Mongo.db.collection('inspection_events').updateOne({ 'event_data.inspection_id': serialId, station: new Mongo.ObjectId(stationId) }, { $set: { feedback_time: new Date() } });
+    // await Mongo.db.collection('inspection_events').updateOne({ 'event_data.inspection_id': serialId, station: new Mongo.ObjectId(stationId) }, { $set: {  } });
     let document = await Mongo.db.collection('image_detections').findOne({_id: new Mongo.ObjectId(imageId)});
     await Mongo.db.collection("events_to_upload").insertOne({
       data: document?.info,

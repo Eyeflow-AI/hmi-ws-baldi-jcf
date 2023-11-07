@@ -4,13 +4,13 @@ import axios from 'axios';
 import fs from 'fs';
 import IPV6toIPv4 from "../../../utils/ipv4Format";
 
-async function saveImage(imageObj) {
+async function saveFile(fileObj) {
 
-  console.log({imageObj})
+  console.log({fileObj})
   return new Promise(async (resolve, reject) => {
-    if (!fs.existsSync(imageObj.absolute_image_path)) {
+    if (!fs.existsSync(fileObj.absolute_path)) {
       // Create the directory
-      fs.mkdirSync(imageObj.absolute_image_path, { recursive: true });
+      fs.mkdirSync(fileObj.absolute_path, { recursive: true });
       console.log('Directory created successfully.');
     } else {
       console.log('Directory already exists.');
@@ -18,14 +18,14 @@ async function saveImage(imageObj) {
     // Save the image to a file
 
     // check if file exists
-    if (fs.existsSync(`${imageObj.absolute_image_path}/${imageObj.image_file}`)) {
+    if (fs.existsSync(`${fileObj.absolute_path}/${fileObj.file}`)) {
       resolve();
     } else {
       console.log('File does not exist.');
       // Fetch the image
-      axios.get(imageObj.url, { responseType: 'arraybuffer' })
+      axios.get(fileObj.url, { responseType: 'arraybuffer' })
         .then(response => {
-          fs.writeFileSync(`${imageObj.absolute_image_path}/${imageObj.image_file}`, response.data);
+          fs.writeFileSync(`${fileObj.absolute_path}/${fileObj.file}`, response.data);
           console.log('Image saved successfully.');
           resolve();
         })
@@ -64,6 +64,7 @@ async function postInspectionEvent(req, res, next) {
     const filesPort = edge?.filesPort ?? '';
     const url = `${host}:${filesPort}`;
     const imagesList = [];
+    const metadataList = [];
 
     let urlControl = [];
     event?.event_data?.inspection_result?.check_list?.region?.forEach(region => {
@@ -73,9 +74,14 @@ async function postInspectionEvent(req, res, next) {
         urlControl.push(full_url);
         imagesList.push({
           url: full_url,
-          absolute_image_path: region?.image?.absolute_image_path ?? region?.absolute_image_path,
-          image_file: region?.image?.image_file ?? region?.image_file
-        })
+          absolute_path: region?.image?.absolute_image_path ?? region?.absolute_image_path,
+          file: region?.image?.image_file ?? region?.image_file
+        });
+        metadataList.push({
+          url: full_url,
+          absolute_path: region?.image?.metadata?.absolute_json_path ?? '',
+          file: region?.image?.metadata?.json_file ?? ''
+        });
       };
       region?.tests?.forEach(test => {
         test?.detections?.forEach(detection => {
@@ -85,15 +91,21 @@ async function postInspectionEvent(req, res, next) {
               urlControl.push(full_url);
               imagesList.push({
                 url: full_url,
-                absolute_image_path: detection?.image?.absolute_image_path ?? detection?.absolute_image_path,
-                image_file: detection?.image?.image_file ?? detection?.image_file
-              })
+                absolute_path: detection?.image?.absolute_image_path ?? detection?.absolute_image_path,
+                file: detection?.image?.image_file ?? detection?.image_file
+              });
+              metadataList.push({
+                url: full_url,
+                absolute_path: detection?.image?.metadata?.absolute_json_path ?? '',
+                file: detection?.image?.metadata?.json_file ?? ''
+              });
             };
           }
         })
       })
     }); 
-    await Promise.all(imagesList.map(imageObj => saveImage(imageObj)));
+    await Promise.all(imagesList.map(imageObj => saveFile(imageObj)));
+    await Promise.all(metadataList.map(metadataObj => saveFile(metadataObj)));
 
 
     await Mongo.db.collection('inspection_events').insertOne(event);

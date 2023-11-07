@@ -20,5 +20,6 @@ services:
       JWT_PUBLIC_KEY_FILE: "/usr/src/app/keys/jwtRS256.key.pub"
       USER_DEFAULT_PASSWORD: "123456"
     volumes:
+      - /opt/eyeflow/data/:/data
       - /opt/eyeflow/data:/opt/eyeflow/data
-      - /opt/eyeflow/log:/usr/src/app/logs
+      - /opt/eyeflow/log/:/usr/src/app/logs
