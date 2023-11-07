@@ -8,12 +8,14 @@ async function postInspectionEvent(req, res, next) {
     let ipv4Address;
     const ipv4Pattern = /::ffff:(\d+\.\d+\.\d+\.\d+)/;
     const clientIP = req.connection.remoteAddress;
+    console.log({clientIP})
     const match = clientIP.match(ipv4Pattern);
 
     let event = req.body;
     event = JSON.stringify(event);
     event = EJSON.parse(event);
     if (event?.event_host) {
+      console.log("event_host:", event.event_host)
       event.host = event.event_host;
       ipv4Address = event.event_host;
       delete event.event_host;
