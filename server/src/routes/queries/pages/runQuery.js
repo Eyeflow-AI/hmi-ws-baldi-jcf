@@ -1,5 +1,13 @@
 import { BSON, EJSON, ObjectId } from 'bson';
 import Mongo from "../../../components/mongo";
+import queryBuilder from '../../../utils/queryBuilder';
+
+
+function functionEvaluator({ value }) {
+  let prepareFunc = value.replace('function::', '');
+  let result = eval(prepareFunc);
+  return result;
+}
 
 async function runQuery(req, res, next) {
 
@@ -7,7 +15,16 @@ async function runQuery(req, res, next) {
     let collectionName = req?.body?.collectionName ?? '';
     let searchMethod = req?.body?.searchMethod ?? '';
     let query = req?.body?.query ?? '';
-    query = EJSON.parse(query);
+    let variables = req?.body?.variables ?? {};
+    if (Object.keys(variables).length > 0) {
+      if (typeof query === 'string') {
+        query = JSON.parse(query);
+      }
+      query = queryBuilder({ query, variables });
+    }
+    else {
+      query = EJSON.parse(query);
+    }
     if (collectionName && searchMethod && query) {
       let result = [];
       if (searchMethod === 'find') {
@@ -20,7 +37,7 @@ async function runQuery(req, res, next) {
         result = await Mongo.db.collection(collectionName).find(filter).project(projection).sort(sort).limit(limit).skip(skip).toArray();
       }
       else if (searchMethod === 'aggregate') {
-        let pipeline = query?.pipeline ?? [];
+        let pipeline = query?.pipeline ?? query ?? [];
         result = await Mongo.db.collection(collectionName).aggregate(pipeline).toArray();
       }
       else if (searchMethod === 'count') {
@@ -44,7 +61,6 @@ async function runQuery(req, res, next) {
       };
       result = EJSON.stringify(result);
       result = JSON.parse(result);
-
       res.status(200).json({ ok: true, result });
 
     }
