@@ -1,4 +1,6 @@
 import { BSON, EJSON, ObjectId } from 'bson';
+import convertToType from './convertToType';
+import detectType from './detectType';
 
 const _replaceAll = function (text, search, replacement) {
   let newText = text;
@@ -9,7 +11,8 @@ const _replaceAll = function (text, search, replacement) {
 function functionEvaluator({ value, func, variableName }) {
   let prepareFunc = _replaceAll(func, `{{${variableName}}}`, value);
   let result = eval(prepareFunc);
-  return result;
+  let resultType = detectType(result);
+  return {result, resultType};
 }
 
 function variablesReplacer({ obj, variables, variablesInfo }) {
@@ -30,22 +33,32 @@ function variablesReplacer({ obj, variables, variablesInfo }) {
           if (value.includes("{{")) {
             let regexp = /{{\w+}}/g;
             let replaceStr = regexp.exec(value)?.input ?? '';
+            let resultType = '';
 
             if (replaceStr) {
               let variableName = replaceStr.split('{{')[1].split('}}')[0].replace('}}}', '');
               let resultCalculation = variables?.[variableName] ?? '';
               if (variablesInfo?.[variableName]?.function) {
-                resultCalculation = functionEvaluator({
+                let functionObj = functionEvaluator({
                   value: variables?.[variableName],
                   func: variablesInfo?.[variableName]?.function,
                   variableName,
                 })
+                resultCalculation = functionObj?.result ?? '';
+                resultType = functionObj?.resultType ?? '';
               }
 
               if (replaceStr.includes(':')) {
                 let _value = replaceStr.split(' ')[1].replace(`{{${variableName}}`, resultCalculation).replace('}}', '');
+
                 let _key = replaceStr.split(' ')[0].replace('{', '').replace(':', '');
-                obj[key] = EJSON.parse(JSON.stringify({ [_key]: _value }));
+                if (resultType) {
+                  _value = convertToType(resultType, _value);
+                }
+                let _obj = {
+                  [_key]: _value
+                }
+                obj[key] = EJSON.parse(JSON.stringify(_obj));
               }
               else {
                 let _value = replaceStr.replace(`{{${variableName}`, resultCalculation).replace('}}', '');
@@ -68,6 +81,6 @@ export default function queryBuilder({
   query,
   variables,
 }) {
-  let queryOBJ = variablesReplacer({ obj: query?.pipeline, variables, variablesInfo: query?.variables });
+  let queryOBJ = variablesReplacer({ obj: query?.pipeline ?? query, variables, variablesInfo: query?.variables ?? variables });
   return queryOBJ;
 }
