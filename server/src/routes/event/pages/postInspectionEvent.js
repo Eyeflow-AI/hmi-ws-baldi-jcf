@@ -8,33 +8,38 @@ async function saveFile(fileObj) {
 
   console.log({fileObj})
   return new Promise(async (resolve, reject) => {
-    if (!fs.existsSync(fileObj.absolute_path)) {
-      // Create the directory
-      fs.mkdirSync(fileObj.absolute_path, { recursive: true });
-      console.log('Directory created successfully.');
-    } else {
-      console.log('Directory already exists.');
+    try {
+      if (!fs.existsSync(fileObj.absolute_path)) {
+        // Create the directory
+        fs.mkdirSync(fileObj.absolute_path, { recursive: true });
+        console.log('Directory created successfully.');
+      } else {
+        console.log('Directory already exists.');
+      }
+      // Save the image to a file
+  
+      // check if file exists
+      if (fs.existsSync(`${fileObj.absolute_path}/${fileObj.file}`)) {
+        resolve();
+      } else {
+        console.log('File does not exist.');
+        // Fetch the image
+        axios.get(fileObj.url, { responseType: 'arraybuffer' })
+          .then(response => {
+            fs.writeFileSync(`${fileObj.absolute_path}/${fileObj.file}`, response.data);
+            console.log('Image saved successfully.');
+            resolve();
+          })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            resolve();
+          });
+      }
     }
-    // Save the image to a file
-
-    // check if file exists
-    if (fs.existsSync(`${fileObj.absolute_path}/${fileObj.file}`)) {
+    catch (err) {
+      console.log({err});
       resolve();
-    } else {
-      console.log('File does not exist.');
-      // Fetch the image
-      axios.get(fileObj.url, { responseType: 'arraybuffer' })
-        .then(response => {
-          fs.writeFileSync(`${fileObj.absolute_path}/${fileObj.file}`, response.data);
-          console.log('Image saved successfully.');
-          resolve();
-        })
-        .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-          resolve();
-        });
-    }
-
+    };
   });
 };
 
