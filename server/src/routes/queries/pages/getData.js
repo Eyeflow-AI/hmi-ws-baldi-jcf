@@ -15,6 +15,7 @@ async function getData(req, res, next) {
       let collectioName = queriesDocument?.queries?.[queryName]?.collection_name;
       let searchMethod = queriesDocument?.queries?.[queryName]?.search_method;
       let result = null;
+      // console.dir({ queryOBJ, collectioName, searchMethod }, { depth: null });
       if (searchMethod !== 'findOne') {
         result = await Mongo.db.collection(collectioName)[searchMethod](queryOBJ).toArray();
       }
@@ -24,6 +25,7 @@ async function getData(req, res, next) {
       if (query?.functions?.post_function) {
         eval(query?.functions?.post_function);
       }
+      // console.log({result})
       res.status(200).json({ ok: true, result, chartInfo: queriesDocument?.queries?.[queryName].chart });
     }
 
