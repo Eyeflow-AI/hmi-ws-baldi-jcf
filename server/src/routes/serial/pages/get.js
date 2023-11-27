@@ -24,7 +24,8 @@ async function get(req, res, next) {
           _id: serialId,
           info: {
             inspection_id: serialId,
-            part_data: results[0].event_data.part_data
+            part_data: results[0]?.event_data?.part_data ?? {},
+            table: results[0]?.event_data?.inspection_result?.table ?? {},
           },
           documentsCount: results.length,
           // documents: results
