@@ -2,6 +2,7 @@ import express from 'express';
 import { isAuthenticated, isAuthorized } from './middleware';
 import {
   Login
+  , LoginByIp
   , GetTokenData
   , GetAccessControlData
   , GetUsersList
@@ -19,6 +20,7 @@ import {
 const router = express.Router();
 
 router.post('/login', Login);
+router.post('/login/ip', LoginByIp);
 router.post('/logout', isAuthenticated, Logout);
 router.get('/verify-token', isAuthenticated, GetTokenData);
 router.post('/user', isAuthenticated, CreateUser);
