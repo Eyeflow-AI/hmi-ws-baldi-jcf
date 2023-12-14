@@ -136,6 +136,7 @@ async function getList(req, res, next) {
     serialList = serialList.filter((el) => !el.toDelete);
 
     let host = await FeConfigSingleton.getHost("hmi-files-ws");
+    let instance = await FeConfigSingleton.getInstance();
     let serialListLength = serialList.length;
     serialList.forEach((el, index) => {
       // console.log({ date: el.date, i: el.inspection_id })
@@ -146,7 +147,8 @@ async function getList(req, res, next) {
       // el.thumbURL = `${host.url}/others/GearIcon.svg`;                 //TODO: Get from config file,
       el.thumbStyle = { height: 90 }; //TODO: Get from config file,
       el.status = el.result ? "ok" : "ng";
-      el.label = el?.part_id?.slice(-5) ?? "N/A";
+      el.label =
+        el?.part_id?.slice(-instance?.wsInfo?.label_size ?? -5) ?? "N/A";
       el._id = el.inspection_id;
       el.event_time = el.date;
       hashString += el.status;
