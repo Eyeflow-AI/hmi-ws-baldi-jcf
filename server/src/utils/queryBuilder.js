@@ -8,6 +8,7 @@ const _replaceAll = function (text, search, replacement) {
 };
 
 function functionEvaluator({ value, func, variableName, resultCalculations }) {
+  console.log({ value, func, variableName, resultCalculations });
   let prepareFunc = "";
   if (value) {
     prepareFunc = _replaceAll(func, `{{${variableName}}}`, value);
@@ -24,6 +25,7 @@ function functionEvaluator({ value, func, variableName, resultCalculations }) {
     console.log({ err });
   }
   let resultType = detectType(result);
+  console.log({ result, resultType });
   return { result, resultType };
 }
 
@@ -114,11 +116,13 @@ function variablesReplacer({
 }
 
 export default function queryBuilder({ query, variables }) {
+  console.dir({ query, variables }, { depth: null });
   let queryOBJ = variablesReplacer({
     obj: query?.pipeline ?? query,
     variables,
     variablesInfo: query?.variables ?? variables,
     resultCalculations: {},
   });
+  console.log({ queryOBJ });
   return queryOBJ;
 }
