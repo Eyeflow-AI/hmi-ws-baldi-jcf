@@ -5,6 +5,7 @@ async function getData(req, res, next) {
   try {
     let { stationId } = req.params;
     let { startTime, endTime, queryName } = req.query;
+    // console.log({ startTime, endTime });
     let queriesDocument = await Mongo.db
       .collection("params")
       .findOne({ name: "queries" });
@@ -17,6 +18,7 @@ async function getData(req, res, next) {
         query,
         variables: { stationId, startTime, endTime, ...queryConstants },
       });
+      console.dir({ queryOBJ }, { depth: null });
       let collectioName =
         queriesDocument?.queries?.[queryName]?.collection_name;
       let searchMethod = queriesDocument?.queries?.[queryName]?.search_method;
@@ -34,7 +36,7 @@ async function getData(req, res, next) {
       if (query?.functions?.post_function) {
         eval(query?.functions?.post_function);
       }
-      // console.log({ result });
+      console.dir({ result }, { depth: null });
       res.status(200).json({
         ok: true,
         result,
