@@ -68,6 +68,10 @@ function variablesReplacer({
                 .split("}}")[0]
                 .replace("}}}", "");
               let resultCalculation = variables?.[variableName] ?? "";
+              if (resultCalculation === "") {
+                delete obj[key];
+                continue;
+              }
               resultCalculations[variableName] = resultCalculation;
               if (variablesInfo?.[variableName]?.function) {
                 let functionObj = functionEvaluator({

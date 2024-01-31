@@ -4,8 +4,7 @@ import queryBuilder from "../../../utils/queryBuilder";
 async function getData(req, res, next) {
   try {
     let { stationId } = req.params;
-    let { startTime, endTime, queryName } = req.query;
-    // console.log({ startTime, endTime });
+    let { startTime, endTime, queryName, filters } = req.query;
     let queriesDocument = await Mongo.db
       .collection("params")
       .findOne({ name: "queries" });
@@ -14,13 +13,13 @@ async function getData(req, res, next) {
       let queryConstants =
         queriesDocument?.queries?.[queryName]?.constants ?? {};
       let query = queriesDocument?.queries?.[queryName];
+
       queryOBJ = queryBuilder({
         query,
-        variables: { stationId, startTime, endTime, ...queryConstants },
+        variables: { stationId, startTime, endTime, ...queryConstants, ...filters },
       });
-      console.dir({ queryOBJ }, { depth: null });
-      let collectioName =
-        queriesDocument?.queries?.[queryName]?.collection_name;
+
+      let collectioName = queriesDocument?.queries?.[queryName]?.collection_name;
       let searchMethod = queriesDocument?.queries?.[queryName]?.search_method;
       let result = null;
       if (searchMethod !== "findOne") {
@@ -36,10 +35,10 @@ async function getData(req, res, next) {
       if (query?.functions?.post_function) {
         eval(query?.functions?.post_function);
       }
-      console.dir({ result }, { depth: null });
       res.status(200).json({
         ok: true,
         result,
+        queryName,
         chartInfo: queriesDocument?.queries?.[queryName].chart,
       });
     }
