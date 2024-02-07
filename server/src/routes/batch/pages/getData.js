@@ -20,6 +20,7 @@ async function getData(req, res, next) {
     result.batch_data.conveyor_speed = 0;
     result.batch_data.ng = result.batch_data.ng ?? {};
     result.batch_data.defects_count = {};
+    let total_parts = 0;
 
     if (result.status === "running") {
       let lastEvent = await Mongo.db
@@ -48,6 +49,12 @@ async function getData(req, res, next) {
         }
       }
     }
+    total_parts = result.batch_data.parts_ok + result.batch_data.parts_ng;
+    result.info.current_parts = total_parts;
+    result.info.current_pack = Math.ceil(
+      total_parts / result.info.parts_per_pack
+    );
+    result.info.current_pack_per_total_packs = `${result.info.current_pack}/${result.info.total_packs}`;
 
     res.status(200).json({ ok: true, batch: result });
   } catch (err) {

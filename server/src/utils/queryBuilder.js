@@ -127,6 +127,6 @@ export default function queryBuilder({ query, variables }) {
     variablesInfo: query?.variables ?? variables,
     resultCalculations: {},
   });
-  console.log({ queryOBJ });
+  console.dir({ queryOBJ }, { depth: null });
   return queryOBJ;
 }
