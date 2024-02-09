@@ -4,10 +4,10 @@ async function getMaskMapList(req, res, next) {
 
   try {
     let feConfigDoc = await Mongo.db.collection("params").findOne({ name: 'feConfig' });
-    let maskMapId = feConfigDoc.pages["HMI"].options.maskMapId
+    let maskMapId = feConfigDoc.pages["HMI"].components.CreateBatchModal.maskMapId
 
-    let maskMapListURL = `${feConfigDoc.pages["HMI"].options.maskMapListURL}/${maskMapId}/examples.json`
-    let maskMapInfoURL = `${feConfigDoc.pages["HMI"].options.maskMapListURL}/${maskMapId}/parms.json`
+    let maskMapListURL = `${feConfigDoc.pages["HMI"].components.CreateBatchModal.maskMapListURL}/${maskMapId}/examples.json`
+    let maskMapInfoURL = `${feConfigDoc.pages["HMI"].components.CreateBatchModal.maskMapListURL}/${maskMapId}/parms.json`
 
     const maskList = await axios.get(maskMapListURL);
     const maskMapInfo = await axios.get(maskMapInfoURL);
