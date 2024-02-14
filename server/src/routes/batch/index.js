@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import {
   Post,
   GetList,
@@ -6,20 +6,21 @@ import {
   GetData,
   GetRunning,
   PutPauseOrStop,
-  PutResume
-} from './pages';
+  PutResume,
+  GetLastInspection,
+} from "./pages";
 
 const router = express.Router();
 
+router.post("/:stationId", Post);
+router.get("/:stationId/list", GetList);
+router.get("/:stationId/running", GetRunning);
+router.get("/:stationId/last-inspection", GetLastInspection);
+router.get("/:stationId/:batchId", Get);
+router.get("/:stationId/:batchId/data", GetData);
 
-router.post('/:stationId', Post);
-router.get('/:stationId/list', GetList);
-router.get('/:stationId/running', GetRunning);
-router.get('/:stationId/:batchId', Get);
-router.get('/:stationId/:batchId/data', GetData);
-
-router.put('/:stationId/:batchId/pause', PutPauseOrStop);
-router.put('/:stationId/:batchId/stop', PutPauseOrStop);
-router.put('/:stationId/:batchId/resume', PutResume);
+router.put("/:stationId/:batchId/pause", PutPauseOrStop);
+router.put("/:stationId/:batchId/stop", PutPauseOrStop);
+router.put("/:stationId/:batchId/resume", PutResume);
 
 export default router;
