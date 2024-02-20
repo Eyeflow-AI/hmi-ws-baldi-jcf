@@ -65,10 +65,10 @@ function addValueToArray(filePath, newValue) {
 async function uploadImageInfo(req, res, next) {
 
   try {
-    console.log('uploadImageInfo', req.body);
     const folderPath = "/opt/eyeflow/data/framework-tools/images-capturer/images-to-upload/"
     const ObjectId = require('mongodb').ObjectId;
     const datasetId = req.body.data.dataset_id;
+    const maskMap = req.body.maskMap;
 
     const objectId = new ObjectId();
 
@@ -85,15 +85,25 @@ async function uploadImageInfo(req, res, next) {
     addValueToArray(file, valueToAdd);
 
     const jsonData = req.body.data;
-
     const updateJson = {
       ...jsonData,
       _id: objectId,
       feedback: {},
-      annotations: { mask_map: [] },
       options: null,
       example_path: jsonData.dataset_id,
       example_thumb: `${objectId}_thumb.jpg`,
+    }
+
+    if (maskMap) {
+      updateJson.annotations = {
+        ...jsonData.annotations,
+        mask_map: []
+      }
+    } else {
+      updateJson.annotations = {
+        ...jsonData.annotations,
+        instances: []
+      }
     }
 
     const jsonString = JSON.stringify(updateJson, null, 2);
