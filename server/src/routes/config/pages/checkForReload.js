@@ -6,9 +6,8 @@ const containerInfoIndex = containerEntrys.findIndex(entry => entry.includes('st
 const ContainerJSVersion = containerEntrys[containerInfoIndex].replace('static/js/', '').replace('.js', '');
 
 
-async function getVersion(req, res, next) {
+async function checkForReload(req, res, next) {
   try {
-    console.log({containerEntrys});
     res.status(200).json({
       reload: ContainerJSVersion !== req.query.JSVersion, version: {
         ContainerJSVersion,
@@ -21,4 +20,4 @@ async function getVersion(req, res, next) {
   }
 }
 
-export default getVersion;
+export default checkForReload;
