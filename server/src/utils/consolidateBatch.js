@@ -21,12 +21,13 @@ async function consolidateBatch(batchId, status = "closed") {
   let updateResult;
   if (lastEvent) {
     delete lastEvent.event_data.batch_id;
+    let update = { $set: { status, batch_data: lastEvent.event_data } };
+    if (["paused", "closed"].includes(status)) {
+      update["$set"]["end_time"] = new Date();
+    }
     updateResult = await Mongo.db
       .collection("batch")
-      .updateOne(
-        { _id: batchId },
-        { $set: { batch_data: lastEvent.event_data, status } }
-      );
+      .updateOne({ _id: batchId }, update);
     //   if (updateResult.modifiedCount !== 1) {
     //     let err = new Error(`Batch with _id ${batchId} was not updated`);
     //     err.status = 500;
