@@ -44,9 +44,7 @@ async function putFeedback(req, res, next) {
         uploaded: false,
         image_file: feedbackRegion?.image?.image_file,
         image_path: feedbackRegion?.image?.image_path,
-        image_scale:
-          feedbackRegion?.image?.image_scale ??
-          "feedbackRegion.image.image_scale:",
+        image_scale: feedbackRegion?.image?.image_scale,
         dataset_id,
         feedback_user: tokenData?.tokenPayload?.payload?.username,
       });
