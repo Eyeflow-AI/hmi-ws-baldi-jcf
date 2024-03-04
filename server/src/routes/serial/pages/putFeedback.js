@@ -42,9 +42,6 @@ async function putFeedback(req, res, next) {
         original_id: document._id,
         original_collection: "inspection_events",
         uploaded: false,
-        image_file: feedbackRegion?.image?.image_file,
-        image_path: feedbackRegion?.image?.image_path,
-        image_scale: feedbackRegion?.image?.image_scale,
         dataset_id,
         feedback_user: tokenData?.tokenPayload?.payload?.username,
       });
