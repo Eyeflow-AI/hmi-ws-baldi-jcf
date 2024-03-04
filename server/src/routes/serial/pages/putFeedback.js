@@ -19,22 +19,18 @@ async function putFeedback(req, res, next) {
         },
       });
 
-    result = await Mongo.db
-      .collection("inspection_events")
-      .updateOne(
-        {
-          "event_data.inspection_id": serialId,
-          station: new Mongo.ObjectId(stationId),
-        },
-        { $set: { feedback_time: new Date() } }
-      );
+    result = await Mongo.db.collection("inspection_events").updateOne(
+      {
+        "event_data.inspection_id": serialId,
+        station: new Mongo.ObjectId(stationId),
+      },
+      { $set: { feedback_time: new Date() } }
+    );
     if (result) {
-      let document = await Mongo.db
-        .collection("inspection_events")
-        .findOne({
-          "event_data.inspection_id": serialId,
-          station: new Mongo.ObjectId(stationId),
-        });
+      let document = await Mongo.db.collection("inspection_events").findOne({
+        "event_data.inspection_id": serialId,
+        station: new Mongo.ObjectId(stationId),
+      });
       let feedbackRegion =
         document.event_data.inspection_result.check_list.region.find(
           (region) => region.name === regionName
@@ -46,11 +42,13 @@ async function putFeedback(req, res, next) {
         original_id: document._id,
         original_collection: "inspection_events",
         uploaded: false,
-        image_file: feedbackRegion.image.image_file,
-        image_path: feedbackRegion.image.image_path,
-        image_scale: feedbackRegion.image.image_scale,
+        image_file: feedbackRegion?.image?.image_file,
+        image_path: feedbackRegion?.image?.image_path,
+        image_scale:
+          feedbackRegion?.image?.image_scale ??
+          "feedbackRegion.image.image_scale:",
         dataset_id,
-        feedback_user: tokenData.tokenPayload.payload.username,
+        feedback_user: tokenData?.tokenPayload?.payload?.username,
       });
 
       res.status(200).json({ ok: true });
