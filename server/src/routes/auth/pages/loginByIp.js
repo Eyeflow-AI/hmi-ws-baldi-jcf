@@ -14,19 +14,26 @@ async function loginByIp(req, res, next) {
     let ipsDocument = await Mongo.db.collection("params").findOne({ name: 'allowed_ips' });
 
     if (!ipsDocument) {
-      res.status(201).json({ ok: false, message: 'Document not found' });
+      res.status(201).json({ ok: false, message: 'Document not found, login by Ip failed' })
     } else {
+      let IpsList = []
       if (ipsDocument?.allowed_ips.length === 0) {
-        res.status(201).json({ ok: false, message: 'Allowed IPs list is empty' });
+        res.status(201).json({ ok: false, message: 'Allowed IPs list list is empty' });
       } else {
-        ipsDocument?.allowed_ips.map((machine) => {
-          if (machine.ip === clientIP) {
-            userRole = machine.role;
-            username = machine.username;
-          } else {
-            res.status(201).json({ ok: false, message: 'Automatic login is not allowed for this IP' });
+        IpsList = ipsDocument?.allowed_ips.filter((machine) => {
+          return machine.ip === clientIP && {
+            ip: machine.ip,
+            role: machine.role,
+            username: machine.username
           }
-        });
+        })
+      }
+
+      if (IpsList.length === 0) {
+        res.status(201).json({ ok: false, message: 'Automatic login is not allowed for this IP' })
+      } else {
+        userRole = IpsList[0].role;
+        username = IpsList[0].username;
       }
 
       let err, token, tokenPayload;
@@ -41,13 +48,14 @@ async function loginByIp(req, res, next) {
         if (err) {
           throw err;
         };
-  
+
         [err, tokenPayload] = verifyToken(token);
         if (err) {
           throw err;
         };
         return res.status(201).json({ ok: true, token, tokenPayload });
       }
+
     }
   }
   catch (err) {
