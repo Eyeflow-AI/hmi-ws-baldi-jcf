@@ -17,6 +17,8 @@ async function loginByIp(req, res, next) {
       .split(",")[0]
       .trim();
 
+    console.log({ clientIP });
+
     let userRole = "";
     let username = "";
     let ipsDocument = await Mongo.db
@@ -28,13 +30,13 @@ async function loginByIp(req, res, next) {
         .status(201)
         .json({ ok: false, message: "Document not found, login by Ip failed" });
     } else {
-      let IpsList = [];
+      let machine = null;
       if (ipsDocument?.allowed_ips.length === 0) {
         res
           .status(201)
           .json({ ok: false, message: "Allowed IPs list list is empty" });
       } else {
-        IpsList = ipsDocument?.allowed_ips.filter((machine) => {
+        machine = ipsDocument?.allowed_ips.find((machine) => {
           return (
             machine.ip === clientIP && {
               ip: machine.ip,
@@ -45,16 +47,14 @@ async function loginByIp(req, res, next) {
         });
       }
 
-      if (IpsList.length === 0) {
-        res
-          .status(201)
-          .json({
-            ok: false,
-            message: "Automatic login is not allowed for this IP",
-          });
+      if (Object.keys(machine ?? {}).length === 0) {
+        res.status(201).json({
+          ok: false,
+          message: "Automatic login is not allowed for this IP",
+        });
       } else {
-        userRole = IpsList[0].role;
-        username = IpsList[0].username;
+        userRole = machine.role;
+        username = machine.username;
       }
 
       let err, token, tokenPayload;

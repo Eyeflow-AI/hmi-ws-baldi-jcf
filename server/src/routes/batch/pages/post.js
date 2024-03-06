@@ -151,23 +151,23 @@ async function post(req, res, next) {
     delete postRequestBody.part_data.color_profile;
 
     postRequestBody.env_var = lodash.cloneDeep(postRequestBody);
-    // try {
-    //   // TODO: Try again on fail. Maybe use a queue?
-    //   let response = await axios.post(postBatchURL, postRequestBody, {
-    //     timeout,
-    //   });
-    //   if (![200, 201].includes(response.status)) {
-    //     log.info(
-    //       `Successfully started batch ${batchId} in station ${stationId}`
-    //     );
-    //   } else {
-    //     log.error(`Failed to start batch ${batchId} in station ${stationId}`);
-    //   }
-    // } catch (err) {
-    //   log.error(
-    //     `Failed to start batch ${batchId} in station ${stationId}. Error: ${err}`
-    //   );
-    // }
+    try {
+      // TODO: Try again on fail. Maybe use a queue?
+      let response = await axios.post(postBatchURL, postRequestBody, {
+        timeout,
+      });
+      if (![200, 201].includes(response.status)) {
+        log.info(
+          `Successfully started batch ${batchId} in station ${stationId}`
+        );
+      } else {
+        log.error(`Failed to start batch ${batchId} in station ${stationId}`);
+      }
+    } catch (err) {
+      log.error(
+        `Failed to start batch ${batchId} in station ${stationId}. Error: ${err}`
+      );
+    }
 
     newBatchDocument["debug"] = {
       data_sent_to_edge_station: [postRequestBody],
