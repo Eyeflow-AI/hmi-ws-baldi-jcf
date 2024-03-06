@@ -7,6 +7,9 @@ async function getListFromMongo(req, res, next) {
     let port = req.query.port;
     let inspectionDate = req.query.inspectionDate;
     let listImages = req.query.listImages;
+    let selectedDay = req.query.selectedDay;
+    let station = req.query.station;
+    
     let docs = [];
     if (dirPath && host && port && inspectionDate) {
       let urlIPV6 = `::ffff:${host.replace('http://', '')}`;
@@ -16,6 +19,8 @@ async function getListFromMongo(req, res, next) {
       docs = await collection.find({ host: { $in: [urlIPV4, urlIPV6] }, inspection_date: inspectionDate }).toArray();
     }
     if (!host && !port && listImages && selectedDay && station) {
+      const collection = Mongo.db.collection('events');
+
       docs = await collection.find({
         station: station,
         event_time:
