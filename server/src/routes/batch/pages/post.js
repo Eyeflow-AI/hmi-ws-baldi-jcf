@@ -146,7 +146,7 @@ async function post(req, res, next) {
         profile_parms: partData.color_profile,
         ...body,
       },
-      part_data: { ...partData },
+      part_data: { ...partData, profile_parms: partData.color_profile },
     };
     delete postRequestBody.part_data.color_profile;
 
