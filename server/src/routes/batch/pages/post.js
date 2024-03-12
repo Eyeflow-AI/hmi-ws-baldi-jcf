@@ -148,7 +148,7 @@ async function post(req, res, next) {
       },
       part_data: { ...partData, profile_parms: partData.color_profile },
     };
-    // delete postRequestBody.part_data.color_profile;
+    delete postRequestBody.part_data.color_profile;
 
     postRequestBody.env_var = lodash.cloneDeep(postRequestBody);
     try {
