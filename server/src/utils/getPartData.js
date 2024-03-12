@@ -6,7 +6,7 @@ async function getPartData(partId, origin, url) {
     (part) => part.part_id === partId
   );
   if (!partData) {
-    let docName = origin === "parts_register" ? "params" : "maskMapList";
+    let docName = origin === "parts_register" ? "parts_register" : "maskMapList";
     let err = new Error(
       `Part with id ${partId} not found in ${docName} document`
     );

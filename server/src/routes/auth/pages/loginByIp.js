@@ -17,8 +17,6 @@ async function loginByIp(req, res, next) {
       .split(",")[0]
       .trim();
 
-    console.log({ clientIP });
-
     let userRole = "";
     let username = "";
     let ipsDocument = await Mongo.db
