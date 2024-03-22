@@ -3,6 +3,6 @@ import { Get } from "./pages";
 
 const router = express.Router();
 
-router.get("/:scriptName", Get);
+router.get("/:stationId/:scriptName", Get);
 
 export default router;

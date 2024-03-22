@@ -1,6 +1,6 @@
 import Mongo from "../../../components/mongo";
 
-async function putScriptName(req, res, next) {
+async function putComponentName(req, res, next) {
   try {
     let oldName = req.params.name;
     let newName = req.body.name;
@@ -13,7 +13,7 @@ async function putScriptName(req, res, next) {
       return;
     }
     await Mongo.db
-      .collection("scripts")
+      .collection("components")
       .updateOne({ name: oldName }, { $set: { name: newName } });
     res.status(200).json({ ok: true });
   } catch (err) {
@@ -21,4 +21,4 @@ async function putScriptName(req, res, next) {
   }
 }
 
-export default putScriptName;
+export default putComponentName;

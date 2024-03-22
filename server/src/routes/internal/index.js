@@ -16,6 +16,12 @@ import {
   PutScript,
   DeleteScript,
   PutScriptName,
+  GetComponents,
+  PostComponent,
+  GetComponentDocument,
+  PutComponent,
+  DeleteComponent,
+  PutComponentName,
 } from "./pages";
 import { isAuthorized, isAuthenticated } from "../auth";
 
@@ -45,11 +51,39 @@ router.put(
   isAuthorized(["master", "builder"]),
   PutScriptName
 );
+router.get("/scripts", isAuthenticated, GetScripts);
+
+router.post(
+  "/component",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PostComponent
+);
+router.put(
+  "/component",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PutComponent
+);
+router.delete(
+  "/component/:name",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  DeleteComponent
+);
+router.put(
+  "/component/:name",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PutComponentName
+);
+router.get("/components", isAuthenticated, GetComponents);
+
 router.get("/script-document/:name", isAuthenticated, GetScriptDocument);
+router.get("/component-document/:name", isAuthenticated, GetComponentDocument);
 router.get("/from-to-document", isAuthenticated, GetFromToDocument);
 router.get("/package-data", isAuthenticated, GetPackageData);
 router.get("/languages-data", isAuthenticated, GetLanguagesData);
-router.get("/scripts", isAuthenticated, GetScripts);
 router.get("/icon-info/:icon", isAuthenticated, GetIconInfo);
 router.put("/active-dataset", isAuthenticated, PutActiveDataset);
 router.put("/active-language", isAuthenticated, PutActiveLanguage);

@@ -1,6 +1,6 @@
 import Mongo from "../../../components/mongo";
 
-async function postScript(req, res, next) {
+async function postComponent(req, res, next) {
   try {
     let name = req.body.name;
     if (!name) {
@@ -22,11 +22,11 @@ function ${name}() {
 result = ${name}(); // result is a variable that must to be used
       `,
     };
-    await Mongo.db.collection("scripts").insertOne(document);
+    await Mongo.db.collection("components").insertOne(document);
     res.status(200).json({ ok: true });
   } catch (err) {
     next(err);
   }
 }
 
-export default postScript;
+export default postComponent;
