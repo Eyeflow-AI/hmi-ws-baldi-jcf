@@ -57,6 +57,7 @@ async function get(req, res, next) {
         result = err.message;
       }
     }
+    console.dir({ result }, { depth: null });
     res.status(200).json({ ok: Boolean(document), result });
   } catch (err) {
     next(err);
