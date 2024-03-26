@@ -20,7 +20,7 @@ const router = express.Router();
 
 router.use('/auth', AUTH);
 router.use('/event', EVENT);
-router.use('/batch', isAuthenticated, BATCH);
+router.use('/batch', BATCH);
 router.use('/internal', INTERNAL);
 router.use('/parts', PARTS);
 router.use('/station', STATION);
