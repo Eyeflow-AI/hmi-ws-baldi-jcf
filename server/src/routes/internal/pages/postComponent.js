@@ -14,12 +14,12 @@ async function postComponent(req, res, next) {
 // Example: MONGO.url
 // Example: MONGO.client
 // Example: MONGO.ObjectId
-function ${name}() {
+function ${name}({obj}) {
   console.log('Hello, World!');
   return null;
 }
 
-result = ${name}(); // result is a variable that must to be used
+tagOutput = ${name}({obj: {{variable}}}); // tagOutput is a variable waiting to be delivered to front end
       `,
     };
     await Mongo.db.collection("components").insertOne(document);

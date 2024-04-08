@@ -20,17 +20,22 @@ async function get(req, res, next) {
       try {
         const MONGO = Mongo;
         eval(script);
+        console.log({ result, script });
         result = await result;
+        console.log({ a: result });
         if (Array.isArray(result)) {
           for (let i = 0; i < result.length; i++) {
+            console.log({ x: result[i] });
             if (result[i].tag) {
               let tagName = result[i].tag;
               let tagDocument = await MONGO.db
                 .collection("components")
                 .findOne({ name: tagName });
               let tagScript = tagDocument ? tagDocument.document : "";
+              console.log({ tagScript });
               if (tagScript) {
                 let tagOutput = result[i].output;
+                console.log({ tagOutput });
                 tagScript = tagScript.replace(/{{variable}}/g, "tagOutput");
                 eval(tagScript);
                 result[i].output = await tagOutput;
@@ -46,6 +51,7 @@ async function get(req, res, next) {
             .findOne({ name: tagName });
           let tagScript = tagDocument ? tagDocument.document : "";
           if (tagScript) {
+            console.log({ op: result.output });
             result = result.output;
             eval(tagScript);
             result = await result;
