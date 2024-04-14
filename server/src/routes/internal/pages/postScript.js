@@ -14,6 +14,7 @@ async function postScript(req, res, next) {
 // Example: MONGO.url
 // Example: MONGO.client
 // Example: MONGO.ObjectId
+// AXIOS can be used to access data from external sources
 function ${name}() {
   console.log('Hello, World!');
   return null;

@@ -1,4 +1,5 @@
 import Mongo from "../../../components/mongo";
+import axios from "axios";
 
 async function post(req, res, next) {
   try {
@@ -19,6 +20,7 @@ async function post(req, res, next) {
     if (script) {
       try {
         const MONGO = Mongo;
+        const AXIOS = axios;
         eval(script);
         console.log({ result, script });
         result = await result;
@@ -64,7 +66,21 @@ async function post(req, res, next) {
       }
     }
     console.dir({ result }, { depth: null });
-    res.status(200).json({ ok: Boolean(document), result, data });
+
+    if (typeof result === "string") {
+      res.status(400).json({
+        ok: false,
+        message: result,
+        data: {
+          notification: {
+            type: "error",
+            message: result,
+          },
+        },
+      });
+    } else {
+      res.status(201).json(result);
+    }
   } catch (err) {
     next(err);
   }
