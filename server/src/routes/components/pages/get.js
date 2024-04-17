@@ -7,7 +7,7 @@ async function get(req, res, next) {
     let station = req.params.stationId;
     // console.log({ station, name });
     let query = JSON.parse(req?.query?.data ?? "{}");
-    // console.log({ query });
+    console.log({ query, name });
     if (!name) {
       res.status(400).json({
         ok: false,
@@ -24,32 +24,32 @@ async function get(req, res, next) {
     let document = await Mongo.db.collection("scripts").findOne({ name });
     let script = document ? document.document : "";
     // if (name == "runningItem-baldi") {
-    //   console.log({ a: script });
     // }
     let result = null;
     if (script) {
       try {
         const MONGO = Mongo;
         const AXIOS = axios;
+        const QUERY = query;
         eval(script);
-        // console.log({ result, script });
+        console.log({ result, script });
         result = await result;
         if (name == "runningItem-baldi") {
           console.log({ a: result });
         }
         if (Array.isArray(result)) {
           for (let i = 0; i < result.length; i++) {
-            // console.log({ x: result[i] });
+            console.log({ x: result[i] });
             if (result[i].tag) {
               let tagName = result[i].tag;
               let tagDocument = await MONGO.db
                 .collection("components")
                 .findOne({ name: tagName });
               let tagScript = tagDocument ? tagDocument.document : "";
-              // console.log({ tagScript });
+              console.log({ tagScript });
               if (tagScript) {
                 let tagOutput = result[i].output;
-                // console.log({ tagOutput });
+                console.log({ tagOutput });
                 tagScript = tagScript.replace(/{{variable}}/g, "tagOutput");
                 eval(tagScript);
                 result[i].output = await tagOutput;
@@ -81,7 +81,7 @@ async function get(req, res, next) {
 
     // if (name == "runningItem-baldi") {
     //   // console.log({ a: script });
-    //   console.dir({ result }, { depth: null });
+    console.dir({ result }, { depth: null });
     // }
 
     if (typeof result === "string") {
