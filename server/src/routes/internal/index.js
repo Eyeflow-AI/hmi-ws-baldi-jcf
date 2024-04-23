@@ -10,11 +10,77 @@ import {
   GetParameters,
   GetParameterDocument,
   PutParameterDocument,
+  GetScripts,
+  PostScript,
+  GetScriptDocument,
+  PutScript,
+  DeleteScript,
+  PutScriptName,
+  GetComponents,
+  PostComponent,
+  GetComponentDocument,
+  PutComponent,
+  DeleteComponent,
+  PutComponentName,
 } from "./pages";
 import { isAuthorized, isAuthenticated } from "../auth";
 
 const router = express.Router();
 
+router.post(
+  "/script",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PostScript
+);
+router.put(
+  "/script",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PutScript
+);
+router.delete(
+  "/script/:name",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  DeleteScript
+);
+router.put(
+  "/script/:name",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PutScriptName
+);
+router.get("/scripts", isAuthenticated, GetScripts);
+
+router.post(
+  "/component",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PostComponent
+);
+router.put(
+  "/component",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PutComponent
+);
+router.delete(
+  "/component/:name",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  DeleteComponent
+);
+router.put(
+  "/component/:name",
+  isAuthenticated,
+  isAuthorized(["master", "builder"]),
+  PutComponentName
+);
+router.get("/components", isAuthenticated, GetComponents);
+
+router.get("/script-document/:name", isAuthenticated, GetScriptDocument);
+router.get("/component-document/:name", isAuthenticated, GetComponentDocument);
 router.get("/from-to-document", isAuthenticated, GetFromToDocument);
 router.get("/package-data", isAuthenticated, GetPackageData);
 router.get("/languages-data", isAuthenticated, GetLanguagesData);
