@@ -31,6 +31,7 @@ async function get(req, res, next) {
         const MONGO = Mongo;
         const AXIOS = axios;
         const QUERY = query;
+        const STATION = station;
         eval(script);
         console.log({ result, script });
         result = await result;
