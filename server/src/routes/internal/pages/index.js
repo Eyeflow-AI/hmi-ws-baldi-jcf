@@ -20,3 +20,5 @@ export { default as GetComponentDocument } from "./getComponentDocument";
 export { default as PutComponent } from "./putComponent";
 export { default as DeleteComponent } from "./deleteComponent";
 export { default as PutComponentName } from "./putComponentName";
+export { default as DownloadAllScripts } from "./downloadAllScripts";
+export { default as DownloadAllComponents } from "./downloadAllComponents";

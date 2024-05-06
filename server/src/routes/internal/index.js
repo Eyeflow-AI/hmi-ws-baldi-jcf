@@ -22,6 +22,8 @@ import {
   PutComponent,
   DeleteComponent,
   PutComponentName,
+  DownloadAllScripts,
+  DownloadAllComponents,
 } from "./pages";
 import { isAuthorized, isAuthenticated } from "../auth";
 
@@ -78,6 +80,8 @@ router.put(
   PutComponentName
 );
 router.get("/components", isAuthenticated, GetComponents);
+router.get("/scripts/download", isAuthenticated, DownloadAllScripts);
+router.get("/components/download", isAuthenticated, DownloadAllComponents);
 
 router.get("/script-document/:name", isAuthenticated, GetScriptDocument);
 router.get("/component-document/:name", isAuthenticated, GetComponentDocument);
