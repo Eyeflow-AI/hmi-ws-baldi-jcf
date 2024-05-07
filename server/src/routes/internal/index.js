@@ -24,6 +24,13 @@ import {
   PutComponentName,
   DownloadAllScripts,
   DownloadAllComponents,
+  GetQueriesPipelines,
+  DownloadAllQueriesPipelines,
+  GetQueriesPipelinesDocument,
+  PutQueryPipelines,
+  PostQueryPipelines,
+  PutQueryPipelinesName,
+  DeleteQueryPipelines,
 } from "./pages";
 import { isAuthorized, isAuthenticated } from "../auth";
 
@@ -80,6 +87,22 @@ router.put(
   PutComponentName
 );
 router.get("/components", isAuthenticated, GetComponents);
+router.get(
+  "/queries-pipeline/download",
+  isAuthenticated,
+  DownloadAllQueriesPipelines
+);
+router.get("/queries-pipeline", isAuthenticated, GetQueriesPipelines);
+router.post("/queries-pipeline", isAuthenticated, PostQueryPipelines);
+router.put("/queries-pipeline", isAuthenticated, PutQueryPipelines);
+router.put("/queries-pipeline/:name", isAuthenticated, PutQueryPipelinesName);
+router.delete("/queries-pipeline/:name", isAuthenticated, DeleteQueryPipelines);
+router.get(
+  "/queries-pipeline/:name",
+  isAuthenticated,
+  GetQueriesPipelinesDocument
+);
+
 router.get("/scripts/download", isAuthenticated, DownloadAllScripts);
 router.get("/components/download", isAuthenticated, DownloadAllComponents);
 
