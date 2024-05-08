@@ -8,7 +8,7 @@ const _replaceAll = function (text, search, replacement) {
 };
 
 function functionEvaluator({ value, func, variableName, resultCalculations }) {
-  console.log({ value, func, variableName, resultCalculations });
+  // console.log({ value, func, variableName, resultCalculations });
   let prepareFunc = "";
   if (value) {
     prepareFunc = _replaceAll(func, `{{${variableName}}}`, value);
@@ -25,7 +25,7 @@ function functionEvaluator({ value, func, variableName, resultCalculations }) {
     console.log({ err });
   }
   let resultType = detectType(result);
-  console.log({ result, resultType });
+  // console.log({ result, resultType });
   return { result, resultType };
 }
 
@@ -68,6 +68,15 @@ function variablesReplacer({
                 .split("}}")[0]
                 .replace("}}}", "");
               let resultCalculation = variables?.[variableName] ?? "";
+              console.log({
+                value,
+                replaceStr,
+                variableName,
+                resultCalculation,
+                resultCalculations,
+                variablesInfo,
+              });
+
               if (resultCalculation === "") {
                 delete obj[key];
                 continue;
@@ -80,6 +89,7 @@ function variablesReplacer({
                   variableName,
                   resultCalculations,
                 });
+                // console.log({ functionObj });
                 resultCalculation = functionObj?.result ?? "";
                 resultType = functionObj?.resultType ?? "";
               }
@@ -120,13 +130,14 @@ function variablesReplacer({
 }
 
 export default function queryBuilder({ query, variables }) {
-  console.dir({ query, variables }, { depth: null });
+  console.dir({ p: query?.pipeline, variables }, { depth: null });
   let queryOBJ = variablesReplacer({
     obj: query?.pipeline ?? query,
     variables,
-    variablesInfo: query?.variables ?? variables,
+    // variablesInfo: query?.variables variables,
+    variablesInfo: Object.assign(query?.variables, variables),
     resultCalculations: {},
   });
-  console.dir({ queryOBJ }, { depth: null });
+  // console.dir({ queryOBJ }, { depth: null });
   return queryOBJ;
 }

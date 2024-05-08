@@ -13,13 +13,21 @@ async function getData(req, res, next) {
       let queryConstants =
         queriesDocument?.queries?.[queryName]?.constants ?? {};
       let query = queriesDocument?.queries?.[queryName];
+      console.log({ queryConstants });
 
       queryOBJ = queryBuilder({
         query,
-        variables: { stationId, startTime, endTime, ...queryConstants, ...filters },
+        variables: {
+          stationId,
+          startTime,
+          endTime,
+          ...queryConstants,
+          ...filters,
+        },
       });
 
-      let collectioName = queriesDocument?.queries?.[queryName]?.collection_name;
+      let collectioName =
+        queriesDocument?.queries?.[queryName]?.collection_name;
       let searchMethod = queriesDocument?.queries?.[queryName]?.search_method;
       let result = null;
       if (searchMethod !== "findOne") {
@@ -35,6 +43,8 @@ async function getData(req, res, next) {
       if (query?.functions?.post_function) {
         eval(query?.functions?.post_function);
       }
+
+      console.log({ queryName });
       res.status(200).json({
         ok: true,
         result,
