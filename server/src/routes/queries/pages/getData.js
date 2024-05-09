@@ -13,7 +13,11 @@ async function getData(req, res, next) {
       let queryConstants =
         queriesDocument?.queries?.[queryName]?.constants ?? {};
       let query = queriesDocument?.queries?.[queryName];
-      console.log({ queryConstants });
+      console.log({ queryName, v: query.variables });
+      let constantValues = {};
+      Object.keys(queryConstants).forEach((key) => {
+        constantValues[key] = "waiting";
+      });
 
       queryOBJ = queryBuilder({
         query,
@@ -21,9 +25,10 @@ async function getData(req, res, next) {
           stationId,
           startTime,
           endTime,
-          ...queryConstants,
           ...filters,
+          ...constantValues,
         },
+        constants: queryConstants,
       });
 
       let collectioName =

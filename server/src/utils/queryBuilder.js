@@ -25,7 +25,7 @@ function functionEvaluator({ value, func, variableName, resultCalculations }) {
     console.log({ err });
   }
   let resultType = detectType(result);
-  // console.log({ result, resultType });
+  console.log({ result, resultType });
   return { result, resultType };
 }
 
@@ -75,6 +75,7 @@ function variablesReplacer({
                 resultCalculation,
                 resultCalculations,
                 variablesInfo,
+                variables,
               });
 
               if (resultCalculation === "") {
@@ -82,6 +83,7 @@ function variablesReplacer({
                 continue;
               }
               resultCalculations[variableName] = resultCalculation;
+              console.log({ f: variablesInfo?.[variableName]?.function });
               if (variablesInfo?.[variableName]?.function) {
                 let functionObj = functionEvaluator({
                   value: variables?.[variableName] ?? "",
@@ -129,14 +131,21 @@ function variablesReplacer({
   }
 }
 
-export default function queryBuilder({ query, variables }) {
-  console.dir({ p: query?.pipeline, variables }, { depth: null });
+export default function queryBuilder({ query, variables, constants }) {
+  // console.dir(
+  //   { p: query?.pipeline, variables, v: query.variables },
+  //   { depth: null }
+  // );
+  console.log({ v: query.variables });
+  // let VARIABLES = structuredClone(query?.variables ?? variables);
+  // VARIABLES = Object.assign(query?.variables);
   let queryOBJ = variablesReplacer({
     obj: query?.pipeline ?? query,
     variables,
     // variablesInfo: query?.variables variables,
-    variablesInfo: Object.assign(query?.variables, variables),
+    variablesInfo: { ...query?.variables, ...constants },
     resultCalculations: {},
+    // constants,
   });
   // console.dir({ queryOBJ }, { depth: null });
   return queryOBJ;
