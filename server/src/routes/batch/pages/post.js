@@ -157,16 +157,13 @@ async function post(req, res, next) {
         timeout,
       });
       if (![200, 201].includes(response.status)) {
-        log.info(
-          `Successfully started batch ${batchId} in station ${stationId}`
-        );
+        log.info(`Successfully started batch ${batchId} in station ${stationId}`);
       } else {
-        log.error(`Failed to start batch ${batchId} in station ${stationId}`);
+        let err = new Error(`Failed to start batch ${batchId} in station ${stationId}. Status: ${response.status}. Data: ${JSON.stringify(response.data)}`);
+        throw err;
       }
     } catch (err) {
-      log.error(
-        `Failed to start batch ${batchId} in station ${stationId}. Error: ${err}`
-      );
+      throw err;
     }
 
     newBatchDocument["debug"] = {
