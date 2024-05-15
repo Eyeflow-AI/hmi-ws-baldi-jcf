@@ -21,6 +21,9 @@ async function post(req, res, next) {
       try {
         const MONGO = Mongo;
         const AXIOS = axios;
+        const PARAMS = params;
+        const DATA = data;
+        const STATION = station;
         eval(script);
         result = await result;
       } catch (err) {

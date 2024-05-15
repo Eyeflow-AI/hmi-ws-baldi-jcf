@@ -33,53 +33,15 @@ async function get(req, res, next) {
         const QUERY = query;
         const STATION = station;
         eval(script);
-        // console.log({ result, script });
         try {
           result = await result;
+          console.log({ result });
         } catch (err) {
+          console.log({ result, err });
+
           result = err.message;
         } finally {
-          // console.dir({ result }, { depth: null });
         }
-        // if (name == "itemInfo") {
-        // console.log({ a: result });
-        // }
-        // if (Array.isArray(result)) {
-        //   for (let i = 0; i < result.length; i++) {
-        //     // console.log({ x: result[i] });
-        //     if (result[i].tag) {
-        //       let tagName = result[i].tag;
-        //       let tagDocument = await MONGO.db
-        //         .collection("components")
-        //         .findOne({ name: tagName });
-        //       let tagScript = tagDocument ? tagDocument.document : "";
-        //       // console.log({ tagScript });
-        //       if (tagScript) {
-        //         let tagOutput = result[i].output;
-        //         // console.log({ tagOutput });
-        //         tagScript = tagScript.replace(/{{variable}}/g, "tagOutput");
-        //         eval(tagScript);
-        //         result[i].output = await tagOutput;
-        //       }
-        //     } else {
-        //       // result[i] = result[i].output;
-        //     }
-        //   }
-        // } else if (result?.tag) {
-        //   let tagName = result.tag;
-        //   let tagDocument = await MONGO.db
-        //     .collection("components")
-        //     .findOne({ name: tagName });
-        //   let tagScript = tagDocument ? tagDocument.document : "";
-        //   if (tagScript) {
-        //     // console.log({ op: result.output });
-        //     result = result.output;
-        //     eval(tagScript);
-        //     result = await result;
-        //   }
-        // } else {
-        //   result = result.output;
-        // }
       } catch (err) {
         result = err.message;
       }
