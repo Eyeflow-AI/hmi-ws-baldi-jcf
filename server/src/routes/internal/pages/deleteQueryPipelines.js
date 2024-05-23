@@ -7,7 +7,9 @@ async function deleteQueryPipelines(req, res, next) {
       res.status(400).json({ ok: false, message: "Name is required" });
       return;
     }
-    await Mongo.db.collection("queries_pipelines").deleteOne({ name });
+    await Mongo.db
+      .collection("params")
+      .updateOne({ name: "queries" }, { $unset: { [`queries.${name}`]: "" } });
     res.status(200).json({ ok: true });
   } catch (err) {
     next(err);

@@ -23,7 +23,6 @@ export { default as PutComponentName } from "./putComponentName";
 export { default as DownloadAllScripts } from "./downloadAllScripts";
 export { default as DownloadAllComponents } from "./downloadAllComponents";
 export { default as GetQueriesPipelines } from "./getQueriesPipelines";
-export { default as DownloadAllQueriesPipelines } from "./downloadAllQueriesPipelines";
 export { default as DeleteQueryPipelines } from "./deleteQueryPipelines";
 export { default as GetQueriesPipelinesDocument } from "./getQueriesPipelinesDocument";
 export { default as PutQueryPipelines } from "./putQueryPipelines";

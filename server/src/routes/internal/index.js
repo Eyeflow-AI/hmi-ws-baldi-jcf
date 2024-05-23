@@ -25,7 +25,6 @@ import {
   DownloadAllScripts,
   DownloadAllComponents,
   GetQueriesPipelines,
-  DownloadAllQueriesPipelines,
   GetQueriesPipelinesDocument,
   PutQueryPipelines,
   PostQueryPipelines,
@@ -87,11 +86,7 @@ router.put(
   PutComponentName
 );
 router.get("/components", isAuthenticated, GetComponents);
-router.get(
-  "/queries-pipeline/download",
-  isAuthenticated,
-  DownloadAllQueriesPipelines
-);
+
 router.get("/queries-pipeline", isAuthenticated, GetQueriesPipelines);
 router.post("/queries-pipeline", isAuthenticated, PostQueryPipelines);
 router.put("/queries-pipeline", isAuthenticated, PutQueryPipelines);

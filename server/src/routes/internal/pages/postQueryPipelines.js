@@ -8,23 +8,24 @@ async function postQueryPipelines(req, res, next) {
       return;
     }
     let document = {
-      name,
-      document: `// MONGO can be used to store and retrieve data
-// Example: MONGO.db.collection("scripts").find()
-// Example: MONGO.url
-// Example: MONGO.client
-// Example: MONGO.ObjectId
-// AXIOS can be used to access data from external sources
-function ${name}() {
-  console.log('Hello, World!');
-  return null;
-}
-
-result = ${name}(); // result is a variable that must to be used
-      `,
+      search_method: "aggregate",
     };
-    await Mongo.db.collection("queries_pipelines").insertOne(document);
-    res.status(200).json({ ok: true });
+    let queriesDocument = await Mongo.db
+      .collection("params")
+      .findOne({ name: "queries" });
+    let queries = queriesDocument.queries;
+    if (queries[name]) {
+      res.status(400).json({ ok: false, message: "Name already exists" });
+      return;
+    } else {
+      await Mongo.db
+        .collection("params")
+        .updateOne(
+          { name: "queries" },
+          { $set: { [`queries.${name}`]: document } }
+        );
+      res.status(200).json({ ok: true });
+    }
   } catch (err) {
     next(err);
   }

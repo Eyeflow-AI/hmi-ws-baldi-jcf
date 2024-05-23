@@ -12,9 +12,13 @@ async function putQueryPipelinesName(req, res, next) {
       res.status(400).json({ ok: false, message: "New name is required" });
       return;
     }
+    // rename the key in the queries object
     await Mongo.db
-      .collection("queries_pipelines")
-      .updateOne({ name: oldName }, { $set: { name: newName } });
+      .collection("params")
+      .updateOne(
+        { name: "queries" },
+        { $rename: { [`queries.${oldName}`]: `queries.${newName}` } }
+      );
     res.status(200).json({ ok: true });
   } catch (err) {
     next(err);

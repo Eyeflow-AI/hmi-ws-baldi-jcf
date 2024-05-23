@@ -7,12 +7,14 @@ async function putQueryPipelines(req, res, next) {
       res.status(400).json({ ok: false, message: "Document is required" });
       return;
     }
+    let name = structuredClone(document.name);
+    delete document.name;
+    document.document.search_method = "aggregate";
     await Mongo.db
-      .collection("queries_pipelines")
+      .collection("params")
       .updateOne(
-        { name: document.name },
-        { $set: { document: document.document } },
-        { upsert: true }
+        { name: "queries" },
+        { $set: { [`queries.${name}`]: document.document } }
       );
     res.status(200).json({ ok: true });
   } catch (err) {
