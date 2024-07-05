@@ -19,6 +19,8 @@ async function post(req, res, next) {
     let result = null;
     if (script) {
       try {
+        const FS = require('fs');
+        const SHARP = require('sharp');
         const MONGO = Mongo;
         const AXIOS = axios;
         const PARAMS = params;
